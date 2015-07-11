@@ -12,6 +12,8 @@
 		D603FA871B4F332A002F00F5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D603FA861B4F332A002F00F5 /* Images.xcassets */; };
 		D603FA8A1B4F332A002F00F5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D603FA881B4F332A002F00F5 /* Main.storyboard */; };
 		D603FA961B4F332A002F00F5 /* mappyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D603FA951B4F332A002F00F5 /* mappyTests.swift */; };
+		D603FAA01B4F33B6002F00F5 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = D603FA9F1B4F33B6002F00F5 /* Config.plist */; };
+		D603FAA21B4F3420002F00F5 /* Mappy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D603FAA11B4F3420002F00F5 /* Mappy.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +36,9 @@
 		D603FA8F1B4F332A002F00F5 /* mappyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mappyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D603FA941B4F332A002F00F5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D603FA951B4F332A002F00F5 /* mappyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mappyTests.swift; sourceTree = "<group>"; };
+		D603FA9F1B4F33B6002F00F5 /* Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
+		D603FAA11B4F3420002F00F5 /* Mappy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mappy.swift; sourceTree = "<group>"; };
+		D603FAA51B4F3CC9002F00F5 /* mappy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = mappy.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,11 +80,13 @@
 		D603FA7F1B4F332A002F00F5 /* mappy */ = {
 			isa = PBXGroup;
 			children = (
+				D603FAA51B4F3CC9002F00F5 /* mappy.entitlements */,
 				D603FA821B4F332A002F00F5 /* AppDelegate.swift */,
 				D603FA841B4F332A002F00F5 /* ViewController.swift */,
 				D603FA861B4F332A002F00F5 /* Images.xcassets */,
 				D603FA881B4F332A002F00F5 /* Main.storyboard */,
 				D603FA801B4F332A002F00F5 /* Supporting Files */,
+				D603FAA11B4F3420002F00F5 /* Mappy.swift */,
 			);
 			path = mappy;
 			sourceTree = "<group>";
@@ -88,6 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				D603FA811B4F332A002F00F5 /* Info.plist */,
+				D603FA9F1B4F33B6002F00F5 /* Config.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -158,6 +166,11 @@
 				TargetAttributes = {
 					D603FA7C1B4F332A002F00F5 = {
 						CreatedOnToolsVersion = 6.4;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
+						};
 					};
 					D603FA8E1B4F332A002F00F5 = {
 						CreatedOnToolsVersion = 6.4;
@@ -190,6 +203,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D603FA871B4F332A002F00F5 /* Images.xcassets in Resources */,
+				D603FAA01B4F33B6002F00F5 /* Config.plist in Resources */,
 				D603FA8A1B4F332A002F00F5 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -210,6 +224,7 @@
 			files = (
 				D603FA851B4F332A002F00F5 /* ViewController.swift in Sources */,
 				D603FA831B4F332A002F00F5 /* AppDelegate.swift in Sources */,
+				D603FAA21B4F3420002F00F5 /* Mappy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -327,6 +342,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = mappy/mappy.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = mappy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -338,6 +354,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = mappy/mappy.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = mappy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
