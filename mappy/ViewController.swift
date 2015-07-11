@@ -12,13 +12,15 @@ import WebKit
 import CoreLocation
 
 class ViewController: NSViewController, CLLocationManagerDelegate {
-
-  var locationManager = CLLocationManager()
-  @IBOutlet weak var webView: WebView!
   
-  let mappy = Mappy(webView)
-  
+  // MARK: constants
   private let CIRCLE_RECT_SIZE = 20.0
+  private let MINIMUM_DISTANCE_IN_METERS = 10.0
+  
+  private let mappy = Mappy()
+  private let locationManager = CLLocationManager()
+  
+  @IBOutlet weak var webView: WebView!
   
   func locationManager(manager: CLLocationManager,
                        didUpdateLocations locations: [AnyObject]) {
@@ -36,36 +38,37 @@ class ViewController: NSViewController, CLLocationManagerDelegate {
     
     view.addSubview(blurView, positioned: .Above, relativeTo: view)
     
-    var maskLayer = CAShapeLayer()
-    
-    var maskPath = CGPathCreateMutable()
-    CGPathAddRect(maskPath, nil, blurView.bounds)
-    let w = Double(blurView.bounds.width)
-    let h = Double(blurView.bounds.height)
-    let x = (w - CIRCLE_RECT_SIZE) / 2
-    let y = (h - CIRCLE_RECT_SIZE) / 2
-    let rect = CGRect(x: x, y: y, width: CIRCLE_RECT_SIZE, height: CIRCLE_RECT_SIZE)
-    CGPathAddEllipseInRect(maskPath, nil, rect)
-    
-    //    maskLayer.frame = view.bounds
-    //    maskLayer.path = maskPath
-    maskLayer.fillRule = "even-odd"
-    
-    println(maskLayer.position)
-    
-    blurView.layer!.mask = maskLayer
+//    var maskLayer = CAShapeLayer()
+//    
+//    var maskPath = CGPathCreateMutable()
+//    CGPathAddRect(maskPath, nil, blurView.bounds)
+//    let w = Double(blurView.bounds.width)
+//    let h = Double(blurView.bounds.height)
+//    let x = (w - CIRCLE_RECT_SIZE) / 2
+//    let y = (h - CIRCLE_RECT_SIZE) / 2
+//    let rect = CGRect(x: x, y: y, width: CIRCLE_RECT_SIZE, height: CIRCLE_RECT_SIZE)
+//    CGPathAddEllipseInRect(maskPath, nil, rect)
+//    
+//    //    maskLayer.frame = view.bounds
+//    //    maskLayer.path = maskPath
+//    maskLayer.fillRule = "even-odd"
+//    
+//    println(maskLayer.position)
+//    
+//    blurView.layer!.mask = maskLayer
   }
 
   override func viewDidLoad() {
     super.viewDidLoad()
     
-//    mappy.loadMap(CLLocationCoordinate2D(latitude: 59.335004, longitude: 18.126813999999968))
+    mappy.setView(webView)
+    
     locationManager.delegate = self
-    locationManager.distanceFilter = kCLDistanceFilterNone
+    locationManager.distanceFilter = MINIMUM_DISTANCE_IN_METERS // distance in meters
     locationManager.desiredAccuracy = kCLLocationAccuracyBest
     locationManager.startUpdatingLocation()
     
-    mask()
+//    mask()
   }
 
   override var representedObject: AnyObject? {

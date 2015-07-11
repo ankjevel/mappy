@@ -22,24 +22,17 @@ public class Mappy {
     return ""
   }()
   
-  static func html(coordinate: CLLocationCoordinate2D) -> String {
-    return "" +
-      "<!DOCTYPE html>" +
-      "<html>" +
-      "  <head>" +
-      "    <style type=\"text/css\">" +
-      "      html, body, #map-canvas { height: 100%; margin: 0; padding: 0;}" +
-      "    </style>" +
+  static func html(coordinates: CLLocationCoordinate2D) -> String {
+    return "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"utf-8\" /><style type=\"text/css\">html, body, #map-canvas { height: 100%; margin: 0; padding: 0;}</style>" +
       
-      "    <script type=\"text/javascript\"" +
-      "      src=\"https://maps.googleapis.com/maps/api/js?key=\(appID)\">" +
-      "    </script>" +
+      "    <script src=\"https://maps.googleapis.com/maps/api/js?key=\(appID)\"></script>" +
+      
       "    <script type=\"text/javascript\">" +
-      "      function initialize() {" +
+      "      window.map = {}; function initialize() {" +
       "        var mapOptions = {" +
       "          center: {" +
-      "           lat: \(coordinate.latitude)," +
-      "           lng: \(coordinate.longitude)" +
+      "           lat: \(coordinates.latitude)," +
+      "           lng: \(coordinates.longitude)" +
       "          }," +
       "          zoom: 10," +
       "          panControl: false," +
@@ -49,36 +42,63 @@ public class Mappy {
       "          streetViewControl: false," +
       "          overviewMapControl: false" +
       "        };" +
-      "        var map = new google.maps.Map(document.getElementById('map-canvas')," +
+      "        window.map = new google.maps.Map(document.getElementById('map-canvas')," +
       "            mapOptions);" +
       "      }" +
       "      google.maps.event.addDomListener(window, 'load', initialize);" +
       "    </script>" +
-      "  </head>" +
-      "  <body>" +
-      "    <div id=\"map-canvas\"></div>" +
-      "  </body>" +
-      "</html>" +
-    ""
+      
+      "</head><body><div id=\"map-canvas\"></div></body></html>"
   }
   
-  let webView: WebView
+  private var _webView: WebView?
   
-  init(_ webView: WebView) {
-    self.webView = webView
+  private var js: JSContext {
+    get {
+      return webView.mainFrame.javaScriptContext
+    }
+  }
+  
+  var webView: WebView {
+    get {
+      if _webView == nil {
+        return WebView()
+      }
+      return _webView!
+    }
+    set(view) {
+      _webView = view
+    }
   }
 }
 
 public extension Mappy {
-  func updateLocation(coordinate: CLLocationCoordinate2D) {
-//      mappy.loadMap(CLLocationCoordinate2D(latitude: 59.335004, longitude: 18.126813999999968))
+  
+  /// Could not use init() for this class implementation
+  /// Default long/lat is in Djurgården
+  func setView(view: WebView, coordinates: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 59.335004, longitude: 18.126813999999968)) {
+    self.webView = view
+    loadMap(coordinates)
+  }
+  
+  func updateLocation(coordinates: CLLocationCoordinate2D) {
+    let (lng, lat) = {
+      return (coordinates.longitude, coordinates.latitude)
+      }()
+    
+    let newLocation = "" +
+      "var center = new google.maps.LatLng(\(lat), \(lng));" +
+      "window.map.panTo(center);" +
+    ""
+    
+    js.evaluateScript(newLocation)
   }
 }
 
 private extension Mappy {
-  func loadMap(coordinate: CLLocationCoordinate2D) {
-    
-    let html = Mappy.html(coordinate)
+  
+  func loadMap(coordinates: CLLocationCoordinate2D) {
+    let html = Mappy.html(coordinates)
     
     webView.mainFrame.frameView.allowsScrolling = false
     webView.mainFrame.loadHTMLString(html, baseURL: nil)
