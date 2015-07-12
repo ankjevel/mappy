@@ -84,9 +84,9 @@
 			children = (
 				D603FA821B4F332A002F00F5 /* AppDelegate.swift */,
 				D603FA841B4F332A002F00F5 /* ViewController.swift */,
-				D603FA881B4F332A002F00F5 /* Main.storyboard */,
 				D603FAA11B4F3420002F00F5 /* Mappy.swift */,
 				D603FA801B4F332A002F00F5 /* Supporting Files */,
+				D603FA881B4F332A002F00F5 /* Main.storyboard */,
 				D603FAA51B4F3CC9002F00F5 /* mappy.entitlements */,
 				D603FA861B4F332A002F00F5 /* Images.xcassets */,
 			);

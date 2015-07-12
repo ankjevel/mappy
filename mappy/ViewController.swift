@@ -22,18 +22,17 @@ class ViewController: NSViewController, CLLocationManagerDelegate {
 
   @IBOutlet weak var mapView: NSView!
   
-  let webView = WKWebView()
-  
   func locationManager(manager: CLLocationManager, didUpdateLocations locations: [AnyObject]) {
-      if locations.first != nil, let location = locations.first! as? CLLocation {
-        mappy.updateLocation(location.coordinate)
-      }
+    if locations.first != nil, let location = locations.first! as? CLLocation {
+      mappy.updateLocation(location.coordinate)
+    }
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    mappy.setView(mapView)
+    self.view = mappy.setView(&mapView!)
+    self.view.window?.title = "Mappy"
     
     locationManager.delegate = self
     locationManager.distanceFilter = MINIMUM_DISTANCE_IN_METERS // distance in meters

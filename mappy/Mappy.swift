@@ -66,31 +66,22 @@ public class Mappy {
 
 public extension Mappy {
   
-  func setView(view: NSView, coordinates: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 59.335004, longitude: 18.126813999999968)) {
+  func setView(inout view: NSView, coordinates: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 59.335004, longitude: 18.126813999999968)) -> WKWebView {
     
     let userContentController = WKUserContentController()
     let configuration = WKWebViewConfiguration()
     let handler = NotificationScriptMessageHandler(expose)
-    
     let source = WKUserScript(source: Mappy.html(coordinates), injectionTime: .AtDocumentEnd, forMainFrameOnly: true)
     
     userContentController.addUserScript(source)
-    
     userContentController.addScriptMessageHandler(handler, name: "notification")
     configuration.userContentController = userContentController
     
-    webView = WKWebView(frame: view.bounds, configuration: configuration)
+    webView = WKWebView(frame: view.frame, configuration: configuration)
     
-    view.autoresizesSubviews = true
-    view.addSubview(webView)
-    
-    // Breaks resize
-    view.addConstraint(NSLayoutConstraint(item: view, attribute: .Top, relatedBy: .Equal, toItem: webView, attribute: .Top, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: view, attribute: .Right, relatedBy: .Equal, toItem: webView, attribute: .Right, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: view, attribute: .Bottom, relatedBy: .Equal, toItem: webView, attribute: .Bottom, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: view, attribute: .Left, relatedBy: .Equal, toItem: webView, attribute: .Left, multiplier: 1, constant: 0))
-
     loadMap(coordinates)
+    
+    return webView
   }
   
   func updateLocation(coordinates: CLLocationCoordinate2D) {
@@ -111,16 +102,10 @@ private extension Mappy {
   
   func loadMap(coordinates: CLLocationCoordinate2D) {
     let html = Mappy.html(coordinates)
-//    webView.mainFrame.frameView.allowsScrolling = false
-//    webView.frameLoadDelegate = self
-//    webView.resourceLoadDelegate = self
-//    webView.policyDelegate = self
-//    webView.mainFrame.loadHTMLString(html, baseURL: nil)
     webView.loadHTMLString(html, baseURL: nil)
   }
   
   private func js(script: String) {
     webView.evaluateJavaScript(script, completionHandler: nil)
-//    webView.evaluateJavaScript("window.webkit.messageHandlers.notification.postMessage({foo: 'noo'});", completionHandler: nil)
   }
 }

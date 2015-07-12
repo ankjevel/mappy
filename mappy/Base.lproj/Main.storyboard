@@ -672,7 +672,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="500" height="250"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <customView identifier="Map" autoresizesSubviews="NO" toolTip="Map" translatesAutoresizingMaskIntoConstraints="NO" id="c2G-hI-Pkv">
+                            <customView identifier="Map" autoresizesSubviews="YES" toolTip="Map" translatesAutoresizingMaskIntoConstraints="YES" id="c2G-hI-Pkv">
                                 <rect key="frame" x="0.0" y="0.0" width="500" height="250"/>
                                 <accessibility description="Map" help="Map"/>
                             </customView>
