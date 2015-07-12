@@ -13,7 +13,13 @@ import CoreLocation
 internal class NotificationScriptMessageHandler: NSObject, WKScriptMessageHandler {
   
   func userContentController(userContentController: WKUserContentController, didReceiveScriptMessage message: WKScriptMessage) {
-    println(message.body)
+    expose(message: message)
+  }
+  
+  var expose: (message: WKScriptMessage) -> Void
+  
+  init(_ expose: (message: WKScriptMessage) -> Void) {
+    self.expose = expose
   }
 }
 
@@ -27,16 +33,6 @@ public class Mappy {
       return id
     }
     print("missing app id"); exit(0)
-    
-    }()
-  
-  static private let events: String = {
-    if
-      let path = NSBundle.mainBundle().pathForResource("events", ofType: "js"),
-      let script = String(contentsOfFile: path) {
-        return script
-    }
-    print("missing events.js"); exit(0)
     
     }()
   
@@ -74,15 +70,13 @@ public extension Mappy {
     
     let userContentController = WKUserContentController()
     let configuration = WKWebViewConfiguration()
-    let handler = NotificationScriptMessageHandler()
+    let handler = NotificationScriptMessageHandler(expose)
     
     let source = WKUserScript(source: Mappy.html(coordinates), injectionTime: .AtDocumentEnd, forMainFrameOnly: true)
-    let events = WKUserScript(source: Mappy.events, injectionTime: .AtDocumentEnd, forMainFrameOnly: true)
     
     userContentController.addUserScript(source)
-    userContentController.addUserScript(events)
+    
     userContentController.addScriptMessageHandler(handler, name: "notification")
-
     configuration.userContentController = userContentController
     
     webView = WKWebView(frame: view.bounds, configuration: configuration)
@@ -90,12 +84,12 @@ public extension Mappy {
     view.autoresizesSubviews = true
     view.addSubview(webView)
     
+    // Breaks resize
     view.addConstraint(NSLayoutConstraint(item: view, attribute: .Top, relatedBy: .Equal, toItem: webView, attribute: .Top, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: view, attribute: .Right, relatedBy: .Equal, toItem: webView, attribute: .Right, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: view, attribute: .Bottom, relatedBy: .Equal, toItem: webView, attribute: .Bottom, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: view, attribute: .Left, relatedBy: .Equal, toItem: webView, attribute: .Left, multiplier: 1, constant: 0))
 
-    
     loadMap(coordinates)
   }
   
@@ -111,6 +105,10 @@ public extension Mappy {
 
 private extension Mappy {
   
+  func expose(message: WKScriptMessage) {
+    println(message.body)
+  }
+  
   func loadMap(coordinates: CLLocationCoordinate2D) {
     let html = Mappy.html(coordinates)
 //    webView.mainFrame.frameView.allowsScrolling = false
@@ -123,5 +121,6 @@ private extension Mappy {
   
   private func js(script: String) {
     webView.evaluateJavaScript(script, completionHandler: nil)
+//    webView.evaluateJavaScript("window.webkit.messageHandlers.notification.postMessage({foo: 'noo'});", completionHandler: nil)
   }
 }
