@@ -10,8 +10,15 @@ import Foundation
 import WebKit
 import CoreLocation
 
-public class Mappy {
+internal class NotificationScriptMessageHandler: NSObject, WKScriptMessageHandler {
+  
+  func userContentController(userContentController: WKUserContentController, didReceiveScriptMessage message: WKScriptMessage) {
+    println(message.body)
+  }
+}
 
+public class Mappy {
+  
   static private let appID: String = {
     if
       let path = NSBundle.mainBundle().pathForResource("Config", ofType: "plist"),
@@ -19,50 +26,38 @@ public class Mappy {
       let id = dict["API key"] as? String {
       return id
     }
-    return ""
-  }()
+    print("missing app id"); exit(0)
+    
+    }()
   
-  static func html(coordinates: CLLocationCoordinate2D) -> String {
-    return "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"utf-8\" /><style type=\"text/css\">html, body, #map-canvas { height: 100%; margin: 0; padding: 0;}</style>" +
-      
-      "    <script src=\"https://maps.googleapis.com/maps/api/js?key=\(appID)\"></script>" +
-      
-      "    <script type=\"text/javascript\">" +
-      "      window.map = {}; function initialize() {" +
-      "        var mapOptions = {" +
-      "          center: {" +
-      "           lat: \(coordinates.latitude)," +
-      "           lng: \(coordinates.longitude)" +
-      "          }," +
-      "          zoom: 10," +
-      "          panControl: false," +
-      "          zoomControl: false," +
-      "          mapTypeControl: false," +
-      "          scaleControl: false," +
-      "          streetViewControl: false," +
-      "          overviewMapControl: false" +
-      "        };" +
-      "        window.map = new google.maps.Map(document.getElementById('map-canvas')," +
-      "            mapOptions);" +
-      "      }" +
-      "      google.maps.event.addDomListener(window, 'load', initialize);" +
-      "    </script>" +
-      
-      "</head><body><div id=\"map-canvas\"></div></body></html>"
-  }
-  
-  private var _webView: WebView?
-  
-  private var js: JSContext {
-    get {
-      return webView.mainFrame.javaScriptContext
+  static private let events: String = {
+    if
+      let path = NSBundle.mainBundle().pathForResource("events", ofType: "js"),
+      let script = String(contentsOfFile: path) {
+        return script
     }
+    print("missing events.js"); exit(0)
+    
+    }()
+  
+  static private func html(coordinates: CLLocationCoordinate2D) -> String {
+    if
+      let path = NSBundle.mainBundle().pathForResource("main", ofType: "html"),
+      let markup = String(contentsOfFile: path, encoding: NSUTF8StringEncoding, error: nil) {
+        return markup
+          .stringByReplacingOccurrencesOfString("@{appID}", withString: appID)
+          .stringByReplacingOccurrencesOfString("@{longitude}", withString: "\(coordinates.longitude)")
+          .stringByReplacingOccurrencesOfString("@{latitude}", withString: "\(coordinates.latitude)")
+    }
+    print("no markup"); exit(0)
   }
   
-  var webView: WebView {
+  private var _webView: WKWebView?
+  
+  var webView: WKWebView {
     get {
       if _webView == nil {
-        return WebView()
+        print("webView not set"); exit(0)
       }
       return _webView!
     }
@@ -70,14 +65,37 @@ public class Mappy {
       _webView = view
     }
   }
+  
 }
 
 public extension Mappy {
   
-  /// Could not use init() for this class implementation
-  /// Default long/lat is in Djurgården
-  func setView(view: WebView, coordinates: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 59.335004, longitude: 18.126813999999968)) {
-    self.webView = view
+  func setView(view: NSView, coordinates: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 59.335004, longitude: 18.126813999999968)) {
+    
+    let userContentController = WKUserContentController()
+    let configuration = WKWebViewConfiguration()
+    let handler = NotificationScriptMessageHandler()
+    
+    let source = WKUserScript(source: Mappy.html(coordinates), injectionTime: .AtDocumentEnd, forMainFrameOnly: true)
+    let events = WKUserScript(source: Mappy.events, injectionTime: .AtDocumentEnd, forMainFrameOnly: true)
+    
+    userContentController.addUserScript(source)
+    userContentController.addUserScript(events)
+    userContentController.addScriptMessageHandler(handler, name: "notification")
+
+    configuration.userContentController = userContentController
+    
+    webView = WKWebView(frame: view.bounds, configuration: configuration)
+    
+    view.autoresizesSubviews = true
+    view.addSubview(webView)
+    
+    view.addConstraint(NSLayoutConstraint(item: view, attribute: .Top, relatedBy: .Equal, toItem: webView, attribute: .Top, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: view, attribute: .Right, relatedBy: .Equal, toItem: webView, attribute: .Right, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: view, attribute: .Bottom, relatedBy: .Equal, toItem: webView, attribute: .Bottom, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: view, attribute: .Left, relatedBy: .Equal, toItem: webView, attribute: .Left, multiplier: 1, constant: 0))
+
+    
     loadMap(coordinates)
   }
   
@@ -85,22 +103,25 @@ public extension Mappy {
     let (lng, lat) = {
       return (coordinates.longitude, coordinates.latitude)
       }()
-    
-    let newLocation = "" +
-      "var center = new google.maps.LatLng(\(lat), \(lng));" +
-      "window.map.panTo(center);" +
-    ""
-    
-    js.evaluateScript(newLocation)
+    js("var center = new google.maps.LatLng(\(lat), \(lng));" +
+                      "window.map.panTo(center);")
   }
+
 }
 
 private extension Mappy {
   
   func loadMap(coordinates: CLLocationCoordinate2D) {
     let html = Mappy.html(coordinates)
-    
-    webView.mainFrame.frameView.allowsScrolling = false
-    webView.mainFrame.loadHTMLString(html, baseURL: nil)
+//    webView.mainFrame.frameView.allowsScrolling = false
+//    webView.frameLoadDelegate = self
+//    webView.resourceLoadDelegate = self
+//    webView.policyDelegate = self
+//    webView.mainFrame.loadHTMLString(html, baseURL: nil)
+    webView.loadHTMLString(html, baseURL: nil)
+  }
+  
+  private func js(script: String) {
+    webView.evaluateJavaScript(script, completionHandler: nil)
   }
 }

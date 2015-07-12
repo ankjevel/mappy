@@ -14,6 +14,8 @@
 		D603FA961B4F332A002F00F5 /* mappyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D603FA951B4F332A002F00F5 /* mappyTests.swift */; };
 		D603FAA01B4F33B6002F00F5 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = D603FA9F1B4F33B6002F00F5 /* Config.plist */; };
 		D603FAA21B4F3420002F00F5 /* Mappy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D603FAA11B4F3420002F00F5 /* Mappy.swift */; };
+		D62D3A801B51C4F4004F1011 /* main.html in Resources */ = {isa = PBXBuildFile; fileRef = D62D3A7F1B51C4F4004F1011 /* main.html */; };
+		D62D3A821B51CBDD004F1011 /* events.js in Resources */ = {isa = PBXBuildFile; fileRef = D62D3A811B51CBDD004F1011 /* events.js */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +41,8 @@
 		D603FA9F1B4F33B6002F00F5 /* Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
 		D603FAA11B4F3420002F00F5 /* Mappy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mappy.swift; sourceTree = "<group>"; };
 		D603FAA51B4F3CC9002F00F5 /* mappy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = mappy.entitlements; sourceTree = "<group>"; };
+		D62D3A7F1B51C4F4004F1011 /* main.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = main.html; sourceTree = "<group>"; };
+		D62D3A811B51CBDD004F1011 /* events.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = events.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,8 +89,8 @@
 				D603FA841B4F332A002F00F5 /* ViewController.swift */,
 				D603FA861B4F332A002F00F5 /* Images.xcassets */,
 				D603FA881B4F332A002F00F5 /* Main.storyboard */,
-				D603FA801B4F332A002F00F5 /* Supporting Files */,
 				D603FAA11B4F3420002F00F5 /* Mappy.swift */,
+				D603FA801B4F332A002F00F5 /* Supporting Files */,
 			);
 			path = mappy;
 			sourceTree = "<group>";
@@ -96,6 +100,8 @@
 			children = (
 				D603FA811B4F332A002F00F5 /* Info.plist */,
 				D603FA9F1B4F33B6002F00F5 /* Config.plist */,
+				D62D3A7F1B51C4F4004F1011 /* main.html */,
+				D62D3A811B51CBDD004F1011 /* events.js */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -203,6 +209,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D603FA871B4F332A002F00F5 /* Images.xcassets in Resources */,
+				D62D3A801B51C4F4004F1011 /* main.html in Resources */,
+				D62D3A821B51CBDD004F1011 /* events.js in Resources */,
 				D603FAA01B4F33B6002F00F5 /* Config.plist in Resources */,
 				D603FA8A1B4F332A002F00F5 /* Main.storyboard in Resources */,
 			);
@@ -417,6 +425,7 @@
 				D603FA9B1B4F332A002F00F5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D603FA9C1B4F332A002F00F5 /* Build configuration list for PBXNativeTarget "mappyTests" */ = {
 			isa = XCConfigurationList;
@@ -425,6 +434,7 @@
 				D603FA9E1B4F332A002F00F5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

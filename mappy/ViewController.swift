@@ -19,49 +19,21 @@ class ViewController: NSViewController, CLLocationManagerDelegate {
   
   private let mappy = Mappy()
   private let locationManager = CLLocationManager()
-  
-  @IBOutlet weak var webView: WebView!
-  
-  func locationManager(manager: CLLocationManager,
-                       didUpdateLocations locations: [AnyObject]) {
-    if locations.first != nil, let location = locations.first! as? CLLocation {
-      mappy.updateLocation(location.coordinate)
-    }
-  }
-  
-  func mask() {
-    var blurView = NSVisualEffectView(frame: view.bounds)
-    blurView.material = .Dark
-    blurView.blendingMode = .BehindWindow
-    blurView.state = .Active
-    blurView.frame = view.frame
-    
-    view.addSubview(blurView, positioned: .Above, relativeTo: view)
-    
-//    var maskLayer = CAShapeLayer()
-//    
-//    var maskPath = CGPathCreateMutable()
-//    CGPathAddRect(maskPath, nil, blurView.bounds)
-//    let w = Double(blurView.bounds.width)
-//    let h = Double(blurView.bounds.height)
-//    let x = (w - CIRCLE_RECT_SIZE) / 2
-//    let y = (h - CIRCLE_RECT_SIZE) / 2
-//    let rect = CGRect(x: x, y: y, width: CIRCLE_RECT_SIZE, height: CIRCLE_RECT_SIZE)
-//    CGPathAddEllipseInRect(maskPath, nil, rect)
-//    
-//    //    maskLayer.frame = view.bounds
-//    //    maskLayer.path = maskPath
-//    maskLayer.fillRule = "even-odd"
-//    
-//    println(maskLayer.position)
-//    
-//    blurView.layer!.mask = maskLayer
-  }
 
+  @IBOutlet weak var mapView: NSView!
+  
+  let webView = WKWebView()
+  
+  func locationManager(manager: CLLocationManager, didUpdateLocations locations: [AnyObject]) {
+      if locations.first != nil, let location = locations.first! as? CLLocation {
+        mappy.updateLocation(location.coordinate)
+      }
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
-    
-    mappy.setView(webView)
+
+    mappy.setView(mapView)
     
     locationManager.delegate = self
     locationManager.distanceFilter = MINIMUM_DISTANCE_IN_METERS // distance in meters
@@ -79,3 +51,35 @@ class ViewController: NSViewController, CLLocationManagerDelegate {
 
 }
 
+private extension ViewController {
+  
+  func mask() {
+    var blurView = NSVisualEffectView(frame: view.bounds)
+    blurView.material = .Dark
+    blurView.blendingMode = .BehindWindow
+    blurView.state = .Active
+    blurView.frame = view.frame
+    
+    view.addSubview(blurView, positioned: .Above, relativeTo: view)
+    
+    //    var maskLayer = CAShapeLayer()
+    //
+    //    var maskPath = CGPathCreateMutable()
+    //    CGPathAddRect(maskPath, nil, blurView.bounds)
+    //    let w = Double(blurView.bounds.width)
+    //    let h = Double(blurView.bounds.height)
+    //    let x = (w - CIRCLE_RECT_SIZE) / 2
+    //    let y = (h - CIRCLE_RECT_SIZE) / 2
+    //    let rect = CGRect(x: x, y: y, width: CIRCLE_RECT_SIZE, height: CIRCLE_RECT_SIZE)
+    //    CGPathAddEllipseInRect(maskPath, nil, rect)
+    //
+    //    //    maskLayer.frame = view.bounds
+    //    //    maskLayer.path = maskPath
+    //    maskLayer.fillRule = "even-odd"
+    //
+    //    println(maskLayer.position)
+    //    
+    //    blurView.layer!.mask = maskLayer
+  }
+
+}

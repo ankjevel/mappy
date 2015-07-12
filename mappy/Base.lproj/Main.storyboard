@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
-        <plugIn identifier="com.apple.WebKitIBPlugin" version="7706"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -670,24 +669,28 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="mappy" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <rect key="frame" x="0.0" y="0.0" width="500" height="250"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <webView fixedFrame="YES" maintainsBackForwardList="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mRF-ca-XLG">
-                                <rect key="frame" x="84" y="41" width="254" height="200"/>
-                                <webPreferences key="preferences" defaultFontSize="12" defaultFixedFontSize="12" plugInsEnabled="NO" javaEnabled="NO" javaScriptCanOpenWindowsAutomatically="NO" allowsAnimatedImages="NO" allowsAnimatedImageLooping="NO">
-                                    <nil key="identifier"/>
-                                </webPreferences>
-                            </webView>
+                            <customView identifier="Map" autoresizesSubviews="NO" toolTip="Map" translatesAutoresizingMaskIntoConstraints="NO" id="c2G-hI-Pkv">
+                                <rect key="frame" x="0.0" y="0.0" width="500" height="250"/>
+                                <accessibility description="Map" help="Map"/>
+                            </customView>
                         </subviews>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="c2G-hI-Pkv" secondAttribute="bottom" id="Dre-5i-Yar"/>
+                            <constraint firstItem="c2G-hI-Pkv" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="Nhq-gB-lep"/>
+                            <constraint firstItem="c2G-hI-Pkv" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="plj-r0-FCz"/>
+                            <constraint firstAttribute="trailing" secondItem="c2G-hI-Pkv" secondAttribute="trailing" id="vaM-bJ-11x"/>
+                        </constraints>
                     </view>
                     <connections>
-                        <outlet property="webView" destination="mRF-ca-XLG" id="Pxe-hw-D0x"/>
+                        <outlet property="mapView" destination="c2G-hI-Pkv" id="MF6-sK-sWY"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="655"/>
+            <point key="canvasLocation" x="75" y="614"/>
         </scene>
     </scenes>
 </document>
