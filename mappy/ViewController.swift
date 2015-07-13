@@ -43,7 +43,7 @@ class ViewController: NSViewController, CLLocationManagerDelegate {
     sharedView.replaceSubview(mapView, with: newMapView)
     mapView = newMapView
     
-    view.window?.title = "Mappy"
+    self.view.window?.title = "Mappy"
     mapView.layer?.zPosition = 0
     mapLocationImageView.layer?.zPosition = 1
     

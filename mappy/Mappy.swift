@@ -48,6 +48,9 @@ public class Mappy {
     print("no markup"); exit(0)
   }
   
+  static private let LATITUDE = 59.335004
+  static private let LONGITUDE = 18.126813999999968
+ 
   private var _webView: WKWebView?
   
   private var previousLocation: CLLocationCoordinate2D?
@@ -68,7 +71,7 @@ public class Mappy {
 
 public extension Mappy {
   
-  func setView(frame: NSRect, coordinates: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 59.335004, longitude: 18.126813999999968)) -> WKWebView {
+  func setView(frame: NSRect, coordinates: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: LATITUDE, longitude: LONGITUDE)) -> WKWebView {
     
     let userContentController = WKUserContentController()
     let configuration = WKWebViewConfiguration()
@@ -94,6 +97,8 @@ public extension Mappy {
     js("var center = new google.maps.LatLng(\(lat), \(lng));" +
        "window.map.setZoom(13);" +
        "window.map.panTo(center);")
+    
+    getImages(coordinates)
   }
   
   func resetToHome() {
@@ -106,13 +111,58 @@ public extension Mappy {
 
 private extension Mappy {
   
+  func dispatchRequest(request: NSURLRequest, callback out: (Dictionary<String, AnyObject>?, NSError?) -> Void)  {
+    func handleResponse(data: NSData!, urlResponse: NSURLResponse!, error: NSError!) {
+      var jsonErrorOptional: NSError?
+      let json: AnyObject! = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(0), error: &jsonErrorOptional)
+      if jsonErrorOptional != nil {
+        return out(nil, jsonErrorOptional)
+      }
+      
+      out(json as? Dictionary<String, AnyObject>, nil)
+    }
+    let task = NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: handleResponse)
+    
+    task.resume()
+  }
+  
+  func request(url: NSURL) -> NSMutableURLRequest {
+    var request = NSMutableURLRequest(URL: url)
+    request.addValue("application/json; charset=UTF-8", forHTTPHeaderField: "Content-Type")
+    request.addValue("application/json", forHTTPHeaderField: "Accept")
+    return request
+  }
+  
   func expose(message: WKScriptMessage) {
-    println(message.body)
+    if
+      let body = message.body as? NSDictionary,
+      let center = body.objectForKey("center") as? [String: Double] {
+        let longitude = center[center.indexForKey("A")!].1
+        let latitude = center[center.indexForKey("F")!].1
+        println("longitude: \(longitude), latitude: \(latitude)")
+    } else {
+      println("message-body", message.body)
+    }
+  }
+  
+  func getImages(coordinates: CLLocationCoordinate2D) {
+    let url = NSURL(string: "http://instagrannar.se:3000" +
+                            "/pictures" +
+                            "?lng=\(coordinates.longitude)" +
+                            "&lat=\(coordinates.latitude)")!
+    let req = request(url)
+//    dispatchRequest(req) { (json, error) in
+//      if error != nil || json == nil {
+//        return
+//      }
+//      println(json!)
+//    }
   }
   
   func loadMap(coordinates: CLLocationCoordinate2D) {
     let html = Mappy.html(coordinates)
     webView.loadHTMLString(html, baseURL: nil)
+    getImages(coordinates)
   }
   
   private func js(script: String) {
