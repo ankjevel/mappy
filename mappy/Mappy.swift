@@ -50,6 +50,8 @@ public class Mappy {
   
   private var _webView: WKWebView?
   
+  private var previousLocation: CLLocationCoordinate2D?
+  
   var webView: WKWebView {
     get {
       if _webView == nil {
@@ -66,7 +68,7 @@ public class Mappy {
 
 public extension Mappy {
   
-  func setView(inout view: NSView, coordinates: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 59.335004, longitude: 18.126813999999968)) -> WKWebView {
+  func setView(frame: NSRect, coordinates: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 59.335004, longitude: 18.126813999999968)) -> WKWebView {
     
     let userContentController = WKUserContentController()
     let configuration = WKWebViewConfiguration()
@@ -77,7 +79,7 @@ public extension Mappy {
     userContentController.addScriptMessageHandler(handler, name: "notification")
     configuration.userContentController = userContentController
     
-    webView = WKWebView(frame: view.frame, configuration: configuration)
+    webView = WKWebView(frame: frame, configuration: configuration)
     
     loadMap(coordinates)
     
@@ -85,11 +87,19 @@ public extension Mappy {
   }
   
   func updateLocation(coordinates: CLLocationCoordinate2D) {
+    previousLocation = coordinates
     let (lng, lat) = {
       return (coordinates.longitude, coordinates.latitude)
       }()
     js("var center = new google.maps.LatLng(\(lat), \(lng));" +
-                      "window.map.panTo(center);")
+       "window.map.setZoom(13);" +
+       "window.map.panTo(center);")
+  }
+  
+  func resetToHome() {
+    if let coordinates = previousLocation {
+      updateLocation(coordinates)
+    }
   }
 
 }

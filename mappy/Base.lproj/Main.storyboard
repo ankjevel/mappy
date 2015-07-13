@@ -672,8 +672,40 @@
                         <rect key="frame" x="0.0" y="0.0" width="500" height="250"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <customView identifier="Map" autoresizesSubviews="YES" toolTip="Map" translatesAutoresizingMaskIntoConstraints="YES" id="c2G-hI-Pkv">
+                            <customView identifier="Map" toolTip="Map" wantsLayer="YES" id="c2G-hI-Pkv" userLabel="sharedView">
                                 <rect key="frame" x="0.0" y="0.0" width="500" height="250"/>
+                                <subviews>
+                                    <customView identifier="mapView" toolTip="mapView" translatesAutoresizingMaskIntoConstraints="NO" id="itn-sd-eqD" userLabel="mapView">
+                                        <rect key="frame" x="0.0" y="0.0" width="500" height="250"/>
+                                        <accessibility description="mapView" help="mapView"/>
+                                    </customView>
+                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8Iy-gJ-Bxa">
+                                        <rect key="frame" x="432" y="20" width="48" height="48"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="48" id="D0g-Yw-ayr"/>
+                                            <constraint firstAttribute="width" constant="48" id="e1W-ID-Ncl"/>
+                                        </constraints>
+                                        <gestureRecognizers>
+                                            <clickGestureRecognizer delaysPrimaryMouseButtonEvents="YES" numberOfClicksRequired="1" id="vcO-Nh-3SK">
+                                                <connections>
+                                                    <action selector="resetToHome:" target="XfG-lQ-9wD" id="bBi-cj-DuH"/>
+                                                </connections>
+                                            </clickGestureRecognizer>
+                                        </gestureRecognizers>
+                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="bottomRight" imageScaling="proportionallyDown" image="ios7-location-outline" id="ltD-xW-MZT"/>
+                                        <connections>
+                                            <action selector="resetToHome:" target="XfG-lQ-9wD" id="MRy-1j-D2f"/>
+                                        </connections>
+                                    </imageView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="itn-sd-eqD" secondAttribute="bottom" id="347-1D-nzq"/>
+                                    <constraint firstAttribute="trailing" secondItem="8Iy-gJ-Bxa" secondAttribute="trailing" constant="20" id="8o4-k8-4BP"/>
+                                    <constraint firstAttribute="bottom" secondItem="8Iy-gJ-Bxa" secondAttribute="bottom" constant="20" id="9kK-HM-Yqk"/>
+                                    <constraint firstItem="itn-sd-eqD" firstAttribute="leading" secondItem="c2G-hI-Pkv" secondAttribute="leading" id="EA2-4k-Fgu"/>
+                                    <constraint firstAttribute="trailing" secondItem="itn-sd-eqD" secondAttribute="trailing" id="brv-gT-nM1"/>
+                                    <constraint firstItem="itn-sd-eqD" firstAttribute="top" secondItem="c2G-hI-Pkv" secondAttribute="top" id="drS-N3-Zzv"/>
+                                </constraints>
                                 <accessibility description="Map" help="Map"/>
                             </customView>
                         </subviews>
@@ -685,12 +717,18 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="mapView" destination="c2G-hI-Pkv" id="MF6-sK-sWY"/>
+                        <outlet property="mapLocationImageView" destination="8Iy-gJ-Bxa" id="e4d-oe-XS7"/>
+                        <outlet property="mapView" destination="itn-sd-eqD" id="xnc-dc-Sah"/>
+                        <outlet property="sharedView" destination="c2G-hI-Pkv" id="OlS-nV-bY2"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <userDefaultsController representsSharedInstance="YES" id="nZd-vY-z0X"/>
             </objects>
-            <point key="canvasLocation" x="75" y="614"/>
+            <point key="canvasLocation" x="65" y="755"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="ios7-location-outline" width="512" height="512"/>
+    </resources>
 </document>
