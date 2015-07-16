@@ -18,15 +18,14 @@ class ViewController: NSViewController, CLLocationManagerDelegate {
   private let MINIMUM_DISTANCE_IN_METERS = 10.0
   
   private let locationManager = CLLocationManager()
+  
+  var mappy: Mappy?
 
   @IBOutlet weak var sharedView: NSView!
   @IBOutlet weak var mapView: NSView!
   @IBOutlet weak var mapLocationImageView: NSImageView!
-  
-  @IBOutlet var blur: NSVisualEffectView!
+  @IBOutlet weak var blur: NSVisualEffectView!
 
-  var mappy: Mappy?
-  
   @IBAction func resetToHome(sender: AnyObject) {
     mappy!.resetToHome()
   }
@@ -40,6 +39,7 @@ class ViewController: NSViewController, CLLocationManagerDelegate {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    // for some reason, lazy did not work
     self.mappy = Mappy(mapUpdated)
     
     let newMapView = mappy!.setView(view.frame) as WKWebView
@@ -58,7 +58,7 @@ class ViewController: NSViewController, CLLocationManagerDelegate {
     setConstraints(&mapView!)
     
     locationManager.delegate = self
-    locationManager.distanceFilter = MINIMUM_DISTANCE_IN_METERS // distance in meters
+    locationManager.distanceFilter = MINIMUM_DISTANCE_IN_METERS
     locationManager.desiredAccuracy = kCLLocationAccuracyBest
     locationManager.startUpdatingLocation()
   }
@@ -96,7 +96,7 @@ private extension ViewController {
     let x = CGFloat(Double(view.frame.width / 2) - Double(radius / 2))
     let y = CGFloat(Double(view.frame.height / 2) - Double(radius / 2))
   
-    CGPathAddRoundedRect(maskPath, nil, CGRectMake(x, y, radius, radius), CGFloat(radius/2), CGFloat(radius/2))
+    CGPathAddRoundedRect(maskPath, nil, CGRectMake(x, y, radius, radius), CGFloat(radius / 2), CGFloat(radius / 2))
     
     maskLayer.path = maskPath
 
