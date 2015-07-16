@@ -675,7 +675,10 @@
                             <customView identifier="Map" toolTip="Map" wantsLayer="YES" id="c2G-hI-Pkv" userLabel="sharedView">
                                 <rect key="frame" x="0.0" y="0.0" width="500" height="250"/>
                                 <subviews>
-                                    <customView identifier="mapView" toolTip="mapView" translatesAutoresizingMaskIntoConstraints="NO" id="itn-sd-eqD" userLabel="mapView">
+                                    <visualEffectView wantsLayer="YES" focusRingType="none" appearanceType="vibrantDark" blendingMode="withinWindow" material="appearanceBased" state="active" translatesAutoresizingMaskIntoConstraints="NO" id="vt4-2l-0ET">
+                                        <rect key="frame" x="0.0" y="0.0" width="500" height="250"/>
+                                    </visualEffectView>
+                                    <customView identifier="mapView" toolTip="mapView" wantsLayer="YES" canDrawConcurrently="YES" translatesAutoresizingMaskIntoConstraints="NO" id="itn-sd-eqD" userLabel="mapView">
                                         <rect key="frame" x="0.0" y="0.0" width="500" height="250"/>
                                         <accessibility description="mapView" help="mapView"/>
                                     </customView>
@@ -700,11 +703,15 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="itn-sd-eqD" secondAttribute="bottom" id="347-1D-nzq"/>
+                                    <constraint firstAttribute="trailing" secondItem="vt4-2l-0ET" secondAttribute="trailing" id="5TX-BS-dU9"/>
                                     <constraint firstAttribute="trailing" secondItem="8Iy-gJ-Bxa" secondAttribute="trailing" constant="20" id="8o4-k8-4BP"/>
                                     <constraint firstAttribute="bottom" secondItem="8Iy-gJ-Bxa" secondAttribute="bottom" constant="20" id="9kK-HM-Yqk"/>
                                     <constraint firstItem="itn-sd-eqD" firstAttribute="leading" secondItem="c2G-hI-Pkv" secondAttribute="leading" id="EA2-4k-Fgu"/>
                                     <constraint firstAttribute="trailing" secondItem="itn-sd-eqD" secondAttribute="trailing" id="brv-gT-nM1"/>
                                     <constraint firstItem="itn-sd-eqD" firstAttribute="top" secondItem="c2G-hI-Pkv" secondAttribute="top" id="drS-N3-Zzv"/>
+                                    <constraint firstAttribute="bottom" secondItem="vt4-2l-0ET" secondAttribute="bottom" id="ePW-wa-6A9"/>
+                                    <constraint firstItem="vt4-2l-0ET" firstAttribute="leading" secondItem="c2G-hI-Pkv" secondAttribute="leading" id="ekw-AR-2sx"/>
+                                    <constraint firstItem="vt4-2l-0ET" firstAttribute="top" secondItem="c2G-hI-Pkv" secondAttribute="top" id="raL-zP-LC2"/>
                                 </constraints>
                                 <accessibility description="Map" help="Map"/>
                             </customView>
@@ -717,6 +724,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="blur" destination="vt4-2l-0ET" id="TWe-u4-zMp"/>
                         <outlet property="mapLocationImageView" destination="8Iy-gJ-Bxa" id="e4d-oe-XS7"/>
                         <outlet property="mapView" destination="itn-sd-eqD" id="xnc-dc-Sah"/>
                         <outlet property="sharedView" destination="c2G-hI-Pkv" id="OlS-nV-bY2"/>

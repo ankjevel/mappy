@@ -16,6 +16,7 @@
 		D603FAA21B4F3420002F00F5 /* Mappy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D603FAA11B4F3420002F00F5 /* Mappy.swift */; };
 		D62D3A801B51C4F4004F1011 /* main.html in Resources */ = {isa = PBXBuildFile; fileRef = D62D3A7F1B51C4F4004F1011 /* main.html */; };
 		D62D3A861B531872004F1011 /* ios7-location-outline.png in Resources */ = {isa = PBXBuildFile; fileRef = D62D3A851B531872004F1011 /* ios7-location-outline.png */; };
+		D62D3A8B1B546EA4004F1011 /* NSBezierPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = D62D3A8A1B546EA4004F1011 /* NSBezierPath.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +44,7 @@
 		D603FAA51B4F3CC9002F00F5 /* mappy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = mappy.entitlements; sourceTree = "<group>"; };
 		D62D3A7F1B51C4F4004F1011 /* main.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = main.html; sourceTree = "<group>"; };
 		D62D3A851B531872004F1011 /* ios7-location-outline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios7-location-outline.png"; sourceTree = "<group>"; };
+		D62D3A8A1B546EA4004F1011 /* NSBezierPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSBezierPath.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 				D603FA811B4F332A002F00F5 /* Info.plist */,
 				D603FA9F1B4F33B6002F00F5 /* Config.plist */,
 				D62D3A7F1B51C4F4004F1011 /* main.html */,
+				D62D3A8A1B546EA4004F1011 /* NSBezierPath.swift */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -230,6 +233,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D62D3A8B1B546EA4004F1011 /* NSBezierPath.swift in Sources */,
 				D603FA851B4F332A002F00F5 /* ViewController.swift in Sources */,
 				D603FA831B4F332A002F00F5 /* AppDelegate.swift in Sources */,
 				D603FAA21B4F3420002F00F5 /* Mappy.swift in Sources */,

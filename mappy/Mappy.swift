@@ -50,6 +50,8 @@ public class Mappy {
   
   static private let LATITUDE = 59.335004
   static private let LONGITUDE = 18.126813999999968
+  var zoom = 13
+  var mapUpdated: () -> Void
  
   private var _webView: WKWebView?
   
@@ -67,6 +69,9 @@ public class Mappy {
     }
   }
   
+  init(_ mapUpdated: () -> Void) {
+    self.mapUpdated = mapUpdated
+  }
 }
 
 public extension Mappy {
@@ -94,10 +99,10 @@ public extension Mappy {
     let (lng, lat) = {
       return (coordinates.longitude, coordinates.latitude)
       }()
+    zoom = 13
     js("var center = new google.maps.LatLng(\(lat), \(lng));" +
-       "window.map.setZoom(13);" +
+       "window.map.setZoom(\(zoom));" +
        "window.map.panTo(center);")
-    
     getImages(coordinates)
   }
   
@@ -135,14 +140,22 @@ private extension Mappy {
   
   func expose(message: WKScriptMessage) {
     if
-      let body = message.body as? NSDictionary,
-      let center = body.objectForKey("center") as? [String: Double] {
-        let longitude = center[center.indexForKey("A")!].1
-        let latitude = center[center.indexForKey("F")!].1
-        println("longitude: \(longitude), latitude: \(latitude)")
+      let body = message.body as? NSDictionary {
+        if
+          let center = body.objectForKey("center") as? [String: Double] {
+            let longitude = center[center.indexForKey("A")!].1
+            let latitude = center[center.indexForKey("F")!].1
+//            println("longitude: \(longitude), latitude: \(latitude)")
+        }
+        if let zoom = body.objectForKey("zoom") as? Int {
+          self.zoom = zoom
+//          println("zoom", zoom)
+        }
     } else {
-      println("message-body", message.body)
+      println("not catched \(message.body)")
     }
+    
+    self.mapUpdated()
   }
   
   func getImages(coordinates: CLLocationCoordinate2D) {
@@ -151,6 +164,7 @@ private extension Mappy {
                             "?lng=\(coordinates.longitude)" +
                             "&lat=\(coordinates.latitude)")!
     let req = request(url)
+////    QUERIES instagrannar for images in location
 //    dispatchRequest(req) { (json, error) in
 //      if error != nil || json == nil {
 //        return
