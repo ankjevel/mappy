@@ -8,9 +8,46 @@
 
 import Cocoa
 import AppKit
-import WebKit
 import CoreLocation
 
+class G: NSPressGestureRecognizer {
+  
+  var actions: [() -> Void] = []
+  var i = 0
+  
+  var window: NSWindow?
+  
+  override func mouseDown(event: NSEvent) {
+    let mask = (NSEventMask.LeftMouseUpMask | NSEventMask.LeftMouseDraggedMask).rawValue
+    println(window)
+    while (window?.nextEventMatchingMask(Int(mask)) != nil) {
+      if event.type == .LeftMouseUp {
+        break;
+      }
+    
+      ++i
+      println(i)
+      
+      for action in actions {
+        action()
+      }
+     
+      super.mouseDown(event)
+    }
+    println("here we go")
+    
+  }
+  
+  
+  
+}
+
+class GestureAllowPassThrough: NSObject, NSGestureRecognizerDelegate {
+  
+  func gestureRecognizerShouldBegin(gestureRecognizer: NSGestureRecognizer) -> Bool {
+    return false
+  }
+}
 
 class ViewController: NSViewController, CLLocationManagerDelegate {
   
@@ -20,12 +57,14 @@ class ViewController: NSViewController, CLLocationManagerDelegate {
   private let locationManager = CLLocationManager()
   
   var mappy: Mappy?
+  
+  private let gestureDelegate = GestureAllowPassThrough()
 
   @IBOutlet weak var sharedView: NSView!
   @IBOutlet weak var mapView: NSView!
   @IBOutlet weak var mapLocationImageView: NSImageView!
-  @IBOutlet weak var blur: NSVisualEffectView!
-
+  @IBOutlet weak var blurView: NSVisualEffectView!
+  
   @IBAction func resetToHome(sender: AnyObject) {
     mappy!.resetToHome()
   }
@@ -36,24 +75,48 @@ class ViewController: NSViewController, CLLocationManagerDelegate {
     }
   }
   
+  func ondrag() {
+    println("ondrag")
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    var window: NSWindow?
+    
+    if let nib = self.nibName {
+      let controller = NSWindowController(windowNibName: nib)
+      window = controller.window
+    }
+    
+    window?.title = "hello world"
+
     // for some reason, lazy did not work
     self.mappy = Mappy(mapUpdated)
     
-    let newMapView = mappy!.setView(view.frame) as WKWebView
+    let gesture = G()
+    gesture.actions.append(ondrag)
+    gesture.window = view.window
+    gesture.delegate = gestureDelegate
+    gesture.target = self
+    gesture.buttonMask = 0x1
+    //    gesture.minimumPressDuration = 0 // for Drag
+    
+    view.addGestureRecognizer(gesture)
+    
+    let newMapView = mappy!.setView(view.frame)
+    
     newMapView.frame = mapView.frame
     
     sharedView.replaceSubview(mapView, with: newMapView)
     mapView = newMapView
-    
+
     view.window?.title = "Mappy"
     
     mapView.layer?.zPosition = 0
     
-    blur.layer?.setNeedsLayout()
-    blur.alphaValue = 0.99
+    blurView.layer?.setNeedsLayout()
+    blurView.alphaValue = 0.99
     
     setConstraints(&mapView!)
     
@@ -62,8 +125,9 @@ class ViewController: NSViewController, CLLocationManagerDelegate {
     locationManager.desiredAccuracy = kCLLocationAccuracyBest
     locationManager.startUpdatingLocation()
   }
-  
+
   override func viewDidLayout() {
+    println("layout")
     mask()
   }
 }
@@ -100,11 +164,11 @@ private extension ViewController {
     
     maskLayer.path = maskPath
 
-    if let blurLayer = blur.layer {
+    if let blurLayer = blurView.layer {
       blurLayer.mask = maskLayer
       blurLayer.zPosition = 1
       mapLocationImageView.layer?.zPosition = 2
-      blur.updateLayer()
+      blurView.updateLayer()
     }
   }
 

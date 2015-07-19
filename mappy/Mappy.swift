@@ -111,7 +111,6 @@ public extension Mappy {
       updateLocation(coordinates)
     }
   }
-
 }
 
 private extension Mappy {
