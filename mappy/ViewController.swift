@@ -29,6 +29,8 @@ class ViewController: NSViewController, CLLocationManagerDelegate {
     mappy!.resetToHome()
   }
   
+  private let zoomRadius = [1, 1, 1, 1, 1, 2, 5, 10, 20, 50, 100, 180, 250, 450, 500, 550, 600, 800, 1000, 1500, 2500, 4000]
+  
   func locationManager(manager: CLLocationManager, didUpdateLocations locations: [AnyObject]) {
     if locations.first != nil, let location = locations.first! as? CLLocation {
       mappy!.updateLocation(location.coordinate)
@@ -53,9 +55,8 @@ class ViewController: NSViewController, CLLocationManagerDelegate {
     mapView = newMapView
     
     mapView.layer?.zPosition = 0
-    
     blurView.layer?.setNeedsLayout()
-    blurView.alphaValue = 0.95
+    blurView.alphaValue = 0.80
     
     setConstraints(&mapView!)
     
@@ -99,7 +100,7 @@ private extension ViewController {
     maskLayer.fillRule = "even-odd"
     
     // TODO: Calculate radius of cutout
-    let radius = CGFloat(Double(mappy!.zoom) * Double(mappy!.zoom))
+    let radius = CGFloat(zoomRadius[mappy!.zoom])
     
     let x = CGFloat(Double(view.frame.width / 2) - Double(radius / 2))
     let y = CGFloat(Double(height / 2) - Double(radius / 2))
@@ -112,6 +113,7 @@ private extension ViewController {
       blurLayer.mask = maskLayer
       blurLayer.zPosition = 1
       mapLocationImageView.layer?.zPosition = 2
+      println("\(mappy!.zoom), \(radius)")
       blurView.updateLayer()
     }
   }
