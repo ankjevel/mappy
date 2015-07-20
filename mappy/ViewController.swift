@@ -10,44 +10,6 @@ import Cocoa
 import AppKit
 import CoreLocation
 
-class G: NSPressGestureRecognizer {
-  
-  var actions: [() -> Void] = []
-  var i = 0
-  
-  var window: NSWindow?
-  
-  override func mouseDown(event: NSEvent) {
-    let mask = (NSEventMask.LeftMouseUpMask | NSEventMask.LeftMouseDraggedMask).rawValue
-    println(window)
-    while (window?.nextEventMatchingMask(Int(mask)) != nil) {
-      if event.type == .LeftMouseUp {
-        break;
-      }
-    
-      ++i
-      println(i)
-      
-      for action in actions {
-        action()
-      }
-     
-      super.mouseDown(event)
-    }
-    println("here we go")
-    
-  }
-  
-  
-  
-}
-
-class GestureAllowPassThrough: NSObject, NSGestureRecognizerDelegate {
-  
-  func gestureRecognizerShouldBegin(gestureRecognizer: NSGestureRecognizer) -> Bool {
-    return false
-  }
-}
 
 class ViewController: NSViewController, CLLocationManagerDelegate {
   
@@ -57,8 +19,6 @@ class ViewController: NSViewController, CLLocationManagerDelegate {
   private let locationManager = CLLocationManager()
   
   var mappy: Mappy?
-  
-  private let gestureDelegate = GestureAllowPassThrough()
 
   @IBOutlet weak var sharedView: NSView!
   @IBOutlet weak var mapView: NSView!
@@ -76,33 +36,14 @@ class ViewController: NSViewController, CLLocationManagerDelegate {
   }
   
   func ondrag() {
-    println("ondrag")
+    blurView.updateLayer()
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    var window: NSWindow?
-    
-    if let nib = self.nibName {
-      let controller = NSWindowController(windowNibName: nib)
-      window = controller.window
-    }
-    
-    window?.title = "hello world"
-
     // for some reason, lazy did not work
     self.mappy = Mappy(mapUpdated)
-    
-    let gesture = G()
-    gesture.actions.append(ondrag)
-    gesture.window = view.window
-    gesture.delegate = gestureDelegate
-    gesture.target = self
-    gesture.buttonMask = 0x1
-    //    gesture.minimumPressDuration = 0 // for Drag
-    
-    view.addGestureRecognizer(gesture)
     
     let newMapView = mappy!.setView(view.frame)
     
@@ -110,13 +51,11 @@ class ViewController: NSViewController, CLLocationManagerDelegate {
     
     sharedView.replaceSubview(mapView, with: newMapView)
     mapView = newMapView
-
-    view.window?.title = "Mappy"
     
     mapView.layer?.zPosition = 0
     
     blurView.layer?.setNeedsLayout()
-    blurView.alphaValue = 0.99
+    blurView.alphaValue = 0.95
     
     setConstraints(&mapView!)
     
@@ -127,15 +66,18 @@ class ViewController: NSViewController, CLLocationManagerDelegate {
   }
 
   override func viewDidLayout() {
-    println("layout")
     mask()
   }
 }
 
 private extension ViewController {
   
-  func mapUpdated() {
-    mask()
+  func mapUpdated(zoom: Bool) {
+    if zoom {
+      mask()
+    } else {
+      blurView.updateLayer()
+    }
   }
   
   func setConstraints(inout view: NSView) {

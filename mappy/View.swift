@@ -10,5 +10,8 @@ import Foundation
 import AppKit
 
 class View: NSView {
-
+  
+  override var acceptsFirstResponder: Bool { return true }
+  
+  override var opaque: Bool { return true }
 }

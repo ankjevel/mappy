@@ -23,6 +23,10 @@ internal class NotificationScriptMessageHandler: NSObject, WKScriptMessageHandle
   }
 }
 
+public class MapView: WKWebView {
+  
+}
+
 public class Mappy {
   
   static private let appID: String = {
@@ -51,7 +55,7 @@ public class Mappy {
   static private let LATITUDE = 59.335004
   static private let LONGITUDE = 18.126813999999968
   var zoom = 13
-  var mapUpdated: () -> Void
+  var mapUpdated: (Bool) -> Void
  
   private var _webView: WKWebView?
   
@@ -69,7 +73,7 @@ public class Mappy {
     }
   }
   
-  init(_ mapUpdated: () -> Void) {
+  init(_ mapUpdated: (Bool) -> Void) {
     self.mapUpdated = mapUpdated
   }
 }
@@ -87,7 +91,7 @@ public extension Mappy {
     userContentController.addScriptMessageHandler(handler, name: "notification")
     configuration.userContentController = userContentController
     
-    webView = WKWebView(frame: frame, configuration: configuration)
+    webView = MapView(frame: frame, configuration: configuration)
     
     loadMap(coordinates)
     
@@ -138,6 +142,7 @@ private extension Mappy {
   }
   
   func expose(message: WKScriptMessage) {
+    var zoomUpdated = false
     if
       let body = message.body as? NSDictionary {
         if
@@ -148,13 +153,14 @@ private extension Mappy {
         }
         if let zoom = body.objectForKey("zoom") as? Int {
           self.zoom = zoom
+          zoomUpdated = true
 //          println("zoom", zoom)
         }
     } else {
       println("not catched \(message.body)")
     }
     
-    self.mapUpdated()
+    self.mapUpdated(zoomUpdated)
   }
   
   func getImages(coordinates: CLLocationCoordinate2D) {

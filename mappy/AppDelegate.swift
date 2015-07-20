@@ -10,32 +10,16 @@ import Cocoa
 
 @NSApplicationMain
 class AppDelegate: NSResponder, NSApplicationDelegate {
-
-  var window: NSWindow?
   
-  func applicationDidFinishLaunching(aNotification: NSNotification) {
-  }
+  func applicationDidFinishLaunching(aNotification: NSNotification) {}
 
   func applicationWillTerminate(aNotification: NSNotification) {
     // Insert code here to tear down your application
   }
   
-  // If last window is closed, close application
   func applicationShouldTerminateAfterLastWindowClosed(sender: NSApplication) -> Bool {
+    // If last window is closed, close application
     return true
   }
   
 }
-
-
-
-
-
-
-
-//  window = UIWindow(frame: UIScreen.mainScreen().bounds)
-//  if let window = window {
-//    window.backgroundColor = UIColor.whiteColor()
-//    window.rootViewController = ViewController()
-//    window.makeKeyAndVisible()
-//  }
