@@ -673,14 +673,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="500" height="250"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <customView identifier="sharedView" toolTip="sharedView" wantsLayer="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="c2G-hI-Pkv" userLabel="sharedView">
+                            <customView identifier="sharedView" wantsLayer="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="c2G-hI-Pkv" userLabel="sharedView">
                                 <rect key="frame" x="0.0" y="0.0" width="500" height="250"/>
                                 <subviews>
-                                    <visualEffectView identifier="blurView" toolTip="blurView" wantsLayer="YES" focusRingType="none" appearanceType="vibrantDark" fixedFrame="YES" blendingMode="withinWindow" material="appearanceBased" state="active" translatesAutoresizingMaskIntoConstraints="NO" id="vt4-2l-0ET" userLabel="blurView">
+                                    <visualEffectView identifier="blurView" wantsLayer="YES" focusRingType="none" appearanceType="vibrantDark" fixedFrame="YES" blendingMode="withinWindow" material="appearanceBased" state="active" translatesAutoresizingMaskIntoConstraints="NO" id="vt4-2l-0ET" userLabel="blurView">
                                         <rect key="frame" x="0.0" y="0.0" width="500" height="250"/>
                                         <accessibility description="blurView" help="blurView"/>
                                     </visualEffectView>
-                                    <customView identifier="mapView" toolTip="mapView" wantsLayer="YES" canDrawConcurrently="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="itn-sd-eqD" userLabel="mapView">
+                                    <customView identifier="mapView" wantsLayer="YES" canDrawConcurrently="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="itn-sd-eqD" userLabel="mapView">
                                         <rect key="frame" x="0.0" y="0.0" width="500" height="250"/>
                                         <accessibility description="mapView" help="mapView"/>
                                     </customView>

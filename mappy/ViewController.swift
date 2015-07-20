@@ -92,7 +92,9 @@ private extension ViewController {
     var maskLayer = CAShapeLayer()
     var maskPath = CGPathCreateMutable()
     
-    CGPathAddRect(maskPath, nil, CGRectMake(0, 0, view.frame.width, view.frame.height))
+    let toolBarHeight: CGFloat = 21.0
+    var height = view.frame.height - toolBarHeight
+    CGPathAddRect(maskPath, nil, CGRectMake(0, 0, view.frame.width, height))
     
     maskLayer.fillRule = "even-odd"
     
@@ -100,7 +102,7 @@ private extension ViewController {
     let radius = CGFloat(Double(mappy!.zoom) * Double(mappy!.zoom))
     
     let x = CGFloat(Double(view.frame.width / 2) - Double(radius / 2))
-    let y = CGFloat(Double(view.frame.height / 2) - Double(radius / 2))
+    let y = CGFloat(Double(height / 2) - Double(radius / 2))
   
     CGPathAddRoundedRect(maskPath, nil, CGRectMake(x, y, radius, radius), CGFloat(radius / 2), CGFloat(radius / 2))
     
