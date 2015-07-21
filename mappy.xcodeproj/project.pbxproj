@@ -8,14 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		D603FA831B4F332A002F00F5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D603FA821B4F332A002F00F5 /* AppDelegate.swift */; };
-		D603FA851B4F332A002F00F5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D603FA841B4F332A002F00F5 /* ViewController.swift */; };
+		D603FA851B4F332A002F00F5 /* MapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D603FA841B4F332A002F00F5 /* MapController.swift */; };
 		D603FA871B4F332A002F00F5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D603FA861B4F332A002F00F5 /* Images.xcassets */; };
 		D603FA8A1B4F332A002F00F5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D603FA881B4F332A002F00F5 /* Main.storyboard */; };
 		D603FA961B4F332A002F00F5 /* mappyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D603FA951B4F332A002F00F5 /* mappyTests.swift */; };
 		D603FAA01B4F33B6002F00F5 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = D603FA9F1B4F33B6002F00F5 /* Config.plist */; };
 		D603FAA21B4F3420002F00F5 /* Mappy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D603FAA11B4F3420002F00F5 /* Mappy.swift */; };
-		D605758A1B5C49710085AF4B /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60575891B5C49710085AF4B /* View.swift */; };
-		D605758C1B5C49E80085AF4B /* Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = D605758B1B5C49E80085AF4B /* Window.swift */; };
 		D62D3A801B51C4F4004F1011 /* main.html in Resources */ = {isa = PBXBuildFile; fileRef = D62D3A7F1B51C4F4004F1011 /* main.html */; };
 		D62D3A861B531872004F1011 /* ios7-location-outline.png in Resources */ = {isa = PBXBuildFile; fileRef = D62D3A851B531872004F1011 /* ios7-location-outline.png */; };
 /* End PBXBuildFile section */
@@ -34,7 +32,7 @@
 		D603FA7D1B4F332A002F00F5 /* mappy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mappy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D603FA811B4F332A002F00F5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D603FA821B4F332A002F00F5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D603FA841B4F332A002F00F5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		D603FA841B4F332A002F00F5 /* MapController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapController.swift; sourceTree = "<group>"; };
 		D603FA861B4F332A002F00F5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		D603FA891B4F332A002F00F5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D603FA8F1B4F332A002F00F5 /* mappyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mappyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -43,8 +41,6 @@
 		D603FA9F1B4F33B6002F00F5 /* Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
 		D603FAA11B4F3420002F00F5 /* Mappy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mappy.swift; sourceTree = "<group>"; };
 		D603FAA51B4F3CC9002F00F5 /* mappy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = mappy.entitlements; sourceTree = "<group>"; };
-		D60575891B5C49710085AF4B /* View.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
-		D605758B1B5C49E80085AF4B /* Window.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Window.swift; sourceTree = "<group>"; };
 		D62D3A7F1B51C4F4004F1011 /* main.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = main.html; sourceTree = "<group>"; };
 		D62D3A851B531872004F1011 /* ios7-location-outline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios7-location-outline.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -88,16 +84,14 @@
 		D603FA7F1B4F332A002F00F5 /* mappy */ = {
 			isa = PBXGroup;
 			children = (
-				D62D3A851B531872004F1011 /* ios7-location-outline.png */,
+				D6CC90601B5E576A002FEA5A /* Resources */,
 				D603FA821B4F332A002F00F5 /* AppDelegate.swift */,
-				D603FA841B4F332A002F00F5 /* ViewController.swift */,
+				D603FA841B4F332A002F00F5 /* MapController.swift */,
 				D603FAA11B4F3420002F00F5 /* Mappy.swift */,
 				D603FA801B4F332A002F00F5 /* Supporting Files */,
 				D603FA881B4F332A002F00F5 /* Main.storyboard */,
 				D603FAA51B4F3CC9002F00F5 /* mappy.entitlements */,
 				D603FA861B4F332A002F00F5 /* Images.xcassets */,
-				D60575891B5C49710085AF4B /* View.swift */,
-				D605758B1B5C49E80085AF4B /* Window.swift */,
 			);
 			path = mappy;
 			sourceTree = "<group>";
@@ -106,8 +100,6 @@
 			isa = PBXGroup;
 			children = (
 				D603FA811B4F332A002F00F5 /* Info.plist */,
-				D603FA9F1B4F33B6002F00F5 /* Config.plist */,
-				D62D3A7F1B51C4F4004F1011 /* main.html */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -127,6 +119,16 @@
 				D603FA941B4F332A002F00F5 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D6CC90601B5E576A002FEA5A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D603FA9F1B4F33B6002F00F5 /* Config.plist */,
+				D62D3A7F1B51C4F4004F1011 /* main.html */,
+				D62D3A851B531872004F1011 /* ios7-location-outline.png */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -236,9 +238,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D605758A1B5C49710085AF4B /* View.swift in Sources */,
-				D605758C1B5C49E80085AF4B /* Window.swift in Sources */,
-				D603FA851B4F332A002F00F5 /* ViewController.swift in Sources */,
+				D603FA851B4F332A002F00F5 /* MapController.swift in Sources */,
 				D603FA831B4F332A002F00F5 /* AppDelegate.swift in Sources */,
 				D603FAA21B4F3420002F00F5 /* Mappy.swift in Sources */,
 			);

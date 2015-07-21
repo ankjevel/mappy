@@ -650,8 +650,8 @@
         <!--Window Controller-->
         <scene sceneID="B8x-iq-cWB">
             <objects>
-                <windowController id="3Zo-hy-A3B" customClass="Window" customModule="mappy" customModuleProvider="target" sceneMemberID="viewController">
-                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" backingType="retained" animationBehavior="default" id="xUn-19-7WY">
+                <windowController id="3Zo-hy-A3B" sceneMemberID="viewController">
+                    <window key="window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" backingType="retained" animationBehavior="default" id="xUn-19-7WY">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" unifiedTitleAndToolbar="YES" fullSizeContentView="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="294" y="362" width="480" height="270"/>
@@ -665,10 +665,10 @@
             </objects>
             <point key="canvasLocation" x="98" y="225"/>
         </scene>
-        <!--View Controller-->
+        <!--Map Controller-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
-                <viewController storyboardIdentifier="Mappy" id="XfG-lQ-9wD" customClass="ViewController" customModule="mappy" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Mappy" id="XfG-lQ-9wD" customClass="MapController" customModule="mappy" sceneMemberID="viewController">
                     <view key="view" identifier="mainView" wantsLayer="YES" id="m2S-Jp-Qdl">
                         <rect key="frame" x="0.0" y="0.0" width="500" height="250"/>
                         <autoresizingMask key="autoresizingMask"/>

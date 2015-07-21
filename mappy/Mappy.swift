@@ -23,13 +23,12 @@ internal class NotificationScriptMessageHandler: NSObject, WKScriptMessageHandle
   }
 }
 
-public class MapView: WKWebView {
-  
-}
-
 public class Mappy {
   
-  static private let appID: String = {
+  //MARK: - static stored properties
+  static private let LATITUDE = 59.335004
+  static private let LONGITUDE = 18.126813999999968
+  static private let APP_ID: String = {
     if
       let path = NSBundle.mainBundle().pathForResource("Config", ofType: "plist"),
       let dict = NSDictionary(contentsOfFile: path),
@@ -40,28 +39,23 @@ public class Mappy {
     
     }()
   
-  static private func html(coordinates: CLLocationCoordinate2D) -> String {
+  static private func HTML(coordinates: CLLocationCoordinate2D) -> String {
     if
       let path = NSBundle.mainBundle().pathForResource("main", ofType: "html"),
       let markup = String(contentsOfFile: path, encoding: NSUTF8StringEncoding, error: nil) {
         return markup
-          .stringByReplacingOccurrencesOfString("@{appID}", withString: appID)
+          .stringByReplacingOccurrencesOfString("@{appID}", withString: APP_ID)
           .stringByReplacingOccurrencesOfString("@{longitude}", withString: "\(coordinates.longitude)")
           .stringByReplacingOccurrencesOfString("@{latitude}", withString: "\(coordinates.latitude)")
     }
     print("no markup"); exit(0)
   }
   
-  static private let LATITUDE = 59.335004
-  static private let LONGITUDE = 18.126813999999968
-  var zoom = 13
-  var mapUpdated: (Bool) -> Void
- 
-  private var _webView: WKWebView?
-  
+  //MARK: - private stored properties
+  private var actions: [(Bool) -> Void] = []
   private var previousLocation: CLLocationCoordinate2D?
-  
-  var webView: WKWebView {
+  private var _webView: WKWebView?
+  private var webView: WKWebView {
     get {
       if _webView == nil {
         print("webView not set"); exit(0)
@@ -73,29 +67,36 @@ public class Mappy {
     }
   }
   
-  init(_ mapUpdated: (Bool) -> Void) {
-    self.mapUpdated = mapUpdated
+  //MARK: - public stored properties
+  var zoom = 13
+  var view: WKWebView {
+    get {
+      return webView
+    }
   }
 }
 
+//MARK: - public
 public extension Mappy {
   
-  func setView(frame: NSRect, coordinates: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: LATITUDE, longitude: LONGITUDE)) -> WKWebView {
+  func addActionOnUpdate(action: (Bool) -> Void) {
+    self.actions.append(action)
+  }
+  
+  func initView(frame: NSRect, coordinates: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: LATITUDE, longitude: LONGITUDE)) {
     
     let userContentController = WKUserContentController()
     let configuration = WKWebViewConfiguration()
     let handler = NotificationScriptMessageHandler(expose)
-    let source = WKUserScript(source: Mappy.html(coordinates), injectionTime: .AtDocumentEnd, forMainFrameOnly: true)
+    let source = WKUserScript(source: Mappy.HTML(coordinates), injectionTime: .AtDocumentEnd, forMainFrameOnly: true)
     
     userContentController.addUserScript(source)
     userContentController.addScriptMessageHandler(handler, name: "notification")
     configuration.userContentController = userContentController
     
-    webView = MapView(frame: frame, configuration: configuration)
+    webView = WKWebView(frame: frame, configuration: configuration)
     
     loadMap(coordinates)
-    
-    return webView
   }
   
   func updateLocation(coordinates: CLLocationCoordinate2D) {
@@ -117,6 +118,7 @@ public extension Mappy {
   }
 }
 
+//MARK: - private
 private extension Mappy {
   
   func dispatchRequest(request: NSURLRequest, callback out: (Dictionary<String, AnyObject>?, NSError?) -> Void)  {
@@ -159,8 +161,9 @@ private extension Mappy {
     } else {
       println("not catched \(message.body)")
     }
-    
-    self.mapUpdated(zoomUpdated)
+    for action in actions {
+      action(zoomUpdated)
+    }
   }
   
   func getImages(coordinates: CLLocationCoordinate2D) {
@@ -179,7 +182,7 @@ private extension Mappy {
   }
   
   func loadMap(coordinates: CLLocationCoordinate2D) {
-    let html = Mappy.html(coordinates)
+    let html = Mappy.HTML(coordinates)
     webView.loadHTMLString(html, baseURL: nil)
     getImages(coordinates)
   }
