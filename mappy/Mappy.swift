@@ -23,7 +23,7 @@ internal class NotificationScriptMessageHandler: NSObject, WKScriptMessageHandle
   }
 }
 
-public class Mappy {
+public class Mappy: NSObject {
   //MARK: - static stored properties
   // Long/Lat will place user in Stockholm by default
   static private let LATITUDE = 59.335004
@@ -81,13 +81,19 @@ public class Mappy {
   
   //MARK: - public stored properties
   /// Keeping track of what the current zoom level is at
-  var zoom = 13
+  var zoom = 13 /*{
+//    didSet(value) {
+//      println("zoom updated \(zoom)")
+//    }
+  }*/
   /// Public property for returning webView
   var view: WKWebView {
     get {
       return webView
     }
   }
+  
+  private weak var timer: NSTimer?
 }
 
 //MARK: - public
@@ -140,12 +146,42 @@ public extension Mappy {
       updateLocation(coordinates)
     }
   }
+  
+
+  
+  func dispatchRequest(timer: NSTimer) {
+    // QUERIES instagrannar for images in location
+    if
+      let userInfo = timer.userInfo as? [String],
+      let urlString = userInfo.first,
+      let url = NSURL(string: urlString)
+    {
+      println("request! \(url)")
+//      dispatchRequest(request(url)) { (json, error) in
+//        if error != nil ||
+//          json == nil ||
+//          json?.isEmpty == true {
+//          return
+//        }
+//        self.parseRequest(json!)
+//      }
+    }
+    
+   
+  }
+  
 }
 
 //MARK: - private
 private extension Mappy {
   
-  func dispatchRequest(request: NSURLRequest, callback out: (Dictionary<String, AnyObject>?, NSError?) -> Void)  {
+  func parseRequest(json: [String: AnyObject]) {
+    if let data = json["data"] as? [[String: AnyObject]] {
+      println(data)
+    }
+  }
+  
+  func dispatchRequest(request: NSURLRequest, callback out: ([String: AnyObject]?, NSError?) -> Void)  {
     func handleResponse(data: NSData!, urlResponse: NSURLResponse!, error: NSError!) {
       var jsonErrorOptional: NSError?
       let json: AnyObject! = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(0), error: &jsonErrorOptional)
@@ -153,7 +189,7 @@ private extension Mappy {
         return out(nil, jsonErrorOptional)
       }
       
-      out(json as? Dictionary<String, AnyObject>, nil)
+      out(json as? [String: AnyObject], nil)
     }
     let task = NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: handleResponse)
     
@@ -175,12 +211,12 @@ private extension Mappy {
           let center = body.objectForKey("center") as? [String: Double] {
             let longitude = center[center.indexForKey("A")!].1
             let latitude = center[center.indexForKey("F")!].1
-//            println("longitude: \(longitude), latitude: \(latitude)")
+            
+            getImages(CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
         }
         if let zoom = body.objectForKey("zoom") as? Int {
           self.zoom = zoom
           zoomUpdated = true
-//          println("zoom", zoom)
         }
     } else {
       println("not catched \(message.body)")
@@ -191,18 +227,15 @@ private extension Mappy {
   }
   
   func getImages(coordinates: CLLocationCoordinate2D) {
-    let url = NSURL(string: "http://instagrannar.se:3000" +
-                            "/pictures" +
-                            "?lng=\(coordinates.longitude)" +
-                            "&lat=\(coordinates.latitude)")!
-    let req = request(url)
-////    QUERIES instagrannar for images in location
-//    dispatchRequest(req) { (json, error) in
-//      if error != nil || json == nil {
-//        return
-//      }
-//      println(json!)
-//    }
+    timer?.invalidate()
+    
+    let userInfo = [
+      "http://instagrannar.se:3000" +
+        "/pictures" +
+        "?lng=\(coordinates.longitude)" +
+        "&lat=\(coordinates.latitude)" +
+      ""]
+    timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "dispatchRequest:", userInfo: userInfo, repeats: false)
   }
   
   func loadMap(coordinates: CLLocationCoordinate2D) {

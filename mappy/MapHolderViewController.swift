@@ -16,7 +16,7 @@ class MapHolderViewController: NSViewController, CLLocationManagerDelegate {
   /// How sensitive `CLLocationManager` will be
   private let MINIMUM_DISTANCE_IN_METERS = 10.0
   /// Zoom radius based on "feelings"
-  private let ZOOM_RADIUS = [1, 1, 1, 1, 1, 2, 5, 10, 20, 50, 100, 180, 250, 450, 500, 550, 600, 800, 1000, 1500, 2500, 4000]
+  private let ZOOM_RADIUS = [1, 1, 1, 1, 1, 1, 1, 2, 5, 10, 15, 35, 70, 120, 250, 480, 980, 1850, 3700, 7400, 14800, 29600]
   
   private let locationManager = CLLocationManager()
   private let mappy = Mappy()
@@ -129,7 +129,6 @@ private extension MapHolderViewController {
     sharedView.addConstraint(NSLayoutConstraint(item: view, attribute: .Right, relatedBy: .Equal, toItem: sharedView, attribute: .Right, multiplier: 1, constant: 0))
     sharedView.addConstraint(NSLayoutConstraint(item: view, attribute: .Bottom, relatedBy: .Equal, toItem: sharedView, attribute: .Bottom, multiplier: 1, constant: 0))
     sharedView.addConstraint(NSLayoutConstraint(item: view, attribute: .Left, relatedBy: .Equal, toItem: sharedView, attribute: .Left, multiplier: 1, constant: 0))
-    
   }
   
   /// Draws the mask over the map (into `blurView`)
