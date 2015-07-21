@@ -37,27 +37,38 @@ class MapHolderViewController: NSViewController, CLLocationManagerDelegate {
   @IBAction func resetToHome(sender: AnyObject) {
     mappy.resetToHome()
   }
-  
+  /*
+  When locationManager get's updated, update
+  `Mappy` location
+  */
   func locationManager(manager: CLLocationManager, didUpdateLocations locations: [AnyObject]) {
     if locations.first != nil, let location = locations.first! as? CLLocation {
       mappy.updateLocation(location.coordinate)
     }
   }
   
-  /// Initialize the view
+  // Initialize the view
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    /*
+    Add actions called when map-events
+    gets called, like zoom and pan
+    */
     mappy.addActionOnUpdate(mapUpdated)
+    // Will set `Mappy.view`
     mappy.initView(view.frame)
-    
+    // Will replace previous map-view-placeholder
     let newMapView = mappy.view
-    
+    /*
+    But just to be safe, copy previous frame from
+    xib file
+    */
     newMapView.frame = mapView.frame
     
     sharedView.replaceSubview(mapView, with: newMapView)
     mapView = newMapView
-//
+    
     mapView.layer?.zPosition = 0
     blurView.layer?.setNeedsLayout()
     blurView.alphaValue = 0.80
@@ -69,7 +80,11 @@ class MapHolderViewController: NSViewController, CLLocationManagerDelegate {
     locationManager.desiredAccuracy = kCLLocationAccuracyBest
     locationManager.startUpdatingLocation()
   }
-  
+  /*
+  `viewDidLoad` is called before `viewDidAppear`
+  and it's not required for window to be set in
+  previous event
+  */
   override func viewDidAppear() {
     super.viewDidAppear()
     
@@ -90,7 +105,7 @@ private extension MapHolderViewController {
   Evaluate if the mask over the map needs to update
   it's size or just redrawn
   
-  :param: zoom:Bool
+  :param: zoom
     true if the zoom has been updated
   */
   func mapUpdated(zoom: Bool) {
@@ -104,10 +119,11 @@ private extension MapHolderViewController {
   /**
   Add constraints to a view
 
-  :param: view:NSView
+  :param: view
     `NSView` used to add constraints to
   */
   func setConstraints(inout view: NSView) {
+    // DO NOT FORGET THIS
     view.translatesAutoresizingMaskIntoConstraints = false
     sharedView.addConstraint(NSLayoutConstraint(item: view, attribute: .Top, relatedBy: .Equal, toItem: sharedView, attribute: .Top, multiplier: 1, constant: 0))
     sharedView.addConstraint(NSLayoutConstraint(item: view, attribute: .Right, relatedBy: .Equal, toItem: sharedView, attribute: .Right, multiplier: 1, constant: 0))
@@ -120,29 +136,49 @@ private extension MapHolderViewController {
   func mask() {
     var maskLayer = CAShapeLayer()
     var maskPath = CGPathCreateMutable()
+    /**
+    When using "Full Size Content View" on window,
+    there is no toolbar but the toolbar buttons
+    (if exists) still display.
     
-    let toolBarHeight: CGFloat = 21.0
-    var height = view.frame.height - toolBarHeight
+    Unsure of how to calculate Toolbar height, so
+    we just remove what we guess is the height
+    */
+    let toolbarHeight: CGFloat = {
+      if self.view.window?.toolbar == nil {
+        return 21.0
+      } else {
+        return 0.0
+      }
+    }()
+    // Subtract toolbar height from frame height
+    let height = view.frame.height - toolbarHeight
+    
+    // Add initial mask that fills whole screen
     CGPathAddRect(maskPath, nil, CGRectMake(0, 0, view.frame.width, height))
     
+    /*
+    If not even-odd, the next layer will just be
+    placed over previous mask and not subtract it
+    */
     maskLayer.fillRule = "even-odd"
     
     let radius = CGFloat(ZOOM_RADIUS[mappy.zoom])
     let x = CGFloat(Double(view.frame.width / 2) - Double(radius / 2))
     let y = CGFloat(Double(height / 2) - Double(radius / 2))
   
+    // Add Rectangle cutout to path
     CGPathAddRoundedRect(maskPath, nil, CGRectMake(x, y, radius, radius), CGFloat(radius / 2), CGFloat(radius / 2))
     
     maskLayer.path = maskPath
-
-
-    if let blurLayer = blurView.layer {
-      blurLayer.mask = maskLayer
-      blurLayer.zPosition = 1
-      mapLocationImageView.layer?.zPosition = 2
-      println("\(mappy.zoom), \(radius)")
-      blurView.updateLayer()
-    }
+    blurView.layer?.mask = maskLayer
+    blurView.layer?.zPosition = 1
+    /*
+    Make sure map-reset-button is placed on top
+    of map-mask
+    */
+    mapLocationImageView.layer?.zPosition = 2
+    blurView.updateLayer()
   }
 
 }

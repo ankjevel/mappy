@@ -24,10 +24,11 @@ internal class NotificationScriptMessageHandler: NSObject, WKScriptMessageHandle
 }
 
 public class Mappy {
-  
   //MARK: - static stored properties
+  // Long/Lat will place user in Stockholm by default
   static private let LATITUDE = 59.335004
   static private let LONGITUDE = 18.126813999999968
+  /// Read API KEY from config
   static private let APP_ID: String = {
     if
       let path = NSBundle.mainBundle().pathForResource("Config", ofType: "plist"),
@@ -38,7 +39,10 @@ public class Mappy {
     print("missing app id"); exit(0)
     
     }()
-  
+  /**
+  Returns main.html from file and replaces
+  strings with given values
+  */
   static private func HTML(coordinates: CLLocationCoordinate2D) -> String {
     if
       let path = NSBundle.mainBundle().pathForResource("main", ofType: "html"),
@@ -52,9 +56,17 @@ public class Mappy {
   }
   
   //MARK: - private stored properties
+  /// Stored actions from when Google Maps gets updated
   private var actions: [(Bool) -> Void] = []
+  /**
+  Keeping track of where the user was located last. Value
+  Gets updated if user moves more than what's defined in
+  `CLLocationManagerDelegate.distanceFilter`
+  */
   private var previousLocation: CLLocationCoordinate2D?
+  /// This is what `webView` returns
   private var _webView: WKWebView?
+  /// If _webView is not set, application will terminate
   private var webView: WKWebView {
     get {
       if _webView == nil {
@@ -68,7 +80,9 @@ public class Mappy {
   }
   
   //MARK: - public stored properties
+  /// Keeping track of what the current zoom level is at
   var zoom = 13
+  /// Public property for returning webView
   var view: WKWebView {
     get {
       return webView
@@ -79,6 +93,16 @@ public class Mappy {
 //MARK: - public
 public extension Mappy {
   
+  /**
+  Sets action to `actions`.
+  
+  It will call these when MAP get's updated.
+  Reason for doing this is because I don't know
+  how to define a lazy function
+  
+  :param: action
+    The bool is if the zoom-level has changed or not
+  */
   func addActionOnUpdate(action: (Bool) -> Void) {
     self.actions.append(action)
   }

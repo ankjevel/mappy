@@ -13,9 +13,7 @@ class SharedWindowController: NSWindowController {
   override func windowDidLoad() {
     super.windowDidLoad()
     
-    if let win = window {
-      win.contentViewController = MapHolderViewController(nibName: "MapHolder", bundle: NSBundle())
-    }
+    window?.contentViewController = MapHolderViewController(nibName: "MapHolder", bundle: NSBundle())
   }
     
 }

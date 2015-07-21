@@ -8,4 +8,6 @@
 
 import Cocoa
 
-class MapHolderView: NSView {}
+class MapHolderView: NSView {
+  // Used as a placeholder for my sanity
+}

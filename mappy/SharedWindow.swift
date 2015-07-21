@@ -8,4 +8,6 @@
 
 import Cocoa
 
-class SharedWindow: NSWindow {}
+class SharedWindow: NSWindow {
+  // Not used at the moment
+}
