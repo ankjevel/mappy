@@ -11,7 +11,11 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSResponder, NSApplicationDelegate {
   
-  func applicationDidFinishLaunching(aNotification: NSNotification) {}
+  let sharedWindow = SharedWindowController(windowNibName: "SharedWindowController")
+  
+  func applicationDidFinishLaunching(aNotification: NSNotification) {
+    sharedWindow.showWindow(nil)
+  }
 
   func applicationWillTerminate(aNotification: NSNotification) {
     // Insert code here to tear down your application

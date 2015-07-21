@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="MapHolderViewController" customModule="mappy" customModuleProvider="target">
+            <connections>
+                <outlet property="blurView" destination="sKc-OC-ulR" id="kYb-Ls-b7Q"/>
+                <outlet property="mapLocationImageView" destination="pTa-gs-woR" id="9vv-Qe-vjC"/>
+                <outlet property="mapView" destination="RAg-9z-Aud" id="8xS-6e-83x"/>
+                <outlet property="sharedView" destination="Xkn-KG-3R9" id="RRb-jA-D8o"/>
+                <outlet property="view" destination="C9V-Re-ZaI" id="nxB-F4-Opg"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application"/>
+        <viewController id="qQT-dk-HVC" customClass="MapHolderViewController" customModule="mappy" customModuleProvider="target">
+            <connections>
+                <outlet property="blurView" destination="sKc-OC-ulR" id="5To-fT-OUK"/>
+                <outlet property="mapLocationImageView" destination="pTa-gs-woR" id="HSx-84-gx4"/>
+                <outlet property="mapView" destination="RAg-9z-Aud" id="iiq-Ze-Z62"/>
+                <outlet property="sharedView" destination="Xkn-KG-3R9" id="TLv-Dw-8uu"/>
+            </connections>
+        </viewController>
+        <customView id="C9V-Re-ZaI" customClass="MapHolderView" customModule="mappy" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="5" width="500" height="250"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <customView identifier="sharedView" wantsLayer="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xkn-KG-3R9" userLabel="sharedView">
+                    <rect key="frame" x="0.0" y="0.0" width="500" height="250"/>
+                    <subviews>
+                        <visualEffectView identifier="blurView" wantsLayer="YES" focusRingType="none" appearanceType="vibrantDark" fixedFrame="YES" blendingMode="withinWindow" material="appearanceBased" state="active" translatesAutoresizingMaskIntoConstraints="NO" id="sKc-OC-ulR" userLabel="blurView">
+                            <rect key="frame" x="0.0" y="0.0" width="500" height="250"/>
+                        </visualEffectView>
+                        <customView identifier="mapView" wantsLayer="YES" canDrawConcurrently="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RAg-9z-Aud" userLabel="mapView">
+                            <rect key="frame" x="0.0" y="0.0" width="500" height="250"/>
+                        </customView>
+                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pTa-gs-woR" userLabel="mapLocationImageView">
+                            <rect key="frame" x="432" y="20" width="48" height="48"/>
+                            <gestureRecognizers>
+                                <clickGestureRecognizer delaysPrimaryMouseButtonEvents="YES" numberOfClicksRequired="1" id="i48-EF-AmI">
+                                    <connections>
+                                        <action selector="resetToHome:" target="qQT-dk-HVC" id="0rY-qS-DW5"/>
+                                    </connections>
+                                </clickGestureRecognizer>
+                            </gestureRecognizers>
+                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="bottomRight" imageScaling="proportionallyDown" image="ios7-location-outline" id="vMh-lA-Wpl"/>
+                        </imageView>
+                    </subviews>
+                </customView>
+            </subviews>
+            <point key="canvasLocation" x="279" y="232"/>
+        </customView>
+    </objects>
+    <resources>
+        <image name="ios7-location-outline" width="512" height="512"/>
+    </resources>
+</document>

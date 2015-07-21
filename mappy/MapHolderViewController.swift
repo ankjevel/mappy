@@ -1,5 +1,5 @@
 //
-//  MapController.swift
+//  MapHolderViewController.swift
 //  mappy
 //
 //  Created by Dennis Pettersson on 2015-07-10.
@@ -11,7 +11,7 @@ import AppKit
 import CoreLocation
 
 /// Map related Views
-class MapController: NSViewController, CLLocationManagerDelegate {
+class MapHolderViewController: NSViewController, CLLocationManagerDelegate {
   
   /// How sensitive `CLLocationManager` will be
   private let MINIMUM_DISTANCE_IN_METERS = 10.0
@@ -57,7 +57,7 @@ class MapController: NSViewController, CLLocationManagerDelegate {
     
     sharedView.replaceSubview(mapView, with: newMapView)
     mapView = newMapView
-    
+//
     mapView.layer?.zPosition = 0
     blurView.layer?.setNeedsLayout()
     blurView.alphaValue = 0.80
@@ -69,14 +69,22 @@ class MapController: NSViewController, CLLocationManagerDelegate {
     locationManager.desiredAccuracy = kCLLocationAccuracyBest
     locationManager.startUpdatingLocation()
   }
+  
+  override func viewDidAppear() {
+    super.viewDidAppear()
+    
+    view.window?.title = "mappy"
+  }
 
   /// When view is redrawn, update the map-mask as well
   override func viewDidLayout() {
-    mask()
+    if blurView != nil {
+      mask()
+    }
   }
 }
 
-private extension MapController {
+private extension MapHolderViewController {
   
   /**
   Evaluate if the mask over the map needs to update
