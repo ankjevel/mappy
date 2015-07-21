@@ -23,21 +23,24 @@
                 <outlet property="sharedView" destination="Xkn-KG-3R9" id="TLv-Dw-8uu"/>
             </connections>
         </viewController>
-        <customView id="C9V-Re-ZaI" customClass="MapHolderView" customModule="mappy" customModuleProvider="target">
+        <customView translatesAutoresizingMaskIntoConstraints="NO" id="C9V-Re-ZaI" customClass="MapHolderView" customModule="mappy" customModuleProvider="target">
             <rect key="frame" x="0.0" y="5" width="500" height="250"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <customView identifier="sharedView" wantsLayer="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xkn-KG-3R9" userLabel="sharedView">
+                <customView identifier="sharedView" translatesAutoresizingMaskIntoConstraints="NO" id="Xkn-KG-3R9" userLabel="sharedView">
                     <rect key="frame" x="0.0" y="0.0" width="500" height="250"/>
                     <subviews>
-                        <visualEffectView identifier="blurView" wantsLayer="YES" focusRingType="none" appearanceType="vibrantDark" fixedFrame="YES" blendingMode="withinWindow" material="appearanceBased" state="active" translatesAutoresizingMaskIntoConstraints="NO" id="sKc-OC-ulR" userLabel="blurView">
+                        <visualEffectView identifier="blurView" wantsLayer="YES" focusRingType="none" appearanceType="vibrantDark" blendingMode="withinWindow" material="appearanceBased" state="active" translatesAutoresizingMaskIntoConstraints="NO" id="sKc-OC-ulR" userLabel="blurView">
                             <rect key="frame" x="0.0" y="0.0" width="500" height="250"/>
                         </visualEffectView>
-                        <customView identifier="mapView" wantsLayer="YES" canDrawConcurrently="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RAg-9z-Aud" userLabel="mapView">
+                        <customView identifier="mapView" wantsLayer="YES" canDrawConcurrently="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RAg-9z-Aud" userLabel="mapView">
                             <rect key="frame" x="0.0" y="0.0" width="500" height="250"/>
                         </customView>
-                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pTa-gs-woR" userLabel="mapLocationImageView">
-                            <rect key="frame" x="432" y="20" width="48" height="48"/>
+                        <imageView wantsLayer="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pTa-gs-woR" userLabel="mapLocationImageView">
+                            <rect key="frame" x="444" y="8" width="48" height="48"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="48" id="GWi-31-xbl"/>
+                                <constraint firstAttribute="height" constant="48" id="aru-q8-VSg"/>
+                            </constraints>
                             <gestureRecognizers>
                                 <clickGestureRecognizer delaysPrimaryMouseButtonEvents="YES" numberOfClicksRequired="1" id="i48-EF-AmI">
                                     <connections>
@@ -45,11 +48,29 @@
                                     </connections>
                                 </clickGestureRecognizer>
                             </gestureRecognizers>
-                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="bottomRight" imageScaling="proportionallyDown" image="ios7-location-outline" id="vMh-lA-Wpl"/>
+                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="ios7-location-outline" id="vMh-lA-Wpl"/>
                         </imageView>
                     </subviews>
+                    <constraints>
+                        <constraint firstItem="sKc-OC-ulR" firstAttribute="leading" secondItem="Xkn-KG-3R9" secondAttribute="leading" id="45M-tb-bPz"/>
+                        <constraint firstAttribute="trailing" secondItem="sKc-OC-ulR" secondAttribute="trailing" id="4lX-wm-EkL"/>
+                        <constraint firstAttribute="bottom" secondItem="RAg-9z-Aud" secondAttribute="bottom" id="GR5-45-BhQ"/>
+                        <constraint firstAttribute="trailing" secondItem="pTa-gs-woR" secondAttribute="trailing" constant="8" id="Jry-gJ-440"/>
+                        <constraint firstAttribute="trailing" secondItem="RAg-9z-Aud" secondAttribute="trailing" id="KvF-Mi-HdF"/>
+                        <constraint firstAttribute="bottom" secondItem="sKc-OC-ulR" secondAttribute="bottom" id="P7o-Vd-dGc"/>
+                        <constraint firstItem="RAg-9z-Aud" firstAttribute="top" secondItem="Xkn-KG-3R9" secondAttribute="top" id="YQy-EF-CyV"/>
+                        <constraint firstAttribute="bottom" secondItem="pTa-gs-woR" secondAttribute="bottom" constant="8" id="jza-oX-ES3"/>
+                        <constraint firstItem="sKc-OC-ulR" firstAttribute="top" secondItem="Xkn-KG-3R9" secondAttribute="top" id="kkd-qu-YDb"/>
+                        <constraint firstItem="RAg-9z-Aud" firstAttribute="leading" secondItem="Xkn-KG-3R9" secondAttribute="leading" id="lzV-mb-1Jt"/>
+                    </constraints>
                 </customView>
             </subviews>
+            <constraints>
+                <constraint firstItem="Xkn-KG-3R9" firstAttribute="top" secondItem="C9V-Re-ZaI" secondAttribute="top" id="7h7-iK-6Sw"/>
+                <constraint firstAttribute="trailing" secondItem="Xkn-KG-3R9" secondAttribute="trailing" id="GuH-Ai-1Bt"/>
+                <constraint firstItem="Xkn-KG-3R9" firstAttribute="leading" secondItem="C9V-Re-ZaI" secondAttribute="leading" id="hDw-9m-rHV"/>
+                <constraint firstAttribute="bottom" secondItem="Xkn-KG-3R9" secondAttribute="bottom" id="uDb-O3-YXa"/>
+            </constraints>
             <point key="canvasLocation" x="279" y="232"/>
         </customView>
     </objects>

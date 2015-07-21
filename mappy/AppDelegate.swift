@@ -11,7 +11,7 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSResponder, NSApplicationDelegate {
   
-  /// contains the shared window where Map is located
+  /// Contains the shared window where Map is located
   let sharedWindow = SharedWindowController(windowNibName: "SharedWindowController")
   
   func applicationDidFinishLaunching(aNotification: NSNotification) {
@@ -26,5 +26,4 @@ class AppDelegate: NSResponder, NSApplicationDelegate {
     // If last window is closed, close application
     return true
   }
-  
 }

@@ -29,7 +29,7 @@ class MapHolderViewController: NSViewController, CLLocationManagerDelegate {
   @IBOutlet weak var mapLocationImageView: NSImageView!
   /// Effect layer for "blur" over map
   @IBOutlet weak var blurView: NSVisualEffectView!
-  
+
   /**
   Click-event for when the user clicks on the
   "current location" button on the UI
@@ -144,13 +144,8 @@ private extension MapHolderViewController {
     Unsure of how to calculate Toolbar height, so
     we just remove what we guess is the height
     */
-    let toolbarHeight: CGFloat = {
-      if self.view.window?.toolbar == nil {
-        return 21.0
-      } else {
-        return 0.0
-      }
-    }()
+    let toolbarHeight: CGFloat = 0 //21.0
+    
     // Subtract toolbar height from frame height
     let height = view.frame.height - toolbarHeight
     

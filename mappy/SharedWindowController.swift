@@ -12,8 +12,9 @@ class SharedWindowController: NSWindowController {
   
   override func windowDidLoad() {
     super.windowDidLoad()
-    
+
     window?.contentViewController = MapHolderViewController(nibName: "MapHolder", bundle: NSBundle())
+    window?.cascadeTopLeftFromPoint(NSPoint(x: 0, y: 0))
+    window?.makeKeyAndOrderFront(nil)
   }
-    
 }

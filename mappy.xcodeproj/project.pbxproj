@@ -179,9 +179,9 @@
 		D6CC906C1B5E5A77002FEA5A /* SharedWindow */ = {
 			isa = PBXGroup;
 			children = (
-				D6CC906F1B5E5B3F002FEA5A /* SharedWindow.swift */,
-				D6CC90711B5E5B5E002FEA5A /* SharedWindowController.swift */,
 				D6CC90721B5E5B5E002FEA5A /* SharedWindowController.xib */,
+				D6CC90711B5E5B5E002FEA5A /* SharedWindowController.swift */,
+				D6CC906F1B5E5B3F002FEA5A /* SharedWindow.swift */,
 			);
 			name = SharedWindow;
 			sourceTree = "<group>";
