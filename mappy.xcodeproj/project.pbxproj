@@ -21,6 +21,7 @@
 		D6CC90731B5E5B5E002FEA5A /* SharedWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6CC90711B5E5B5E002FEA5A /* SharedWindowController.swift */; };
 		D6CC90741B5E5B5E002FEA5A /* SharedWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D6CC90721B5E5B5E002FEA5A /* SharedWindowController.xib */; };
 		D6FD531E1B5F8E4A008A40DF /* location.png in Resources */ = {isa = PBXBuildFile; fileRef = D6FD531D1B5F8E4A008A40DF /* location.png */; };
+		D6FD53201B5FA871008A40DF /* IOSColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FD531F1B5FA871008A40DF /* IOSColors.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		D6CC90711B5E5B5E002FEA5A /* SharedWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedWindowController.swift; sourceTree = "<group>"; };
 		D6CC90721B5E5B5E002FEA5A /* SharedWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SharedWindowController.xib; sourceTree = "<group>"; };
 		D6FD531D1B5F8E4A008A40DF /* location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = location.png; path = ../../../../Desktop/location.png; sourceTree = "<group>"; };
+		D6FD531F1B5FA871008A40DF /* IOSColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IOSColors.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,6 +154,7 @@
 			isa = PBXGroup;
 			children = (
 				D603FAA11B4F3420002F00F5 /* Mappy.swift */,
+				D6FD531F1B5FA871008A40DF /* IOSColors.swift */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -295,6 +298,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D6FD53201B5FA871008A40DF /* IOSColors.swift in Sources */,
 				D603FA851B4F332A002F00F5 /* MapHolderViewController.swift in Sources */,
 				D697F98D1B5E78BD0056814C /* MapHolderView.swift in Sources */,
 				D603FA831B4F332A002F00F5 /* AppDelegate.swift in Sources */,

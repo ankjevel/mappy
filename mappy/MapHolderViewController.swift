@@ -116,9 +116,8 @@ private extension MapHolderViewController {
     maskLayer.bounds = mapLocationBorder.bounds
     maskLayer.frame = mapLocationBorder.bounds
     maskLayer.path = maskPath
-    let red = NSColor(calibratedHue: 2.0, saturation: 0.73, brightness: 0.99, alpha: 1.0).CGColor
-//    maskLayer.fillColor = NSColor.lightGrayColor().CGColor
-    maskLayer.fillColor = red
+    
+    maskLayer.fillColor = IOSColors.AZURE.CGColor
     if mapLocationBorder.layer != nil {
       mapLocationBorder.layer?.insertSublayer(maskLayer, atIndex: 0)
     } else {
