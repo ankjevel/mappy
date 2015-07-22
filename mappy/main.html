@@ -10,6 +10,13 @@
         margin: 0;
         padding: 0;
       }
+      #map-canvas .gmnoprint,
+      #map-canvas .gm-style-cc,
+      #map-canvas img[src="//maps.gstatic.com/mapfiles/api-3/images/google_white2_hdpi.png"],
+      #map-canvas img[src="http://maps.gstatic.com/mapfiles/api-3/images/google_white2_hdpi.png"],
+      #map-canvas img[src="https://maps.gstatic.com/mapfiles/api-3/images/google_white2_hdpi.png"] {
+        display: none !important;
+      }
     </style>
     <script src="https://maps.googleapis.com/maps/api/js?key=@{appID}"></script>
     <script type="text/javascript">

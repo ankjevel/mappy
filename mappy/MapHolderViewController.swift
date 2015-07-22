@@ -71,7 +71,7 @@ class MapHolderViewController: NSViewController, CLLocationManagerDelegate {
     
     mapView.layer?.zPosition = 0
     blurView.layer?.setNeedsLayout()
-    blurView.alphaValue = 0.80
+    blurView.alphaValue = 0.70
     
     setConstraints(&mapView!)
     
