@@ -107,9 +107,22 @@ public class Mappy: NSObject {
     return Mappy.TEMP_FOLDER.stringByAppendingPathComponent("response.txt")
     }()
   
-  static private let TEMP_TEXT_DATA: NSData = {
-    return NSData(contentsOfFile: Mappy.TEMP_TEXT_FILE)!
+  private var _tempTextData: NSData? = {
+    if let contents = NSData(contentsOfFile: Mappy.TEMP_TEXT_FILE) {
+      return contents
+    } else {
+      return nil
+    }
     }()
+  
+  private var tempTextData: NSData? {
+    get {
+      return _tempTextData
+    }
+    set(value) {
+      _tempTextData = value
+    }
+  }
 }
 
 //MARK: - public
@@ -173,12 +186,12 @@ public extension Mappy {
     {
 //      println("request! \(url)")
       dispatchRequest(request(url)) { (json, error) in
-//        if error != nil ||
-//          json == nil ||
-//          json?.isEmpty == true {
-//          return
-//        }
-//        self.parseRequest(json!)
+        if error != nil ||
+          json == nil ||
+          json?.isEmpty == true {
+          return
+        }
+        self.parseRequest(json!)
       }
     }
     
@@ -198,8 +211,6 @@ private extension Mappy {
   /*
   func dispatchRequest(request: NSURLRequest, callback out: ([String: AnyObject]?, NSError?) -> Void)  {
     func handleResponse(data: NSData!, urlResponse: NSURLResponse!, error: NSError!) {
-//      data.writeToFile(Mappy.TEMP_TEXT_FILE, atomically: false)
-      
       var jsonErrorOptional: NSError?
       let json: AnyObject! = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(0), error: &jsonErrorOptional)
       if jsonErrorOptional != nil {
@@ -212,20 +223,32 @@ private extension Mappy {
     task.resume()
   }
   */
-  ///Temporary override
+
+  /// Temporary override
   func dispatchRequest(request: NSURLRequest, callback out: ([String: AnyObject]?, NSError?) -> Void)  {
-    var data = Mappy.TEMP_TEXT_DATA
-    
+    func handleResponse(data: NSData!, urlResponse: NSURLResponse!, error: NSError!) {
+      data.writeToFile(Mappy.TEMP_TEXT_FILE, atomically: false)
+      tempTextData = data
+      parseNSData(data, callback: out)
+    }
+    if let data = tempTextData {
+      parseNSData(data, callback: out)
+    } else {
+      let task = NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: handleResponse)
+      task.resume()
+    }
+  
+  }
+  
+  func parseNSData(data: NSData, callback out: ([String: AnyObject]?, NSError?) -> Void) {
     var jsonErrorOptional: NSError?
     let json: AnyObject! = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(0), error: &jsonErrorOptional)
     if jsonErrorOptional != nil {
       return out(nil, jsonErrorOptional)
     }
-    
-    println(json)
-    
     out(json as? [String: AnyObject], nil)
   }
+  
   
   func request(url: NSURL) -> NSMutableURLRequest {
     var request = NSMutableURLRequest(URL: url)
