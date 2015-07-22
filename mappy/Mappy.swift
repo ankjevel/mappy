@@ -205,7 +205,7 @@ private extension Mappy {
   
   func parseRequest(json: [String: AnyObject]) {
     if let data = json["data"] as? [[String: AnyObject]] {
-      println(data)
+//      println(data)
     }
   }
   /*

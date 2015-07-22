@@ -25,11 +25,10 @@ class MapHolderViewController: NSViewController, CLLocationManagerDelegate {
   @IBOutlet weak var sharedView: NSView!
   /// Google maps-view
   @IBOutlet weak var mapView: NSView!
-  /// Icon for centering view on current location
-  @IBOutlet weak var mapLocationImageView: NSImageView!
   /// Effect layer for "blur" over map
   @IBOutlet weak var blurView: NSVisualEffectView!
-
+  /// Border for map-location
+  @IBOutlet weak var mapLocationBorder: NSView!
   /**
   Click-event for when the user clicks on the
   "current location" button on the UI
@@ -50,6 +49,8 @@ class MapHolderViewController: NSViewController, CLLocationManagerDelegate {
   // Initialize the view
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    imageBorder()
     
     /*
     Add actions called when map-events
@@ -72,6 +73,7 @@ class MapHolderViewController: NSViewController, CLLocationManagerDelegate {
     mapView.layer?.zPosition = 0
     blurView.layer?.setNeedsLayout()
     blurView.alphaValue = 0.70
+    
     
     setConstraints(&mapView!)
     
@@ -101,6 +103,29 @@ class MapHolderViewController: NSViewController, CLLocationManagerDelegate {
 
 private extension MapHolderViewController {
   
+  func imageBorder() {
+    var maskLayer = CAShapeLayer()
+    var maskPath = CGPathCreateMutable()
+    
+    let r = CGFloat(max(mapLocationBorder.frame.width, mapLocationBorder.frame.height))
+    let x = CGFloat(Double(mapLocationBorder.frame.width / 2) - Double(r / 2))
+    let y = CGFloat(Double(mapLocationBorder.frame.height / 2) - Double(r / 2))
+    
+    CGPathAddRoundedRect(maskPath, nil, CGRectMake(x, y, r, r), CGFloat(r / 2), CGFloat(r / 2))
+
+    maskLayer.bounds = mapLocationBorder.bounds
+    maskLayer.frame = mapLocationBorder.bounds
+    maskLayer.path = maskPath
+    let red = NSColor(calibratedHue: 2.0, saturation: 0.73, brightness: 0.99, alpha: 1.0).CGColor
+//    maskLayer.fillColor = NSColor.lightGrayColor().CGColor
+    maskLayer.fillColor = red
+    if mapLocationBorder.layer != nil {
+      mapLocationBorder.layer?.insertSublayer(maskLayer, atIndex: 0)
+    } else {
+      mapLocationBorder.layer = maskLayer
+    }
+    mapLocationBorder.updateLayer()
+  }
   /**
   Evaluate if the mask over the map needs to update
   it's size or just redrawn
@@ -171,7 +196,7 @@ private extension MapHolderViewController {
     Make sure map-reset-button is placed on top
     of map-mask
     */
-    mapLocationImageView.layer?.zPosition = 2
+    mapLocationBorder.layer?.zPosition = 2
     blurView.updateLayer()
   }
 
