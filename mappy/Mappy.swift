@@ -94,6 +94,22 @@ public class Mappy: NSObject {
   }
   
   private weak var timer: NSTimer?
+  
+  static private let TEMP_FOLDER: String = {
+    let folder = "~/tmp".stringByExpandingTildeInPath
+    let fm = NSFileManager()
+    if fm.fileExistsAtPath(folder) == false {
+      fm.createDirectoryAtPath(folder, withIntermediateDirectories: true, attributes: nil, error: nil)
+    }
+    return folder
+    }()
+  static private let TEMP_TEXT_FILE: String = {
+    return Mappy.TEMP_FOLDER.stringByAppendingPathComponent("response.txt")
+    }()
+  
+  static private let TEMP_TEXT_DATA: NSData = {
+    return NSData(contentsOfFile: Mappy.TEMP_TEXT_FILE)!
+    }()
 }
 
 //MARK: - public
@@ -146,7 +162,6 @@ public extension Mappy {
       updateLocation(coordinates)
     }
   }
-  
 
   
   func dispatchRequest(timer: NSTimer) {
@@ -156,15 +171,15 @@ public extension Mappy {
       let urlString = userInfo.first,
       let url = NSURL(string: urlString)
     {
-      println("request! \(url)")
-//      dispatchRequest(request(url)) { (json, error) in
+//      println("request! \(url)")
+      dispatchRequest(request(url)) { (json, error) in
 //        if error != nil ||
 //          json == nil ||
 //          json?.isEmpty == true {
 //          return
 //        }
 //        self.parseRequest(json!)
-//      }
+      }
     }
     
    
@@ -180,9 +195,11 @@ private extension Mappy {
       println(data)
     }
   }
-  
+  /*
   func dispatchRequest(request: NSURLRequest, callback out: ([String: AnyObject]?, NSError?) -> Void)  {
     func handleResponse(data: NSData!, urlResponse: NSURLResponse!, error: NSError!) {
+//      data.writeToFile(Mappy.TEMP_TEXT_FILE, atomically: false)
+      
       var jsonErrorOptional: NSError?
       let json: AnyObject! = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(0), error: &jsonErrorOptional)
       if jsonErrorOptional != nil {
@@ -192,8 +209,22 @@ private extension Mappy {
       out(json as? [String: AnyObject], nil)
     }
     let task = NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: handleResponse)
-    
     task.resume()
+  }
+  */
+  ///Temporary override
+  func dispatchRequest(request: NSURLRequest, callback out: ([String: AnyObject]?, NSError?) -> Void)  {
+    var data = Mappy.TEMP_TEXT_DATA
+    
+    var jsonErrorOptional: NSError?
+    let json: AnyObject! = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(0), error: &jsonErrorOptional)
+    if jsonErrorOptional != nil {
+      return out(nil, jsonErrorOptional)
+    }
+    
+    println(json)
+    
+    out(json as? [String: AnyObject], nil)
   }
   
   func request(url: NSURL) -> NSMutableURLRequest {
