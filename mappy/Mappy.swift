@@ -81,11 +81,7 @@ public class Mappy: NSObject {
   
   //MARK: - public stored properties
   /// Keeping track of what the current zoom level is at
-  var zoom = 13 /*{
-//    didSet(value) {
-//      println("zoom updated \(zoom)")
-//    }
-  }*/
+  var zoom = 13
   /// Public property for returning webView
   var view: WKWebView {
     get {
@@ -184,7 +180,6 @@ public extension Mappy {
       let urlString = userInfo.first,
       let url = NSURL(string: urlString)
     {
-//      println("request! \(url)")
       dispatchRequest(request(url)) { (json, error) in
         if error != nil ||
           json == nil ||
@@ -204,9 +199,15 @@ public extension Mappy {
 private extension Mappy {
   
   func parseRequest(json: [String: AnyObject]) {
+    var elements: [ResponseElement] = []
     if let data = json["data"] as? [[String: AnyObject]] {
-//      println(data)
+      let first = data.first as [String: AnyObject]!
+      println(first)
+      for unwrapped in data {
+        elements.append(ResponseElement(data: unwrapped))
+      }
     }
+    println(elements)
   }
   /*
   func dispatchRequest(request: NSURLRequest, callback out: ([String: AnyObject]?, NSError?) -> Void)  {

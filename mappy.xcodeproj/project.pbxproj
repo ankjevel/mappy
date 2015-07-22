@@ -22,6 +22,7 @@
 		D6CC90741B5E5B5E002FEA5A /* SharedWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D6CC90721B5E5B5E002FEA5A /* SharedWindowController.xib */; };
 		D6FD531E1B5F8E4A008A40DF /* location.png in Resources */ = {isa = PBXBuildFile; fileRef = D6FD531D1B5F8E4A008A40DF /* location.png */; };
 		D6FD53201B5FA871008A40DF /* IOSColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FD531F1B5FA871008A40DF /* IOSColors.swift */; };
+		D6FD53221B5FAF26008A40DF /* ResponseElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FD53211B5FAF26008A40DF /* ResponseElement.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		D6CC90721B5E5B5E002FEA5A /* SharedWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SharedWindowController.xib; sourceTree = "<group>"; };
 		D6FD531D1B5F8E4A008A40DF /* location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = location.png; path = ../../../../Desktop/location.png; sourceTree = "<group>"; };
 		D6FD531F1B5FA871008A40DF /* IOSColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IOSColors.swift; sourceTree = "<group>"; };
+		D6FD53211B5FAF26008A40DF /* ResponseElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseElement.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,7 +102,7 @@
 				D603FA821B4F332A002F00F5 /* AppDelegate.swift */,
 				D697F98E1B5E79FF0056814C /* Views */,
 				D697F98F1B5E7A050056814C /* Windows */,
-				D697F9901B5E7A140056814C /* Classes */,
+				D697F9901B5E7A140056814C /* Shared */,
 				D603FA801B4F332A002F00F5 /* Supporting Files */,
 				D603FA881B4F332A002F00F5 /* Main.storyboard */,
 				D603FAA51B4F3CC9002F00F5 /* mappy.entitlements */,
@@ -150,13 +152,14 @@
 			name = Windows;
 			sourceTree = "<group>";
 		};
-		D697F9901B5E7A140056814C /* Classes */ = {
+		D697F9901B5E7A140056814C /* Shared */ = {
 			isa = PBXGroup;
 			children = (
 				D603FAA11B4F3420002F00F5 /* Mappy.swift */,
 				D6FD531F1B5FA871008A40DF /* IOSColors.swift */,
+				D6FD53211B5FAF26008A40DF /* ResponseElement.swift */,
 			);
-			name = Classes;
+			name = Shared;
 			sourceTree = "<group>";
 		};
 		D6CC90601B5E576A002FEA5A /* Resources */ = {
@@ -300,6 +303,7 @@
 			files = (
 				D6FD53201B5FA871008A40DF /* IOSColors.swift in Sources */,
 				D603FA851B4F332A002F00F5 /* MapHolderViewController.swift in Sources */,
+				D6FD53221B5FAF26008A40DF /* ResponseElement.swift in Sources */,
 				D697F98D1B5E78BD0056814C /* MapHolderView.swift in Sources */,
 				D603FA831B4F332A002F00F5 /* AppDelegate.swift in Sources */,
 				D6CC90701B5E5B3F002FEA5A /* SharedWindow.swift in Sources */,

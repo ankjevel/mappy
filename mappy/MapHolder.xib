@@ -14,7 +14,7 @@
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <viewController id="qQT-dk-HVC" customClass="MapHolderViewController" customModule="mappy" customModuleProvider="target">
             <connections>
                 <outlet property="blurView" destination="sKc-OC-ulR" id="5To-fT-OUK"/>
