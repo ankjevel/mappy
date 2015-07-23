@@ -10,7 +10,7 @@
                 <outlet property="bottomView" destination="bTg-ol-LJI" id="cpv-ae-poB"/>
                 <outlet property="mapLocationBorder" destination="6uM-Se-5lJ" id="081-yH-wjm"/>
                 <outlet property="mapView" destination="Ki1-U8-OAa" id="PKW-zZ-WWO"/>
-                <outlet property="responseView" destination="3M1-MM-hJE" id="5gE-Dr-SEc"/>
+                <outlet property="newElementsView" destination="3M1-MM-hJE" id="z9p-c6-wZe"/>
                 <outlet property="sharedView" destination="Mg4-5R-4T5" id="N7e-AF-UOs"/>
                 <outlet property="topView" destination="ehL-se-0Cy" id="eoF-fV-cWB"/>
                 <outlet property="view" destination="C9V-Re-ZaI" id="nxB-F4-Opg"/>
@@ -92,7 +92,7 @@
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowSizeStyle="automatic" viewBased="YES" id="3M1-MM-hJE">
-                                                <rect key="frame" x="0.0" y="0.0" width="238" height="117"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="498" height="0.0"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <size key="intercellSpacing" width="3" height="2"/>
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>

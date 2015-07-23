@@ -12,17 +12,22 @@ import CoreLocation
 /// Map related Views
 class MapHolderViewController: NSViewController {
   
+  // MARK: Static properties
+  
   /// How sensitive `CLLocationManager` will be
-  private let MINIMUM_DISTANCE_IN_METERS = 10.0
+  static private let MINIMUM_DISTANCE_IN_METERS = 10.0
   /// Zoom radius based on "feelings"
-  private let ZOOM_RADIUS = [1, 1, 1, 1, 1, 1, 1, 2, 5, 10, 15, 35, 70, 120, 250, 480, 980, 1850, 3700, 7400, 14800, 29600]
+  static private let ZOOM_RADIUS = [1, 1, 1, 1, 1, 1, 1, 2, 5, 10, 15, 35, 70, 120, 250, 480, 980, 1850, 3700, 7400, 14800, 29600]
+  
+  // MARK: private properties
   
   private let locationManager = CLLocationManager()
   private let mappy = Mappy()
   private var elements: [ResponseElement] = []
   
-  @IBOutlet weak var sharedView: NSSplitView!
+  // MARK: outlets
   
+  @IBOutlet weak var sharedView: NSSplitView!
   /// Container for map-related `NSView` and elements
   @IBOutlet weak var topView: NSView!
   /// Google maps-view
@@ -31,12 +36,13 @@ class MapHolderViewController: NSViewController {
   @IBOutlet weak var blurView: NSVisualEffectView!
   /// Border for map-location
   @IBOutlet weak var mapLocationBorder: NSView!
-  
+  /// Container for `NSTableView` elements
   @IBOutlet weak var bottomView: NSView!
-  @IBOutlet weak var elementsListView: NSScrollView!
+  /// Where results is stored after map-request
+  @IBOutlet weak var newElementsView: NSTableView!
   
-  @IBOutlet weak var responseView: NSTableView!
-  
+  // MARK: storyboard actions
+
   /**
   Click-event for when the user clicks on the
   "current location" button on the UI
@@ -44,6 +50,8 @@ class MapHolderViewController: NSViewController {
   @IBAction func resetToHome(sender: AnyObject) {
     mappy.resetToHome()
   }
+  
+  // MARK: NSViewController overrides
   
   // Initialize the view
   override func viewDidLoad() {
@@ -53,7 +61,7 @@ class MapHolderViewController: NSViewController {
 
     sharedView.delegate = self
     mappy.delegate = self
-    responseView.setDataSource(self)
+    newElementsView.setDataSource(self)
 
     // Will set `Mappy.view`
     mappy.initView(topView.frame)
@@ -75,7 +83,7 @@ class MapHolderViewController: NSViewController {
     setConstraints(&mapView!)
     
     locationManager.delegate = self
-    locationManager.distanceFilter = MINIMUM_DISTANCE_IN_METERS
+    locationManager.distanceFilter = MapHolderViewController.MINIMUM_DISTANCE_IN_METERS
     locationManager.desiredAccuracy = kCLLocationAccuracyBest
     locationManager.startUpdatingLocation()
     
@@ -101,6 +109,7 @@ class MapHolderViewController: NSViewController {
   }
 }
 
+// MARK: private extensions
 private extension MapHolderViewController {
   
   func imageBorder() {
@@ -162,7 +171,7 @@ private extension MapHolderViewController {
     */
     maskLayer.fillRule = "even-odd"
     
-    let radius = CGFloat(ZOOM_RADIUS[mappy.zoom])
+    let radius = CGFloat(MapHolderViewController.ZOOM_RADIUS[mappy.zoom])
     let x = CGFloat(Double(w / 2) - Double(radius / 2))
     let y = CGFloat(Double(h / 2) - Double(radius / 2))
   
@@ -185,7 +194,7 @@ private extension MapHolderViewController {
 extension MapHolderViewController: MappyDelegate {
   func newElements(elements: [ResponseElement]) {
     self.elements = elements
-    responseView.reloadData()
+    newElementsView.reloadData()
   }
   
   /**
@@ -211,12 +220,22 @@ extension MapHolderViewController: NSTableViewDataSource {
   }
   
   func tableView(tableView: NSTableView, objectValueForTableColumn: NSTableColumn?, row: Int) -> AnyObject? {
-    //    println("here? \(objectValueForTableColumn) \(row)")
+    if
+      let object = objectValueForTableColumn,
+      let result = tableView.makeViewWithIdentifier(object.identifier, owner: self) as? NSTableCellView,
+      let textField = result.textField
+    {
+      println("herhe?! \(textField.stringValue), \(tableView)")
+      textField.stringValue = "hello"
+      
+      return result
+
+    }
     return nil
   }
 }
 
-// MARK Location Manager Delegate
+// MARK: Location Manager Delegate
 extension MapHolderViewController: CLLocationManagerDelegate {
   /*
   When locationManager get's updated, update
@@ -229,8 +248,9 @@ extension MapHolderViewController: CLLocationManagerDelegate {
   }
 }
 
+// MARK: Split View Delegate
 extension MapHolderViewController: NSSplitViewDelegate {
-  // MARK: Split View Delegate
+
   func splitView(splitView: NSSplitView, shouldAdjustSizeOfSubview: NSView) -> Bool {
     mask()
     return true
