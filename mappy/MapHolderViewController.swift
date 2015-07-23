@@ -10,7 +10,7 @@ import AppKit
 import CoreLocation
 
 /// Map related Views
-class MapHolderViewController: NSViewController, NSSplitViewDelegate, CLLocationManagerDelegate, MappyDelegate {
+class MapHolderViewController: NSViewController {
   
   /// How sensitive `CLLocationManager` will be
   private let MINIMUM_DISTANCE_IN_METERS = 10.0
@@ -19,6 +19,7 @@ class MapHolderViewController: NSViewController, NSSplitViewDelegate, CLLocation
   
   private let locationManager = CLLocationManager()
   private let mappy = Mappy()
+  private var elements: [ResponseElement] = []
   
   @IBOutlet weak var sharedView: NSSplitView!
   
@@ -33,6 +34,9 @@ class MapHolderViewController: NSViewController, NSSplitViewDelegate, CLLocation
   
   @IBOutlet weak var bottomView: NSView!
   @IBOutlet weak var elementsListView: NSScrollView!
+  
+  @IBOutlet weak var responseView: NSTableView!
+  
   /**
   Click-event for when the user clicks on the
   "current location" button on the UI
@@ -41,60 +45,15 @@ class MapHolderViewController: NSViewController, NSSplitViewDelegate, CLLocation
     mappy.resetToHome()
   }
   
-
-  /*
-  When locationManager get's updated, update
-  `Mappy` location
-  */
-  func locationManager(manager: CLLocationManager, didUpdateLocations locations: [AnyObject]) {
-    if locations.first != nil, let location = locations.first! as? CLLocation {
-      mappy.updateLocation(location.coordinate)
-    }
-  }
-  
-  func newElements(elements: [ResponseElement]) {
-  }
-  
-  func splitView(splitView: NSSplitView, shouldAdjustSizeOfSubview view: NSView) -> Bool {
-    mask()
-    return true
-  }
-  
-  func splitView(splitView: NSSplitView, constrainMinCoordinate proposedMinimumPosition: CGFloat, ofSubviewAt dividerIndex: Int) -> CGFloat {
-    return 100.0
-  }
-  
-  func splitView(splitView: NSSplitView, constrainMaxCoordinate proposedMaximumPosition: CGFloat, ofSubviewAt dividerIndex: Int) -> CGFloat {
-    if let height = view.window?.frame.height {
-      return CGFloat(height - 20.0)
-    } else {
-      return 100.0
-    }
-  }
-  
-  /**
-  Evaluate if the mask over the map needs to update
-  it's size or just redrawn
-  
-  :param: zoom
-  true if the zoom has been updated
-  */
-  func mapEvent(zoom: Bool) {
-    if zoom {
-      mask()
-    } else {
-      blurView.updateLayer()
-    }
-  }
-  
   // Initialize the view
   override func viewDidLoad() {
     super.viewDidLoad()
     
     imageBorder()
-    
+
     sharedView.delegate = self
     mappy.delegate = self
+    responseView.setDataSource(self)
 
     // Will set `Mappy.view`
     mappy.initView(topView.frame)
@@ -220,5 +179,70 @@ private extension MapHolderViewController {
     mapLocationBorder.layer?.zPosition = 2
     blurView.updateLayer()
   }
+}
 
+// MARK: Mappy Delegate
+extension MapHolderViewController: MappyDelegate {
+  func newElements(elements: [ResponseElement]) {
+    self.elements = elements
+    responseView.reloadData()
+  }
+  
+  /**
+  Evaluate if the mask over the map needs to update
+  it's size or just redrawn
+  
+  :param: zoom
+  true if the zoom has been updated
+  */
+  func mapEvent(zoom: Bool) {
+    if zoom {
+      mask()
+    } else {
+      blurView.updateLayer()
+    }
+  }
+}
+
+// MARK: Table View Data Source
+extension MapHolderViewController: NSTableViewDataSource {
+  func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    return elements.count
+  }
+  
+  func tableView(tableView: NSTableView, objectValueForTableColumn: NSTableColumn?, row: Int) -> AnyObject? {
+    //    println("here? \(objectValueForTableColumn) \(row)")
+    return nil
+  }
+}
+
+// MARK Location Manager Delegate
+extension MapHolderViewController: CLLocationManagerDelegate {
+  /*
+  When locationManager get's updated, update
+  `Mappy` location
+  */
+  func locationManager(manager: CLLocationManager, didUpdateLocations locations: [AnyObject]) {
+    if locations.first != nil, let location = locations.first! as? CLLocation {
+      mappy.updateLocation(location.coordinate)
+    }
+  }
+}
+
+extension MapHolderViewController: NSSplitViewDelegate {
+  // MARK: Split View Delegate
+  func splitView(splitView: NSSplitView, shouldAdjustSizeOfSubview: NSView) -> Bool {
+    mask()
+    return true
+  }
+  func splitView(splitView: NSSplitView, constrainMinCoordinate: CGFloat, ofSubviewAt: Int) -> CGFloat {
+    return 100.0
+  }
+  func splitView(splitView: NSSplitView, constrainMaxCoordinate: CGFloat, ofSubviewAt: Int) -> CGFloat {
+    if let height = view.window?.frame.height {
+      return CGFloat(height - 80.0)
+    } else {
+      return 100.0
+    }
+  }
 }
