@@ -5,13 +5,12 @@
 //  Created by Dennis Pettersson on 2015-07-10.
 //  Copyright (c) 2015 dennisp.se. All rights reserved.
 //
-
 import Cocoa
 import AppKit
 import CoreLocation
 
 /// Map related Views
-class MapHolderViewController: NSViewController, CLLocationManagerDelegate {
+class MapHolderViewController: NSViewController, NSSplitViewDelegate, CLLocationManagerDelegate, MappyDelegate {
   
   /// How sensitive `CLLocationManager` will be
   private let MINIMUM_DISTANCE_IN_METERS = 10.0
@@ -20,15 +19,20 @@ class MapHolderViewController: NSViewController, CLLocationManagerDelegate {
   
   private let locationManager = CLLocationManager()
   private let mappy = Mappy()
-
+  
+  @IBOutlet weak var sharedView: NSSplitView!
+  
   /// Container for map-related `NSView` and elements
-  @IBOutlet weak var sharedView: NSView!
+  @IBOutlet weak var topView: NSView!
   /// Google maps-view
   @IBOutlet weak var mapView: NSView!
   /// Effect layer for "blur" over map
   @IBOutlet weak var blurView: NSVisualEffectView!
   /// Border for map-location
   @IBOutlet weak var mapLocationBorder: NSView!
+  
+  @IBOutlet weak var bottomView: NSView!
+  @IBOutlet weak var elementsListView: NSScrollView!
   /**
   Click-event for when the user clicks on the
   "current location" button on the UI
@@ -36,6 +40,8 @@ class MapHolderViewController: NSViewController, CLLocationManagerDelegate {
   @IBAction func resetToHome(sender: AnyObject) {
     mappy.resetToHome()
   }
+  
+
   /*
   When locationManager get's updated, update
   `Mappy` location
@@ -46,19 +52,52 @@ class MapHolderViewController: NSViewController, CLLocationManagerDelegate {
     }
   }
   
+  func newElements(elements: [ResponseElement]) {
+  }
+  
+  func splitView(splitView: NSSplitView, shouldAdjustSizeOfSubview view: NSView) -> Bool {
+    mask()
+    return true
+  }
+  
+  func splitView(splitView: NSSplitView, constrainMinCoordinate proposedMinimumPosition: CGFloat, ofSubviewAt dividerIndex: Int) -> CGFloat {
+    return 100.0
+  }
+  
+  func splitView(splitView: NSSplitView, constrainMaxCoordinate proposedMaximumPosition: CGFloat, ofSubviewAt dividerIndex: Int) -> CGFloat {
+    if let height = view.window?.frame.height {
+      return CGFloat(height - 20.0)
+    } else {
+      return 100.0
+    }
+  }
+  
+  /**
+  Evaluate if the mask over the map needs to update
+  it's size or just redrawn
+  
+  :param: zoom
+  true if the zoom has been updated
+  */
+  func mapEvent(zoom: Bool) {
+    if zoom {
+      mask()
+    } else {
+      blurView.updateLayer()
+    }
+  }
+  
   // Initialize the view
   override func viewDidLoad() {
     super.viewDidLoad()
     
     imageBorder()
     
-    /*
-    Add actions called when map-events
-    gets called, like zoom and pan
-    */
-    mappy.addActionOnUpdate(mapUpdated)
+    sharedView.delegate = self
+    mappy.delegate = self
+
     // Will set `Mappy.view`
-    mappy.initView(view.frame)
+    mappy.initView(topView.frame)
     // Will replace previous map-view-placeholder
     let newMapView = mappy.view
     /*
@@ -67,13 +106,12 @@ class MapHolderViewController: NSViewController, CLLocationManagerDelegate {
     */
     newMapView.frame = mapView.frame
     
-    sharedView.replaceSubview(mapView, with: newMapView)
+    topView.replaceSubview(mapView, with: newMapView)
     mapView = newMapView
     
     mapView.layer?.zPosition = 0
     blurView.layer?.setNeedsLayout()
     blurView.alphaValue = 0.70
-    
     
     setConstraints(&mapView!)
     
@@ -81,7 +119,10 @@ class MapHolderViewController: NSViewController, CLLocationManagerDelegate {
     locationManager.distanceFilter = MINIMUM_DISTANCE_IN_METERS
     locationManager.desiredAccuracy = kCLLocationAccuracyBest
     locationManager.startUpdatingLocation()
+    
+    mask()
   }
+  
   /*
   `viewDidLoad` is called before `viewDidAppear`
   and it's not required for window to be set in
@@ -106,6 +147,8 @@ private extension MapHolderViewController {
   func imageBorder() {
     var maskLayer = CAShapeLayer()
     var maskPath = CGPathCreateMutable()
+    let frame = mapLocationBorder.frame
+    let w = frame.width
     
     let r = CGFloat(max(mapLocationBorder.frame.width, mapLocationBorder.frame.height))
     let x = CGFloat(Double(mapLocationBorder.frame.width / 2) - Double(r / 2))
@@ -115,6 +158,7 @@ private extension MapHolderViewController {
 
     maskLayer.bounds = mapLocationBorder.bounds
     maskLayer.frame = mapLocationBorder.bounds
+    
     maskLayer.path = maskPath
     
     maskLayer.fillColor = IOSColors.AZURE.CGColor
@@ -124,20 +168,6 @@ private extension MapHolderViewController {
       mapLocationBorder.layer = maskLayer
     }
     mapLocationBorder.updateLayer()
-  }
-  /**
-  Evaluate if the mask over the map needs to update
-  it's size or just redrawn
-  
-  :param: zoom
-    true if the zoom has been updated
-  */
-  func mapUpdated(zoom: Bool) {
-    if zoom {
-      mask()
-    } else {
-      blurView.updateLayer()
-    }
   }
   
   /**
@@ -149,31 +179,23 @@ private extension MapHolderViewController {
   func setConstraints(inout view: NSView) {
     // DO NOT FORGET THIS
     view.translatesAutoresizingMaskIntoConstraints = false
-    sharedView.addConstraint(NSLayoutConstraint(item: view, attribute: .Top, relatedBy: .Equal, toItem: sharedView, attribute: .Top, multiplier: 1, constant: 0))
-    sharedView.addConstraint(NSLayoutConstraint(item: view, attribute: .Right, relatedBy: .Equal, toItem: sharedView, attribute: .Right, multiplier: 1, constant: 0))
-    sharedView.addConstraint(NSLayoutConstraint(item: view, attribute: .Bottom, relatedBy: .Equal, toItem: sharedView, attribute: .Bottom, multiplier: 1, constant: 0))
-    sharedView.addConstraint(NSLayoutConstraint(item: view, attribute: .Left, relatedBy: .Equal, toItem: sharedView, attribute: .Left, multiplier: 1, constant: 0))
+    topView.addConstraint(NSLayoutConstraint(item: view, attribute: .Top, relatedBy: .Equal, toItem: topView, attribute: .Top, multiplier: 1, constant: 0))
+    topView.addConstraint(NSLayoutConstraint(item: view, attribute: .Right, relatedBy: .Equal, toItem: topView, attribute: .Right, multiplier: 1, constant: 0))
+    topView.addConstraint(NSLayoutConstraint(item: view, attribute: .Bottom, relatedBy: .Equal, toItem: topView, attribute: .Bottom, multiplier: 1, constant: 0))
+    topView.addConstraint(NSLayoutConstraint(item: view, attribute: .Left, relatedBy: .Equal, toItem: topView, attribute: .Left, multiplier: 1, constant: 0))
   }
   
   /// Draws the mask over the map (into `blurView`)
   func mask() {
     var maskLayer = CAShapeLayer()
     var maskPath = CGPathCreateMutable()
-    /**
-    When using "Full Size Content View" on window,
-    there is no toolbar but the toolbar buttons
-    (if exists) still display.
-    
-    Unsure of how to calculate Toolbar height, so
-    we just remove what we guess is the height
-    */
-    let toolbarHeight: CGFloat = 0 //21.0
     
     // Subtract toolbar height from frame height
-    let height = view.frame.height - toolbarHeight
+    let h = topView.frame.height
+    let w = topView.frame.width
     
     // Add initial mask that fills whole screen
-    CGPathAddRect(maskPath, nil, CGRectMake(0, 0, view.frame.width, height))
+    CGPathAddRect(maskPath, nil, CGRectMake(0, 0, w, h))
     
     /*
     If not even-odd, the next layer will just be
@@ -182,8 +204,8 @@ private extension MapHolderViewController {
     maskLayer.fillRule = "even-odd"
     
     let radius = CGFloat(ZOOM_RADIUS[mappy.zoom])
-    let x = CGFloat(Double(view.frame.width / 2) - Double(radius / 2))
-    let y = CGFloat(Double(height / 2) - Double(radius / 2))
+    let x = CGFloat(Double(w / 2) - Double(radius / 2))
+    let y = CGFloat(Double(h / 2) - Double(radius / 2))
   
     // Add Rectangle cutout to path
     CGPathAddRoundedRect(maskPath, nil, CGRectMake(x, y, radius, radius), CGFloat(radius / 2), CGFloat(radius / 2))

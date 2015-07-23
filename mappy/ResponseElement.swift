@@ -19,7 +19,8 @@ internal func parseDictionary(dictionary: [String: String]) -> String {
   }
 }
 
-internal enum ResponseElementType: String, Printable {
+enum ResponseElementType: String, Printable {
+  
   case Image = "image"
   case Video = "video"
   case Other = "other"
@@ -121,7 +122,8 @@ struct ResponseElementImages: Printable {
   }
 }
 
-struct ResponseElement: Printable {
+public struct ResponseElement: Printable {
+  
   let type: ResponseElementType
   let link: NSURL
   let user: String
@@ -155,7 +157,7 @@ struct ResponseElement: Printable {
     }
   }
   
-  var description: String {
+  public var description: String {
     get {
       let description: [String: String] = [
         "type": "\(type)",

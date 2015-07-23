@@ -23,6 +23,11 @@ internal class NotificationScriptMessageHandler: NSObject, WKScriptMessageHandle
   }
 }
 
+protocol MappyDelegate: class {
+  func mapEvent(zoom: Bool)
+  func newElements(elements: [ResponseElement])
+}
+
 public class Mappy: NSObject {
   //MARK: - static stored properties
   // Long/Lat will place user in Stockholm by default
@@ -55,9 +60,6 @@ public class Mappy: NSObject {
     print("no markup"); exit(0)
   }
   
-  //MARK: - private stored properties
-  /// Stored actions from when Google Maps gets updated
-  private var actions: [(Bool) -> Void] = []
   /**
   Keeping track of where the user was located last. Value
   Gets updated if user moves more than what's defined in
@@ -88,6 +90,8 @@ public class Mappy: NSObject {
       return webView
     }
   }
+  
+  var delegate: MappyDelegate?
   
   private weak var timer: NSTimer?
   
@@ -124,20 +128,6 @@ public class Mappy: NSObject {
 //MARK: - public
 public extension Mappy {
   
-  /**
-  Sets action to `actions`.
-  
-  It will call these when MAP get's updated.
-  Reason for doing this is because I don't know
-  how to define a lazy function
-  
-  :param: action
-    The bool is if the zoom-level has changed or not
-  */
-  func addActionOnUpdate(action: (Bool) -> Void) {
-    self.actions.append(action)
-  }
-  
   func initView(frame: NSRect, coordinates: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: LATITUDE, longitude: LONGITUDE)) {
     
     let userContentController = WKUserContentController()
@@ -172,7 +162,6 @@ public extension Mappy {
     }
   }
 
-  
   func dispatchRequest(timer: NSTimer) {
     // QUERIES instagrannar for images in location
     if
@@ -186,11 +175,9 @@ public extension Mappy {
           json?.isEmpty == true {
           return
         }
-        self.parseRequest(json!)
+        self.delegate?.newElements(self.parseRequest(json!))
       }
     }
-    
-   
   }
   
 }
@@ -198,16 +185,16 @@ public extension Mappy {
 //MARK: - private
 private extension Mappy {
   
-  func parseRequest(json: [String: AnyObject]) {
+  func parseRequest(json: [String: AnyObject]) -> [ResponseElement] {
     var elements: [ResponseElement] = []
     if let data = json["data"] as? [[String: AnyObject]] {
       let first = data.first as [String: AnyObject]!
-      println(first)
       for unwrapped in data {
         elements.append(ResponseElement(data: unwrapped))
       }
     }
-    println(elements)
+    
+    return elements
   }
   /*
   func dispatchRequest(request: NSURLRequest, callback out: ([String: AnyObject]?, NSError?) -> Void)  {
@@ -276,9 +263,7 @@ private extension Mappy {
     } else {
       println("not catched \(message.body)")
     }
-    for action in actions {
-      action(zoomUpdated)
-    }
+    delegate?.mapEvent(zoomUpdated)
   }
   
   func getImages(coordinates: CLLocationCoordinate2D) {

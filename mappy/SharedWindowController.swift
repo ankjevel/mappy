@@ -9,7 +9,7 @@
 import Cocoa
 
 class SharedWindowController: NSWindowController {
-  
+
   override func windowDidLoad() {
     super.windowDidLoad()
 

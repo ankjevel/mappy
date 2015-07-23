@@ -9,5 +9,4 @@
 import Cocoa
 
 class SharedWindow: NSWindow {
-  // Not used at the moment
 }
