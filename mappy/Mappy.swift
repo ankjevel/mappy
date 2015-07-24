@@ -104,7 +104,7 @@ public class Mappy: NSObject {
     return folder
     }()
   static private let TEMP_TEXT_FILE: String = {
-    println(Mappy.TEMP_FOLDER)
+//    println(Mappy.TEMP_FOLDER)
     return Mappy.TEMP_FOLDER.stringByAppendingPathComponent("response.txt")
     }()
   

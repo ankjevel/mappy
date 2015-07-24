@@ -82,7 +82,7 @@ class MapHolderViewController: NSViewController {
     locationManager.set(self)
     
     mask()
-    imageBorder()
+    addBorder(mapLocationBorder)
   }
   
   /*
@@ -107,12 +107,12 @@ class MapHolderViewController: NSViewController {
 // MARK: private extensions
 private extension MapHolderViewController {
   
-  func imageBorder() {
+  func addBorder(view: NSView, _ fillColor: CGColor = IOSColors.AZURE.CGColor) {
     var maskLayer = CAShapeLayer()
     var maskPath = CGPathCreateMutable()
     
-    let frame = mapLocationBorder.frame
-    let bounds = mapLocationBorder.bounds
+    let frame = view.frame
+    let bounds = view.bounds
     let w = frame.width
     let h = frame.height
     
@@ -125,15 +125,16 @@ private extension MapHolderViewController {
     maskLayer.frame = frame
     maskLayer.bounds = bounds
     maskLayer.path = maskPath
-    maskLayer.fillColor = IOSColors.AZURE.CGColor
+    maskLayer.fillColor = fillColor
     
-    if mapLocationBorder.layer != nil {
-      mapLocationBorder.layer?.insertSublayer(maskLayer, atIndex: 0)
+    if view.layer != nil {
+      view.layer?.insertSublayer(maskLayer, atIndex: 0)
     } else {
-      mapLocationBorder.layer = maskLayer
+      view.layer = maskLayer
     }
     
-    mapLocationBorder.updateLayer()
+    view.wantsLayer = true
+    view.updateLayer()
   }
   
   /**
@@ -226,14 +227,12 @@ extension MapHolderViewController: NSTableViewDelegate {
   func tableView(tableView: NSTableView, viewForTableColumn: NSTableColumn?, row: Int) -> NSView? {
     if
       elements.count >= row,
-      let object = viewForTableColumn,
-      let result = tableView.makeViewWithIdentifier(object.identifier, owner: self) as? NSTableCellView,
-      let textField = result.textField
+      let tableColumn = viewForTableColumn
     {
-      let element = elements[row]
-      textField.stringValue = "\(element.getAttributeByString(object.identifier))"
-      return result
-    
+      let view = NSView(frame: tableView.frame)
+      // TODO: Fill with content
+      return view
+      
     }
     return nil
   }

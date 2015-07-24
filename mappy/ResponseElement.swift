@@ -58,23 +58,23 @@ struct ResponseElementImage: Printable {
       } else {
         self.width = 0
       }
-    
+      
       if
         let url = unwrappedData["url"] as? String,
         let unwrapped = NSURL(string: url)
       {
         self.url = unwrapped
       } else {
-        self.url = NSURL()
+        self.url = NSURL(string: "")!
       }
-    
+      
       if let height = unwrappedData["height"] as? Int {
         self.height = height
       } else {
         self.height = 0
       }
     } else {
-      self.url = NSURL()
+      self.url = NSURL(string: "")!
       self.width = 0
       self.height = 0
     }
@@ -135,18 +135,27 @@ struct ResponseElementProfile: Printable {
     {
       if let username = user["username"] as? String {
         self.username = username
-      } else { self.username = "" }
-      if let id = user["id"] as? Int {
-        self.id = id
-      } else { self.id = Int.max }
+      } else {
+        self.username = ""
+      }
+      
+      if let id = user["id"] as? String {
+        self.id = id.toInt()!
+      } else {
+        self.id = Int.max
+      }
+      
       if
         let profile = user["profile_picture"] as? String,
         let url = NSURL(string: profile)
       {
         self.picture = url
-      } else { self.picture = NSURL() }
+      } else {
+        self.picture = NSURL(string: "")!
+      }
+      
     } else {
-      self.picture = NSURL()
+      self.picture = NSURL(string: "")!
       self.username = ""
       self.id = 0
     }
@@ -162,8 +171,22 @@ struct ResponseElementProfile: Printable {
       return "\(description)"
     }
   }
-
+  
 }
+
+/*
+protocol GenericResponseElementType {
+  typealias T
+  
+  init(_ T: NSURL)
+  init(_ T: Int)
+  init(_ T: String)
+  init(_ T: Double)
+  init(_ T: ResponseElementProfile)
+  init(_ T: ResponseElementType)
+  init(_ T: ResponseElementImages)
+}
+*/
 
 public class ResponseElement: Printable {
   
@@ -202,6 +225,7 @@ public class ResponseElement: Printable {
         return ""
       }
     }
+
     if value.contains("images.") {
       if value.contains(".low.") {
         return returnImageAttribute(self.images.low)
@@ -212,10 +236,9 @@ public class ResponseElement: Printable {
       if value.contains(".thumbnail.") {
         return returnImageAttribute(self.images.thumbnail)
       }
-      return ""
+      return ResponseElementImage()
     }
     
-    println("value '\(value)'")
     switch value.lowercaseString {
     case "type":
       return self.type
@@ -227,9 +250,13 @@ public class ResponseElement: Printable {
       return self.longitude
     case "caption":
       return self.caption
+    case "profile":
+      return self.profile
+    case "images":
+      return self.images
     default:
-      return ""
-    } 
+      return self
+    }
   }
   
   init(data: [String: AnyObject?]) {
@@ -243,7 +270,7 @@ public class ResponseElement: Printable {
     if let link = data["link"] as? String {
       self.link = NSURL(string: link)!
     } else {
-      self.link = NSURL()
+      self.link = NSURL(string: "")!
     }
     
     self.profile = ResponseElementProfile(data)
