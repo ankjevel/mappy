@@ -281,15 +281,20 @@ public class ResponseElement: Printable {
       self.images = ResponseElementImages()
     }
     
-    if let longitude = data["longitude"] as? String {
-      self.longitude = (longitude as NSString).doubleValue
+    if let location = data["location"] as? [String: AnyObject] {
+      if let longitude = location["longitude"] as? Double {
+        self.longitude = longitude
+      } else {
+        self.longitude = 0.0
+      }
+      
+      if let latitude = location["latitude"] as? Double {
+        self.latitude = latitude
+      } else {
+        self.latitude = 0.0
+      }
     } else {
       self.longitude = 0.0
-    }
-    
-    if let latitude = data["latitude"] as? String {
-      self.latitude = (latitude as NSString).doubleValue
-    } else {
       self.latitude = 0.0
     }
     

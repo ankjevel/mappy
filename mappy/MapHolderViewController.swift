@@ -230,6 +230,8 @@ extension MapHolderViewController: NSTableViewDelegate {
       let tableColumn = viewForTableColumn
     {
       let view = NSView(frame: tableView.frame)
+      let contentForView = elements[row]
+      
       // TODO: Fill with content
       return view
       
