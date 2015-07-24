@@ -122,14 +122,118 @@ struct ResponseElementImages: Printable {
   }
 }
 
-public struct ResponseElement: Printable {
+struct ResponseElementProfile: Printable {
+  
+  let picture: NSURL
+  let username: String
+  let id: Int
+  
+  init(_ data: [String: AnyObject?]? = nil) {
+    if
+      let unwrappedData = data,
+      let user = unwrappedData["user"] as? [String: AnyObject]
+    {
+      if let username = user["username"] as? String {
+        self.username = username
+      } else { self.username = "" }
+      if let id = user["id"] as? Int {
+        self.id = id
+      } else { self.id = Int.max }
+      if
+        let profile = user["profile_picture"] as? String,
+        let url = NSURL(string: profile)
+      {
+        self.picture = url
+      } else { self.picture = NSURL() }
+    } else {
+      self.picture = NSURL()
+      self.username = ""
+      self.id = 0
+    }
+  }
+  
+  var description: String {
+    get {
+      let description: [String: String] = [
+        "picture": "\(picture)",
+        "username": "\(username)",
+        "id": "\(id)"
+      ]
+      return "\(description)"
+    }
+  }
+
+}
+
+public class ResponseElement: Printable {
   
   let type: ResponseElementType
   let link: NSURL
-  let user: String
+  let profile: ResponseElementProfile
   let images: ResponseElementImages
+  let latitude: Double
+  let longitude: Double
+  let caption: String
+  
+  func getAttributeByString(value: String) -> Any {
+    
+    func returnImageAttribute(image: ResponseElementImage) -> Any {
+      if value.contains(".url") {
+        return image.url
+      }
+      if value.contains(".height") {
+        return image.height
+      }
+      if value.contains(".width") {
+        return image.width
+      }
+      return ""
+    }
+    
+    if value.contains("profile.") {
+      switch value.stringByReplacingOccurrencesOfString("profile.", withString: "") {
+      case "picture":
+        return self.profile.picture
+      case "username":
+        return self.profile.username
+      case "id":
+        return self.profile.id
+      default:
+        return ""
+      }
+    }
+    if value.contains("images.") {
+      if value.contains(".low.") {
+        return returnImageAttribute(self.images.low)
+      }
+      if value.contains(".standard.") {
+        return returnImageAttribute(self.images.standard)
+      }
+      if value.contains(".thumbnail.") {
+        return returnImageAttribute(self.images.thumbnail)
+      }
+      return ""
+    }
+    
+    println("value '\(value)'")
+    switch value.lowercaseString {
+    case "type":
+      return self.type
+    case "link":
+      return self.link
+    case "latitude":
+      return self.latitude
+    case "longitude":
+      return self.longitude
+    case "caption":
+      return self.caption
+    default:
+      return ""
+    } 
+  }
   
   init(data: [String: AnyObject?]) {
+    
     if let type = data["type"] as? String {
       self.type = ResponseElementType(type)
     } else {
@@ -142,18 +246,33 @@ public struct ResponseElement: Printable {
       self.link = NSURL()
     }
     
-    if
-      let user = data["user"] as? [String: AnyObject],
-      let username = user["username"] as? String {
-      self.user = username
-    } else {
-      self.user = ""
-    }
+    self.profile = ResponseElementProfile(data)
     
     if let images = data["images"] as? [String: AnyObject] {
       self.images = ResponseElementImages(images)
     } else {
       self.images = ResponseElementImages()
+    }
+    
+    if let longitude = data["longitude"] as? String {
+      self.longitude = (longitude as NSString).doubleValue
+    } else {
+      self.longitude = 0.0
+    }
+    
+    if let latitude = data["latitude"] as? String {
+      self.latitude = (latitude as NSString).doubleValue
+    } else {
+      self.latitude = 0.0
+    }
+    
+    if
+      let caption = data["caption"] as? [String: AnyObject],
+      let text = caption["text"] as? String
+    {
+      self.caption = text
+    } else {
+      self.caption = ""
     }
   }
   
@@ -162,8 +281,10 @@ public struct ResponseElement: Printable {
       let description: [String: String] = [
         "type": "\(type)",
         "link": "\(link)",
-        "user": "\(user)",
-        "images": "\(images)"
+        "profile": "\(profile)",
+        "images": "\(images)",
+        "latitude": "\(latitude)",
+        "longitude": "\(longitude)"
       ]
       return parseDictionary(description)
     }

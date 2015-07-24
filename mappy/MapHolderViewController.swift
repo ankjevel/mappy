@@ -14,14 +14,12 @@ class MapHolderViewController: NSViewController {
   
   // MARK: Static properties
   
-  /// How sensitive `CLLocationManager` will be
-  static private let MINIMUM_DISTANCE_IN_METERS = 10.0
   /// Zoom radius based on "feelings"
   static private let ZOOM_RADIUS = [1, 1, 1, 1, 1, 1, 1, 2, 5, 10, 15, 35, 70, 120, 250, 480, 980, 1850, 3700, 7400, 14800, 29600]
   
   // MARK: private properties
   
-  private let locationManager = CLLocationManager()
+  private let locationManager = LocationManager()
   private let mappy = Mappy()
   private var elements: [ResponseElement] = []
   
@@ -56,12 +54,11 @@ class MapHolderViewController: NSViewController {
   // Initialize the view
   override func viewDidLoad() {
     super.viewDidLoad()
-    
-    imageBorder()
 
     sharedView.delegate = self
     mappy.delegate = self
     newElementsView.setDataSource(self)
+    newElementsView.setDelegate(self)
 
     // Will set `Mappy.view`
     mappy.initView(topView.frame)
@@ -82,12 +79,10 @@ class MapHolderViewController: NSViewController {
     
     setConstraints(&mapView!)
     
-    locationManager.delegate = self
-    locationManager.distanceFilter = MapHolderViewController.MINIMUM_DISTANCE_IN_METERS
-    locationManager.desiredAccuracy = kCLLocationAccuracyBest
-    locationManager.startUpdatingLocation()
+    locationManager.set(self)
     
     mask()
+    imageBorder()
   }
   
   /*
@@ -115,26 +110,29 @@ private extension MapHolderViewController {
   func imageBorder() {
     var maskLayer = CAShapeLayer()
     var maskPath = CGPathCreateMutable()
-    let frame = mapLocationBorder.frame
-    let w = frame.width
     
-    let r = CGFloat(max(mapLocationBorder.frame.width, mapLocationBorder.frame.height))
-    let x = CGFloat(Double(mapLocationBorder.frame.width / 2) - Double(r / 2))
-    let y = CGFloat(Double(mapLocationBorder.frame.height / 2) - Double(r / 2))
+    let frame = mapLocationBorder.frame
+    let bounds = mapLocationBorder.bounds
+    let w = frame.width
+    let h = frame.height
+    
+    let r = CGFloat(max(w, h))
+    let x = CGFloat(Double(w / 2) - Double(r / 2))
+    let y = CGFloat(Double(h / 2) - Double(r / 2))
     
     CGPathAddRoundedRect(maskPath, nil, CGRectMake(x, y, r, r), CGFloat(r / 2), CGFloat(r / 2))
 
-    maskLayer.bounds = mapLocationBorder.bounds
-    maskLayer.frame = mapLocationBorder.bounds
-    
+    maskLayer.frame = frame
+    maskLayer.bounds = bounds
     maskLayer.path = maskPath
-    
     maskLayer.fillColor = IOSColors.AZURE.CGColor
+    
     if mapLocationBorder.layer != nil {
       mapLocationBorder.layer?.insertSublayer(maskLayer, atIndex: 0)
     } else {
       mapLocationBorder.layer = maskLayer
     }
+    
     mapLocationBorder.updateLayer()
   }
   
@@ -192,6 +190,7 @@ private extension MapHolderViewController {
 
 // MARK: Mappy Delegate
 extension MapHolderViewController: MappyDelegate {
+  
   func newElements(elements: [ResponseElement]) {
     self.elements = elements
     newElementsView.reloadData()
@@ -215,21 +214,26 @@ extension MapHolderViewController: MappyDelegate {
 
 // MARK: Table View Data Source
 extension MapHolderViewController: NSTableViewDataSource {
+  
   func numberOfRowsInTableView(tableView: NSTableView) -> Int {
     return elements.count
   }
+}
+
+// MARK: Table View Delegate
+extension MapHolderViewController: NSTableViewDelegate {
   
-  func tableView(tableView: NSTableView, objectValueForTableColumn: NSTableColumn?, row: Int) -> AnyObject? {
+  func tableView(tableView: NSTableView, viewForTableColumn: NSTableColumn?, row: Int) -> NSView? {
     if
-      let object = objectValueForTableColumn,
+      elements.count >= row,
+      let object = viewForTableColumn,
       let result = tableView.makeViewWithIdentifier(object.identifier, owner: self) as? NSTableCellView,
       let textField = result.textField
     {
-      println("herhe?! \(textField.stringValue), \(tableView)")
-      textField.stringValue = "hello"
-      
+      let element = elements[row]
+      textField.stringValue = "\(element.getAttributeByString(object.identifier))"
       return result
-
+    
     }
     return nil
   }
@@ -237,6 +241,7 @@ extension MapHolderViewController: NSTableViewDataSource {
 
 // MARK: Location Manager Delegate
 extension MapHolderViewController: CLLocationManagerDelegate {
+  
   /*
   When locationManager get's updated, update
   `Mappy` location
@@ -255,9 +260,11 @@ extension MapHolderViewController: NSSplitViewDelegate {
     mask()
     return true
   }
+  
   func splitView(splitView: NSSplitView, constrainMinCoordinate: CGFloat, ofSubviewAt: Int) -> CGFloat {
     return 100.0
   }
+  
   func splitView(splitView: NSSplitView, constrainMaxCoordinate: CGFloat, ofSubviewAt: Int) -> CGFloat {
     if let height = view.window?.frame.height {
       return CGFloat(height - 80.0)

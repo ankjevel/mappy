@@ -23,6 +23,8 @@
 		D6FD531E1B5F8E4A008A40DF /* location.png in Resources */ = {isa = PBXBuildFile; fileRef = D6FD531D1B5F8E4A008A40DF /* location.png */; };
 		D6FD53201B5FA871008A40DF /* IOSColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FD531F1B5FA871008A40DF /* IOSColors.swift */; };
 		D6FD53221B5FAF26008A40DF /* ResponseElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FD53211B5FAF26008A40DF /* ResponseElement.swift */; };
+		D6FD53261B619AD8008A40DF /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FD53251B619AD8008A40DF /* LocationManager.swift */; };
+		D6FD53281B625C3F008A40DF /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FD53271B625C3F008A40DF /* String.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +59,8 @@
 		D6FD531D1B5F8E4A008A40DF /* location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = location.png; path = ../../../../Desktop/location.png; sourceTree = "<group>"; };
 		D6FD531F1B5FA871008A40DF /* IOSColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IOSColors.swift; sourceTree = "<group>"; };
 		D6FD53211B5FAF26008A40DF /* ResponseElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseElement.swift; sourceTree = "<group>"; };
+		D6FD53251B619AD8008A40DF /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		D6FD53271B625C3F008A40DF /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +162,8 @@
 				D603FAA11B4F3420002F00F5 /* Mappy.swift */,
 				D6FD531F1B5FA871008A40DF /* IOSColors.swift */,
 				D6FD53211B5FAF26008A40DF /* ResponseElement.swift */,
+				D6FD53251B619AD8008A40DF /* LocationManager.swift */,
+				D6FD53271B625C3F008A40DF /* String.swift */,
 			);
 			name = Shared;
 			sourceTree = "<group>";
@@ -303,12 +309,14 @@
 			files = (
 				D6FD53201B5FA871008A40DF /* IOSColors.swift in Sources */,
 				D603FA851B4F332A002F00F5 /* MapHolderViewController.swift in Sources */,
+				D6FD53281B625C3F008A40DF /* String.swift in Sources */,
 				D6FD53221B5FAF26008A40DF /* ResponseElement.swift in Sources */,
 				D697F98D1B5E78BD0056814C /* MapHolderView.swift in Sources */,
 				D603FA831B4F332A002F00F5 /* AppDelegate.swift in Sources */,
 				D6CC90701B5E5B3F002FEA5A /* SharedWindow.swift in Sources */,
 				D6CC90731B5E5B5E002FEA5A /* SharedWindowController.swift in Sources */,
 				D603FAA21B4F3420002F00F5 /* Mappy.swift in Sources */,
+				D6FD53261B619AD8008A40DF /* LocationManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
