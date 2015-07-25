@@ -10,6 +10,7 @@ import Foundation
 import AppKit
 
 struct IOSColors {
+  
   static let MAYA_BLUE = NSColor(calibratedHue: 0.55, saturation: 0.64, brightness: 0.98, alpha: 1)
   static let TANGERINE = NSColor(calibratedHue: 0.13, saturation: 1, brightness: 1, alpha: 1)
   static let PIZAZZ = NSColor(calibratedHue: 0.1, saturation: 1, brightness: 1, alpha: 1)

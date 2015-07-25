@@ -9,4 +9,8 @@
 import Cocoa
 
 class MapHolderView: NSView {
+  
+  override var wantsUpdateLayer: Bool {
+    return true
+  }
 }

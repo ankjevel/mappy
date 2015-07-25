@@ -15,11 +15,14 @@
 		D603FAA01B4F33B6002F00F5 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = D603FA9F1B4F33B6002F00F5 /* Config.plist */; };
 		D603FAA21B4F3420002F00F5 /* Mappy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D603FAA11B4F3420002F00F5 /* Mappy.swift */; };
 		D62D3A801B51C4F4004F1011 /* main.html in Resources */ = {isa = PBXBuildFile; fileRef = D62D3A7F1B51C4F4004F1011 /* main.html */; };
+		D6918E591B63CE6F009BBB3E /* ResponseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6918E571B63CE6F009BBB3E /* ResponseViewController.swift */; };
+		D6918E5A1B63CE6F009BBB3E /* Response.xib in Resources */ = {isa = PBXBuildFile; fileRef = D6918E581B63CE6F009BBB3E /* Response.xib */; };
+		D6918E5C1B63CF01009BBB3E /* ResponseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6918E5B1B63CF01009BBB3E /* ResponseView.swift */; };
 		D697F98D1B5E78BD0056814C /* MapHolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D697F98C1B5E78BD0056814C /* MapHolderView.swift */; };
 		D6CC90641B5E58BF002FEA5A /* MapHolder.xib in Resources */ = {isa = PBXBuildFile; fileRef = D6CC90631B5E58BF002FEA5A /* MapHolder.xib */; };
 		D6CC90701B5E5B3F002FEA5A /* SharedWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6CC906F1B5E5B3F002FEA5A /* SharedWindow.swift */; };
 		D6CC90731B5E5B5E002FEA5A /* SharedWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6CC90711B5E5B5E002FEA5A /* SharedWindowController.swift */; };
-		D6CC90741B5E5B5E002FEA5A /* SharedWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D6CC90721B5E5B5E002FEA5A /* SharedWindowController.xib */; };
+		D6CC90741B5E5B5E002FEA5A /* Shared.xib in Resources */ = {isa = PBXBuildFile; fileRef = D6CC90721B5E5B5E002FEA5A /* Shared.xib */; };
 		D6FD531E1B5F8E4A008A40DF /* location.png in Resources */ = {isa = PBXBuildFile; fileRef = D6FD531D1B5F8E4A008A40DF /* location.png */; };
 		D6FD53201B5FA871008A40DF /* IOSColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FD531F1B5FA871008A40DF /* IOSColors.swift */; };
 		D6FD53221B5FAF26008A40DF /* ResponseElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FD53211B5FAF26008A40DF /* ResponseElement.swift */; };
@@ -51,11 +54,14 @@
 		D603FAA11B4F3420002F00F5 /* Mappy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mappy.swift; sourceTree = "<group>"; };
 		D603FAA51B4F3CC9002F00F5 /* mappy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = mappy.entitlements; sourceTree = "<group>"; };
 		D62D3A7F1B51C4F4004F1011 /* main.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = main.html; sourceTree = "<group>"; };
+		D6918E571B63CE6F009BBB3E /* ResponseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseViewController.swift; sourceTree = "<group>"; };
+		D6918E581B63CE6F009BBB3E /* Response.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Response.xib; sourceTree = "<group>"; };
+		D6918E5B1B63CF01009BBB3E /* ResponseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseView.swift; sourceTree = "<group>"; };
 		D697F98C1B5E78BD0056814C /* MapHolderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapHolderView.swift; sourceTree = "<group>"; };
 		D6CC90631B5E58BF002FEA5A /* MapHolder.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MapHolder.xib; sourceTree = "<group>"; };
 		D6CC906F1B5E5B3F002FEA5A /* SharedWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedWindow.swift; sourceTree = "<group>"; };
 		D6CC90711B5E5B5E002FEA5A /* SharedWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedWindowController.swift; sourceTree = "<group>"; };
-		D6CC90721B5E5B5E002FEA5A /* SharedWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SharedWindowController.xib; sourceTree = "<group>"; };
+		D6CC90721B5E5B5E002FEA5A /* Shared.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Shared.xib; sourceTree = "<group>"; };
 		D6FD531D1B5F8E4A008A40DF /* location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = location.png; path = ../../../../Desktop/location.png; sourceTree = "<group>"; };
 		D6FD531F1B5FA871008A40DF /* IOSColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IOSColors.swift; sourceTree = "<group>"; };
 		D6FD53211B5FAF26008A40DF /* ResponseElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseElement.swift; sourceTree = "<group>"; };
@@ -102,15 +108,15 @@
 		D603FA7F1B4F332A002F00F5 /* mappy */ = {
 			isa = PBXGroup;
 			children = (
-				D6CC90601B5E576A002FEA5A /* Resources */,
 				D603FA821B4F332A002F00F5 /* AppDelegate.swift */,
-				D697F98E1B5E79FF0056814C /* Views */,
-				D697F98F1B5E7A050056814C /* Windows */,
-				D697F9901B5E7A140056814C /* Shared */,
-				D603FA801B4F332A002F00F5 /* Supporting Files */,
 				D603FA881B4F332A002F00F5 /* Main.storyboard */,
 				D603FAA51B4F3CC9002F00F5 /* mappy.entitlements */,
 				D603FA861B4F332A002F00F5 /* Images.xcassets */,
+				D697F98E1B5E79FF0056814C /* Views */,
+				D697F98F1B5E7A050056814C /* Windows */,
+				D697F9901B5E7A140056814C /* Shared */,
+				D6CC90601B5E576A002FEA5A /* Resources */,
+				D603FA801B4F332A002F00F5 /* Supporting Files */,
 			);
 			path = mappy;
 			sourceTree = "<group>";
@@ -140,9 +146,20 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		D6918E561B63CE42009BBB3E /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				D6918E581B63CE6F009BBB3E /* Response.xib */,
+				D6918E5B1B63CF01009BBB3E /* ResponseView.swift */,
+				D6918E571B63CE6F009BBB3E /* ResponseViewController.swift */,
+			);
+			name = Response;
+			sourceTree = "<group>";
+		};
 		D697F98E1B5E79FF0056814C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D6918E561B63CE42009BBB3E /* Response */,
 				D6CC90691B5E59FD002FEA5A /* MapHolder */,
 			);
 			name = Views;
@@ -151,7 +168,7 @@
 		D697F98F1B5E7A050056814C /* Windows */ = {
 			isa = PBXGroup;
 			children = (
-				D6CC906C1B5E5A77002FEA5A /* SharedWindow */,
+				D6CC906C1B5E5A77002FEA5A /* Shared */,
 			);
 			name = Windows;
 			sourceTree = "<group>";
@@ -182,20 +199,20 @@
 			isa = PBXGroup;
 			children = (
 				D6CC90631B5E58BF002FEA5A /* MapHolder.xib */,
-				D603FA841B4F332A002F00F5 /* MapHolderViewController.swift */,
 				D697F98C1B5E78BD0056814C /* MapHolderView.swift */,
+				D603FA841B4F332A002F00F5 /* MapHolderViewController.swift */,
 			);
 			name = MapHolder;
 			sourceTree = "<group>";
 		};
-		D6CC906C1B5E5A77002FEA5A /* SharedWindow */ = {
+		D6CC906C1B5E5A77002FEA5A /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				D6CC90721B5E5B5E002FEA5A /* SharedWindowController.xib */,
-				D6CC90711B5E5B5E002FEA5A /* SharedWindowController.swift */,
+				D6CC90721B5E5B5E002FEA5A /* Shared.xib */,
 				D6CC906F1B5E5B3F002FEA5A /* SharedWindow.swift */,
+				D6CC90711B5E5B5E002FEA5A /* SharedWindowController.swift */,
 			);
-			name = SharedWindow;
+			name = Shared;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -283,7 +300,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D6CC90741B5E5B5E002FEA5A /* SharedWindowController.xib in Resources */,
+				D6CC90741B5E5B5E002FEA5A /* Shared.xib in Resources */,
+				D6918E5A1B63CE6F009BBB3E /* Response.xib in Resources */,
 				D6CC90641B5E58BF002FEA5A /* MapHolder.xib in Resources */,
 				D603FA871B4F332A002F00F5 /* Images.xcassets in Resources */,
 				D62D3A801B51C4F4004F1011 /* main.html in Resources */,
@@ -315,8 +333,10 @@
 				D603FA831B4F332A002F00F5 /* AppDelegate.swift in Sources */,
 				D6CC90701B5E5B3F002FEA5A /* SharedWindow.swift in Sources */,
 				D6CC90731B5E5B5E002FEA5A /* SharedWindowController.swift in Sources */,
+				D6918E591B63CE6F009BBB3E /* ResponseViewController.swift in Sources */,
 				D603FAA21B4F3420002F00F5 /* Mappy.swift in Sources */,
 				D6FD53261B619AD8008A40DF /* LocationManager.swift in Sources */,
+				D6918E5C1B63CF01009BBB3E /* ResponseView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

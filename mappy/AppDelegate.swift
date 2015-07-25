@@ -12,7 +12,7 @@ import Cocoa
 class AppDelegate: NSResponder, NSApplicationDelegate {
   
   /// Contains the shared window where Map is located
-  let sharedWindow = SharedWindowController(windowNibName: "SharedWindowController")
+  let sharedWindow = SharedWindowController(windowNibName: "Shared")
   
   func applicationDidFinishLaunching(aNotification: NSNotification) {
     sharedWindow.showWindow(nil)

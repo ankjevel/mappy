@@ -77,9 +77,9 @@ class MapHolderViewController: NSViewController {
     blurView.layer?.setNeedsLayout()
     blurView.alphaValue = 0.70
     
-    setConstraints(&mapView!)
+    setConstraints(mapView!)
     
-    locationManager.set(self)
+    locationManager.delegate = self
     
     mask()
     addBorder(mapLocationBorder)
@@ -143,13 +143,19 @@ private extension MapHolderViewController {
   :param: view
     `NSView` used to add constraints to
   */
-  func setConstraints(inout view: NSView) {
+  func setConstraints(view: NSView, _ addToView: NSView? = nil) {
+    let toView: NSView
+    if addToView == nil {
+      toView = topView
+    } else {
+      toView = addToView!
+    }
     // DO NOT FORGET THIS
     view.translatesAutoresizingMaskIntoConstraints = false
-    topView.addConstraint(NSLayoutConstraint(item: view, attribute: .Top, relatedBy: .Equal, toItem: topView, attribute: .Top, multiplier: 1, constant: 0))
-    topView.addConstraint(NSLayoutConstraint(item: view, attribute: .Right, relatedBy: .Equal, toItem: topView, attribute: .Right, multiplier: 1, constant: 0))
-    topView.addConstraint(NSLayoutConstraint(item: view, attribute: .Bottom, relatedBy: .Equal, toItem: topView, attribute: .Bottom, multiplier: 1, constant: 0))
-    topView.addConstraint(NSLayoutConstraint(item: view, attribute: .Left, relatedBy: .Equal, toItem: topView, attribute: .Left, multiplier: 1, constant: 0))
+    toView.addConstraint(NSLayoutConstraint(item: view, attribute: .Top, relatedBy: .Equal, toItem: topView, attribute: .Top, multiplier: 1, constant: 0))
+    toView.addConstraint(NSLayoutConstraint(item: view, attribute: .Right, relatedBy: .Equal, toItem: topView, attribute: .Right, multiplier: 1, constant: 0))
+    toView.addConstraint(NSLayoutConstraint(item: view, attribute: .Bottom, relatedBy: .Equal, toItem: topView, attribute: .Bottom, multiplier: 1, constant: 0))
+    toView.addConstraint(NSLayoutConstraint(item: view, attribute: .Left, relatedBy: .Equal, toItem: topView, attribute: .Left, multiplier: 1, constant: 0))
   }
   
   /// Draws the mask over the map (into `blurView`)
@@ -229,10 +235,9 @@ extension MapHolderViewController: NSTableViewDelegate {
       elements.count >= row,
       let tableColumn = viewForTableColumn
     {
-      let view = NSView(frame: tableView.frame)
-      let contentForView = elements[row]
-      
-      // TODO: Fill with content
+//      let view = NSView(frame: tableView.frame)
+      let view = ResponseView()
+      view.content = elements[row]
       return view
       
     }
