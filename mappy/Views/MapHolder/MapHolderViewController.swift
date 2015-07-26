@@ -9,11 +9,18 @@ import Cocoa
 import AppKit
 import CoreLocation
 
+internal struct Z {
+  
+  static let MAP_VIEW: CGFloat = 0.0
+  static let BLUR_VIEW: CGFloat = 1.0
+  static let MAP_LOCATION_BORDER: CGFloat = 2.0
+}
+
 /// Map related Views
 class MapHolderViewController: NSViewController {
   
   // MARK: Static properties
-  
+
   /// Zoom radius based on "feelings"
   static private let ZOOM_RADIUS = [1, 1, 1, 1, 1, 1, 1, 2, 5, 10, 15, 35, 70, 120, 250, 480, 980, 1850, 3700, 7400, 14800, 29600]
   
@@ -73,15 +80,13 @@ class MapHolderViewController: NSViewController {
     topView.replaceSubview(mapView, with: newMapView)
     mapView = newMapView
     
-    mapView.layer?.zPosition = 0
-    blurView.layer?.setNeedsLayout()
-    blurView.alphaValue = 0.70
+    mapView.layer?.zPosition = Z.MAP_VIEW
     
     setConstraints(mapView!)
     
     locationManager.delegate = self
     
-    mask()
+    updateBlurView()
     addBorder(mapLocationBorder)
   }
   
@@ -98,8 +103,10 @@ class MapHolderViewController: NSViewController {
 
   /// When view is redrawn, update the map-mask as well
   override func viewDidLayout() {
+    super.viewDidLayout()
+    
     if blurView != nil {
-      mask()
+      updateBlurView()
     }
   }
 }
@@ -158,8 +165,14 @@ private extension MapHolderViewController {
     toView.addConstraint(NSLayoutConstraint(item: view, attribute: .Left, relatedBy: .Equal, toItem: topView, attribute: .Left, multiplier: 1, constant: 0))
   }
   
-  /// Draws the mask over the map (into `blurView`)
-  func mask() {
+  func updateBlurView() {
+    let newBlurView = NSVisualEffectView(frame: blurView.frame)
+    newBlurView.appearance = NSAppearance(named: NSAppearanceNameVibrantDark)
+    newBlurView.bounds = blurView.bounds
+
+    topView.replaceSubview(blurView, with: newBlurView)
+    blurView = newBlurView
+    
     var maskLayer = CAShapeLayer()
     var maskPath = CGPathCreateMutable()
     
@@ -179,19 +192,20 @@ private extension MapHolderViewController {
     let radius = CGFloat(MapHolderViewController.ZOOM_RADIUS[mappy.zoom])
     let x = CGFloat(Double(w / 2) - Double(radius / 2))
     let y = CGFloat(Double(h / 2) - Double(radius / 2))
-  
+    
     // Add Rectangle cutout to path
     CGPathAddRoundedRect(maskPath, nil, CGRectMake(x, y, radius, radius), CGFloat(radius / 2), CGFloat(radius / 2))
     
     maskLayer.path = maskPath
-    blurView.layer?.mask = maskLayer
-    blurView.layer?.zPosition = 1
+    newBlurView.layer?.mask = maskLayer
+    newBlurView.layer?.zPosition = Z.BLUR_VIEW
+    
     /*
     Make sure map-reset-button is placed on top
     of map-mask
     */
-    mapLocationBorder.layer?.zPosition = 2
-    blurView.updateLayer()
+    mapLocationBorder.layer?.zPosition = Z.MAP_LOCATION_BORDER
+//    newBlurView.updateLayer()
   }
 }
 
@@ -211,11 +225,12 @@ extension MapHolderViewController: MappyDelegate {
   true if the zoom has been updated
   */
   func mapEvent(zoom: Bool) {
-    if zoom {
-      mask()
-    } else {
-      blurView.updateLayer()
-    }
+//    println("zoom? \(zoom)")
+//    if zoom {
+    updateBlurView()
+//    } else {
+//      blurView.updateLayer()
+//    }
   }
 }
 
@@ -263,7 +278,7 @@ extension MapHolderViewController: CLLocationManagerDelegate {
 extension MapHolderViewController: NSSplitViewDelegate {
 
   func splitView(splitView: NSSplitView, shouldAdjustSizeOfSubview: NSView) -> Bool {
-    mask()
+    updateBlurView()
     return true
   }
   

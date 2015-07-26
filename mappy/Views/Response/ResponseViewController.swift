@@ -9,4 +9,16 @@
 import Cocoa
 
 class ResponseViewController: NSViewController {
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
+  }
+  
+  override func viewDidAppear() {
+    super.viewDidAppear()
+  }
+  
+  override func viewDidLayout() {
+    super.viewDidLayout()
+  }
 }

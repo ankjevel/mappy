@@ -36,7 +36,7 @@
                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="Ki1-U8-OAa" userLabel="mapView">
                                     <rect key="frame" x="0.0" y="0.0" width="500" height="170"/>
                                 </customView>
-                                <visualEffectView identifier="blurView" wantsLayer="YES" focusRingType="none" appearanceType="vibrantDark" blendingMode="withinWindow" material="appearanceBased" state="active" translatesAutoresizingMaskIntoConstraints="NO" id="sKc-OC-ulR" userLabel="blurView">
+                                <visualEffectView identifier="blurView" wantsLayer="YES" focusRingType="none" appearanceType="vibrantDark" blendingMode="withinWindow" material="appearanceBased" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="sKc-OC-ulR" userLabel="blurView">
                                     <rect key="frame" x="0.0" y="0.0" width="500" height="170"/>
                                 </visualEffectView>
                                 <customView identifier="mapLocationBorder" translatesAutoresizingMaskIntoConstraints="NO" id="6uM-Se-5lJ" userLabel="mapLocationBorder">
@@ -91,7 +91,7 @@
                                         <rect key="frame" x="1" y="17" width="238" height="117"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
-                                            <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" columnReordering="NO" columnSelection="YES" columnResizing="NO" autosaveColumns="NO" rowHeight="96" rowSizeStyle="automatic" viewBased="YES" id="3M1-MM-hJE">
+                                            <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" selectionHighlightStyle="none" columnReordering="NO" columnSelection="YES" columnResizing="NO" autosaveColumns="NO" rowHeight="96" rowSizeStyle="automatic" viewBased="YES" id="3M1-MM-hJE">
                                                 <rect key="frame" x="0.0" y="0.0" width="498" height="0.0"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>

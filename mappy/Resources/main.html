@@ -46,7 +46,27 @@
           mapTypeControl: false,
           scaleControl: false,
           streetViewControl: false,
-          overviewMapControl: false
+          overviewMapControl: false,
+          styles: [/*
+            {
+              stylers: [
+                {hue: '#007AFF'},
+                {saturation: -20}
+              ]
+            }, */{
+              featureType: 'poi',
+              elementType: 'labels.icon',
+              stylers: [{visibility: 'off'}]
+            }, {
+              featureType: 'transit',
+              elementType: 'labels.icon',
+              stylers: [{visibility: 'off'}]
+            }, {
+              featureType: 'road',
+              elementType: 'labels.icon',
+              stylers: [{visibility: 'off'}]
+            }
+          ]
         });
         google.maps.event.addListener(map, 'center_changed', function () {
           message({

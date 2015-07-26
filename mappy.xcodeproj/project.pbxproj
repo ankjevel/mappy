@@ -44,29 +44,29 @@
 		D603FA7D1B4F332A002F00F5 /* mappy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mappy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D603FA811B4F332A002F00F5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D603FA821B4F332A002F00F5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D603FA841B4F332A002F00F5 /* MapHolderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapHolderViewController.swift; sourceTree = "<group>"; };
+		D603FA841B4F332A002F00F5 /* MapHolderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MapHolderViewController.swift; path = Views/MapHolder/MapHolderViewController.swift; sourceTree = "<group>"; };
 		D603FA861B4F332A002F00F5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		D603FA891B4F332A002F00F5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D603FA8F1B4F332A002F00F5 /* mappyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mappyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D603FA941B4F332A002F00F5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D603FA951B4F332A002F00F5 /* mappyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mappyTests.swift; sourceTree = "<group>"; };
-		D603FA9F1B4F33B6002F00F5 /* Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
-		D603FAA11B4F3420002F00F5 /* Mappy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mappy.swift; sourceTree = "<group>"; };
+		D603FA9F1B4F33B6002F00F5 /* Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Config.plist; path = Resources/Config.plist; sourceTree = "<group>"; };
+		D603FAA11B4F3420002F00F5 /* Mappy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Mappy.swift; path = Shared/Mappy.swift; sourceTree = "<group>"; };
 		D603FAA51B4F3CC9002F00F5 /* mappy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = mappy.entitlements; sourceTree = "<group>"; };
-		D62D3A7F1B51C4F4004F1011 /* main.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = main.html; sourceTree = "<group>"; };
-		D6918E571B63CE6F009BBB3E /* ResponseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseViewController.swift; sourceTree = "<group>"; };
-		D6918E581B63CE6F009BBB3E /* Response.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Response.xib; sourceTree = "<group>"; };
-		D6918E5B1B63CF01009BBB3E /* ResponseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseView.swift; sourceTree = "<group>"; };
-		D697F98C1B5E78BD0056814C /* MapHolderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapHolderView.swift; sourceTree = "<group>"; };
-		D6CC90631B5E58BF002FEA5A /* MapHolder.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MapHolder.xib; sourceTree = "<group>"; };
-		D6CC906F1B5E5B3F002FEA5A /* SharedWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedWindow.swift; sourceTree = "<group>"; };
-		D6CC90711B5E5B5E002FEA5A /* SharedWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedWindowController.swift; sourceTree = "<group>"; };
-		D6CC90721B5E5B5E002FEA5A /* Shared.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Shared.xib; sourceTree = "<group>"; };
+		D62D3A7F1B51C4F4004F1011 /* main.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = main.html; path = Resources/main.html; sourceTree = "<group>"; };
+		D6918E571B63CE6F009BBB3E /* ResponseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResponseViewController.swift; path = Views/Response/ResponseViewController.swift; sourceTree = "<group>"; };
+		D6918E581B63CE6F009BBB3E /* Response.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Response.xib; path = Views/Response/Response.xib; sourceTree = "<group>"; };
+		D6918E5B1B63CF01009BBB3E /* ResponseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResponseView.swift; path = Views/Response/ResponseView.swift; sourceTree = "<group>"; };
+		D697F98C1B5E78BD0056814C /* MapHolderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapHolderView.swift; path = Views/MapHolder/MapHolderView.swift; sourceTree = "<group>"; };
+		D6CC90631B5E58BF002FEA5A /* MapHolder.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MapHolder.xib; path = Views/MapHolder/MapHolder.xib; sourceTree = "<group>"; };
+		D6CC906F1B5E5B3F002FEA5A /* SharedWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SharedWindow.swift; path = Windows/Shared/SharedWindow.swift; sourceTree = "<group>"; };
+		D6CC90711B5E5B5E002FEA5A /* SharedWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SharedWindowController.swift; path = Windows/Shared/SharedWindowController.swift; sourceTree = "<group>"; };
+		D6CC90721B5E5B5E002FEA5A /* Shared.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Shared.xib; path = Windows/Shared/Shared.xib; sourceTree = "<group>"; };
 		D6FD531D1B5F8E4A008A40DF /* location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = location.png; path = ../../../../Desktop/location.png; sourceTree = "<group>"; };
-		D6FD531F1B5FA871008A40DF /* IOSColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IOSColors.swift; sourceTree = "<group>"; };
-		D6FD53211B5FAF26008A40DF /* ResponseElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseElement.swift; sourceTree = "<group>"; };
-		D6FD53251B619AD8008A40DF /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
-		D6FD53271B625C3F008A40DF /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		D6FD531F1B5FA871008A40DF /* IOSColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IOSColors.swift; path = Shared/IOSColors.swift; sourceTree = "<group>"; };
+		D6FD53211B5FAF26008A40DF /* ResponseElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResponseElement.swift; path = Shared/ResponseElement.swift; sourceTree = "<group>"; };
+		D6FD53251B619AD8008A40DF /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationManager.swift; path = Shared/LocationManager.swift; sourceTree = "<group>"; };
+		D6FD53271B625C3F008A40DF /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = String.swift; path = Shared/String.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */

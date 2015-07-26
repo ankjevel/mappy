@@ -15,6 +15,7 @@ class AppDelegate: NSResponder, NSApplicationDelegate {
   let sharedWindow = SharedWindowController(windowNibName: "Shared")
   
   func applicationDidFinishLaunching(aNotification: NSNotification) {
+    NSUserDefaults.standardUserDefaults().setBool(true, forKey: "NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints")
     sharedWindow.showWindow(nil)
   }
 
