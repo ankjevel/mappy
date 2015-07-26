@@ -19,11 +19,6 @@ internal struct Z {
 /// Map related Views
 class MapHolderViewController: NSViewController {
   
-  // MARK: Static properties
-
-  /// Zoom radius based on "feelings"
-  static private let ZOOM_RADIUS = [1, 1, 1, 1, 1, 1, 1, 2, 5, 10, 15, 35, 70, 120, 250, 480, 980, 1850, 3700, 7400, 14800, 29600]
-  
   // MARK: private properties
   
   private let locationManager = LocationManager()
@@ -86,6 +81,7 @@ class MapHolderViewController: NSViewController {
     
     locationManager.delegate = self
     
+    blurView.alphaValue = 0.8
     updateBlurView()
     addBorder(mapLocationBorder)
   }
@@ -166,13 +162,6 @@ private extension MapHolderViewController {
   }
   
   func updateBlurView() {
-    let newBlurView = NSVisualEffectView(frame: blurView.frame)
-    newBlurView.appearance = NSAppearance(named: NSAppearanceNameVibrantDark)
-    newBlurView.bounds = blurView.bounds
-
-    topView.replaceSubview(blurView, with: newBlurView)
-    blurView = newBlurView
-    
     var maskLayer = CAShapeLayer()
     var maskPath = CGPathCreateMutable()
     
@@ -189,7 +178,7 @@ private extension MapHolderViewController {
     */
     maskLayer.fillRule = "even-odd"
     
-    let radius = CGFloat(MapHolderViewController.ZOOM_RADIUS[mappy.zoom])
+    let radius = CGFloat(mappy.zoomRadius)
     let x = CGFloat(Double(w / 2) - Double(radius / 2))
     let y = CGFloat(Double(h / 2) - Double(radius / 2))
     
@@ -197,15 +186,16 @@ private extension MapHolderViewController {
     CGPathAddRoundedRect(maskPath, nil, CGRectMake(x, y, radius, radius), CGFloat(radius / 2), CGFloat(radius / 2))
     
     maskLayer.path = maskPath
-    newBlurView.layer?.mask = maskLayer
-    newBlurView.layer?.zPosition = Z.BLUR_VIEW
-    
+    blurView.layer?.mask = maskLayer
+    blurView.layer?.zPosition = Z.BLUR_VIEW
+  
     /*
     Make sure map-reset-button is placed on top
     of map-mask
     */
     mapLocationBorder.layer?.zPosition = Z.MAP_LOCATION_BORDER
-//    newBlurView.updateLayer()
+    
+    blurView.updateLayer()
   }
 }
 

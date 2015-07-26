@@ -30,6 +30,8 @@ protocol MappyDelegate: class {
 
 public class Mappy: NSObject {
   //MARK: - static stored properties
+  
+  static private let ZOOM_RADIUS = [0, 5000, 4500, 4000, 3500, 2900, 2400, 2000, 1750, 1500, 1250, 1000, 750, 500, 350, 200, 175, 125, 100, 75, 40, 20]
   // Long/Lat will place user in Stockholm by default
   static private let LATITUDE = 59.335004
   static private let LONGITUDE = 18.126813999999968
@@ -84,6 +86,16 @@ public class Mappy: NSObject {
   //MARK: - public stored properties
   /// Keeping track of what the current zoom level is at
   var zoom = 13
+  var zoomRadius: Int {
+    get {
+      let max = Mappy.ZOOM_RADIUS.count
+      if self.zoom > 0 && self.zoom <= max {
+        return Mappy.ZOOM_RADIUS[self.zoom]
+      } else {
+        return 0
+      }
+    }
+  }
   /// Public property for returning webView
   var view: WKWebView {
     get {
@@ -197,21 +209,14 @@ private extension Mappy {
     
     return elements
   }
-  /*
-  func dispatchRequest(request: NSURLRequest, callback out: ([String: AnyObject]?, NSError?) -> Void)  {
-    func handleResponse(data: NSData!, urlResponse: NSURLResponse!, error: NSError!) {
-      var jsonErrorOptional: NSError?
-      let json: AnyObject! = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(0), error: &jsonErrorOptional)
-      if jsonErrorOptional != nil {
-        return out(nil, jsonErrorOptional)
-      }
-      
-      out(json as? [String: AnyObject], nil)
-    }
-    let task = NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: handleResponse)
-    task.resume()
-  }
-  */
+  
+//  func dispatchRequest(request: NSURLRequest, callback out: ([String: AnyObject]?, NSError?) -> Void)  {
+//    func handleResponse(data: NSData!, urlResponse: NSURLResponse!, error: NSError!) {
+//      parseNSData(data, callback: out)
+//    }
+//    let task = NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: handleResponse)
+//    task.resume()
+//  }
 
   /// Temporary override
   func dispatchRequest(request: NSURLRequest, callback out: ([String: AnyObject]?, NSError?) -> Void)  {
@@ -226,7 +231,6 @@ private extension Mappy {
       let task = NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: handleResponse)
       task.resume()
     }
-  
   }
   
   func parseNSData(data: NSData, callback out: ([String: AnyObject]?, NSError?) -> Void) {
@@ -269,12 +273,13 @@ private extension Mappy {
   
   func getImages(coordinates: CLLocationCoordinate2D) {
     timer?.invalidate()
+    let dst = zoomRadius
+    let position = "?lng=\(coordinates.longitude)&lat=\(coordinates.latitude)&dst=\(dst)"
     
     let userInfo = [
       "http://instagrannar.se:3000" +
         "/pictures" +
-        "?lng=\(coordinates.longitude)" +
-        "&lat=\(coordinates.latitude)" +
+        "\(position)" +
       ""]
     timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "dispatchRequest:", userInfo: userInfo, repeats: false)
   }
