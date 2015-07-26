@@ -116,7 +116,6 @@ public class Mappy: NSObject {
     return folder
     }()
   static private let TEMP_TEXT_FILE: String = {
-//    println(Mappy.TEMP_FOLDER)
     return Mappy.TEMP_FOLDER.stringByAppendingPathComponent("response.txt")
     }()
   
@@ -210,28 +209,28 @@ private extension Mappy {
     return elements
   }
   
-//  func dispatchRequest(request: NSURLRequest, callback out: ([String: AnyObject]?, NSError?) -> Void)  {
-//    func handleResponse(data: NSData!, urlResponse: NSURLResponse!, error: NSError!) {
-//      parseNSData(data, callback: out)
-//    }
-//    let task = NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: handleResponse)
-//    task.resume()
-//  }
-
-  /// Temporary override
   func dispatchRequest(request: NSURLRequest, callback out: ([String: AnyObject]?, NSError?) -> Void)  {
     func handleResponse(data: NSData!, urlResponse: NSURLResponse!, error: NSError!) {
-      data.writeToFile(Mappy.TEMP_TEXT_FILE, atomically: false)
-      tempTextData = data
       parseNSData(data, callback: out)
     }
-    if let data = tempTextData {
-      parseNSData(data, callback: out)
-    } else {
-      let task = NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: handleResponse)
-      task.resume()
-    }
+    let task = NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: handleResponse)
+    task.resume()
   }
+
+  /// Temporary override
+//  func dispatchRequest(request: NSURLRequest, callback out: ([String: AnyObject]?, NSError?) -> Void)  {
+//    func handleResponse(data: NSData!, urlResponse: NSURLResponse!, error: NSError!) {
+//      data.writeToFile(Mappy.TEMP_TEXT_FILE, atomically: false)
+//      tempTextData = data
+//      parseNSData(data, callback: out)
+//    }
+//    if let data = tempTextData {
+//      parseNSData(data, callback: out)
+//    } else {
+//      let task = NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: handleResponse)
+//      task.resume()
+//    }
+//  }
   
   func parseNSData(data: NSData, callback out: ([String: AnyObject]?, NSError?) -> Void) {
     var jsonErrorOptional: NSError?
@@ -256,9 +255,8 @@ private extension Mappy {
       let body = message.body as? NSDictionary {
         if
           let center = body.objectForKey("center") as? [String: Double] {
-            let longitude = center[center.indexForKey("A")!].1
-            let latitude = center[center.indexForKey("F")!].1
-            
+            let longitude = center[center.indexForKey("F")!].1
+            let latitude = center[center.indexForKey("A")!].1
             getImages(CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
         }
         if let zoom = body.objectForKey("zoom") as? Int {
@@ -275,7 +273,7 @@ private extension Mappy {
     timer?.invalidate()
     let dst = zoomRadius
     let position = "?lng=\(coordinates.longitude)&lat=\(coordinates.latitude)&dst=\(dst)"
-    
+//    let position = "?lng=\(coordinates.longitude)&lat=\(coordinates.latitude)"
     let userInfo = [
       "http://instagrannar.se:3000" +
         "/pictures" +

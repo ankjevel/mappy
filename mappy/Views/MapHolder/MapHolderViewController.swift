@@ -203,8 +203,11 @@ private extension MapHolderViewController {
 extension MapHolderViewController: MappyDelegate {
   
   func newElements(elements: [ResponseElement]) {
+
     self.elements = elements
-    newElementsView.reloadData()
+    dispatch_async(dispatch_get_main_queue()) {
+      self.newElementsView.reloadData()
+    }
   }
   
   /**
@@ -240,7 +243,6 @@ extension MapHolderViewController: NSTableViewDelegate {
       elements.count >= row,
       let tableColumn = viewForTableColumn
     {
-//      let view = NSView(frame: tableView.frame)
       let view = ResponseView()
       view.content = elements[row]
       return view

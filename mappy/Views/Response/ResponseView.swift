@@ -48,6 +48,7 @@ class ResponseView: NSView {
 private extension ResponseView {
   
   func prepareView() {
+
     let image = NSImage(contentsOfURL: content.images.thumbnail.url)
     imageView.image = image
     
