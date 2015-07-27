@@ -50,7 +50,7 @@
                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="VLj-ub-gHR"/>
                                                 <constraint firstAttribute="height" constant="30" id="aru-q8-VSg"/>
                                             </constraints>
-                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="location" id="vMh-lA-Wpl"/>
+                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="Image" id="vMh-lA-Wpl"/>
                                         </imageView>
                                     </subviews>
                                     <constraints>
@@ -159,6 +159,6 @@
         </customView>
     </objects>
     <resources>
-        <image name="location" width="512" height="512"/>
+        <image name="Image" width="512" height="512"/>
     </resources>
 </document>

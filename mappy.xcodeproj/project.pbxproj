@@ -23,7 +23,6 @@
 		D6CC90701B5E5B3F002FEA5A /* SharedWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6CC906F1B5E5B3F002FEA5A /* SharedWindow.swift */; };
 		D6CC90731B5E5B5E002FEA5A /* SharedWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6CC90711B5E5B5E002FEA5A /* SharedWindowController.swift */; };
 		D6CC90741B5E5B5E002FEA5A /* Shared.xib in Resources */ = {isa = PBXBuildFile; fileRef = D6CC90721B5E5B5E002FEA5A /* Shared.xib */; };
-		D6FD531E1B5F8E4A008A40DF /* location.png in Resources */ = {isa = PBXBuildFile; fileRef = D6FD531D1B5F8E4A008A40DF /* location.png */; };
 		D6FD53201B5FA871008A40DF /* IOSColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FD531F1B5FA871008A40DF /* IOSColors.swift */; };
 		D6FD53221B5FAF26008A40DF /* ResponseElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FD53211B5FAF26008A40DF /* ResponseElement.swift */; };
 		D6FD53261B619AD8008A40DF /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FD53251B619AD8008A40DF /* LocationManager.swift */; };
@@ -62,7 +61,6 @@
 		D6CC906F1B5E5B3F002FEA5A /* SharedWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SharedWindow.swift; path = Windows/Shared/SharedWindow.swift; sourceTree = "<group>"; };
 		D6CC90711B5E5B5E002FEA5A /* SharedWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SharedWindowController.swift; path = Windows/Shared/SharedWindowController.swift; sourceTree = "<group>"; };
 		D6CC90721B5E5B5E002FEA5A /* Shared.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Shared.xib; path = Windows/Shared/Shared.xib; sourceTree = "<group>"; };
-		D6FD531D1B5F8E4A008A40DF /* location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = location.png; path = ../../../../Desktop/location.png; sourceTree = "<group>"; };
 		D6FD531F1B5FA871008A40DF /* IOSColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IOSColors.swift; path = Shared/IOSColors.swift; sourceTree = "<group>"; };
 		D6FD53211B5FAF26008A40DF /* ResponseElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResponseElement.swift; path = Shared/ResponseElement.swift; sourceTree = "<group>"; };
 		D6FD53251B619AD8008A40DF /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationManager.swift; path = Shared/LocationManager.swift; sourceTree = "<group>"; };
@@ -188,7 +186,6 @@
 		D6CC90601B5E576A002FEA5A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				D6FD531D1B5F8E4A008A40DF /* location.png */,
 				D603FA9F1B4F33B6002F00F5 /* Config.plist */,
 				D62D3A7F1B51C4F4004F1011 /* main.html */,
 			);
@@ -305,7 +302,6 @@
 				D6CC90641B5E58BF002FEA5A /* MapHolder.xib in Resources */,
 				D603FA871B4F332A002F00F5 /* Images.xcassets in Resources */,
 				D62D3A801B51C4F4004F1011 /* main.html in Resources */,
-				D6FD531E1B5F8E4A008A40DF /* location.png in Resources */,
 				D603FAA01B4F33B6002F00F5 /* Config.plist in Resources */,
 				D603FA8A1B4F332A002F00F5 /* Main.storyboard in Resources */,
 			);
