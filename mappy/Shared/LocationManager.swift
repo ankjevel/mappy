@@ -11,7 +11,8 @@ import CoreLocation
 
 class LocationManager: CLLocationManager {
   
-  override var delegate: CLLocationManagerDelegate! {
+  
+  override var delegate: CLLocationManagerDelegate? {
     didSet(delegate) {
       self.startUpdatingLocation()
     }

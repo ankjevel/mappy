@@ -11,7 +11,7 @@ import AppKit
 
 internal func parseDictionary(dictionary: [String: String]) -> String {
   if
-    let data = NSJSONSerialization.dataWithJSONObject(dictionary, options: .PrettyPrinted, error: nil),
+    let data = try? NSJSONSerialization.dataWithJSONObject(dictionary, options: .PrettyPrinted),
     let json = NSString(data: data, encoding: NSUTF8StringEncoding) {
       return json as String
   } else {
@@ -19,7 +19,7 @@ internal func parseDictionary(dictionary: [String: String]) -> String {
   }
 }
 
-enum ResponseElementType: String, Printable {
+enum ResponseElementType: String, CustomStringConvertible {
   
   case Image = "image"
   case Video = "video"
@@ -45,7 +45,7 @@ enum ResponseElementType: String, Printable {
   }
 }
 
-struct ResponseElementImage: Printable {
+struct ResponseElementImage: CustomStringConvertible {
   
   let width: Int
   let height: Int
@@ -92,7 +92,7 @@ struct ResponseElementImage: Printable {
   }
 }
 
-struct ResponseElementImages: Printable {
+struct ResponseElementImages: CustomStringConvertible {
   
   let low: ResponseElementImage
   let standard: ResponseElementImage
@@ -122,7 +122,7 @@ struct ResponseElementImages: Printable {
   }
 }
 
-struct ResponseElementProfile: Printable {
+struct ResponseElementProfile: CustomStringConvertible {
   
   let picture: NSURL
   let username: String
@@ -140,7 +140,7 @@ struct ResponseElementProfile: Printable {
       }
       
       if let id = user["id"] as? String {
-        self.id = id.toInt()!
+        self.id = Int(id)!
       } else {
         self.id = Int.max
       }
@@ -188,7 +188,7 @@ protocol GenericResponseElementType {
 }
 */
 
-public class ResponseElement: Printable {
+public class ResponseElement: CustomStringConvertible {
   
   let type: ResponseElementType
   let link: NSURL

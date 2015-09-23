@@ -111,8 +111,8 @@ class MapHolderViewController: NSViewController {
 private extension MapHolderViewController {
   
   func addBorder(view: NSView, _ fillColor: CGColor = IOSColors.AZURE.CGColor) {
-    var maskLayer = CAShapeLayer()
-    var maskPath = CGPathCreateMutable()
+    let maskLayer = CAShapeLayer()
+    let maskPath = CGPathCreateMutable()
     
     let frame = view.frame
     let bounds = view.bounds
@@ -120,8 +120,9 @@ private extension MapHolderViewController {
     let h = frame.height
     
     let r = CGFloat(max(w, h))
-    let x = CGFloat(Double(w / 2) - Double(r / 2))
-    let y = CGFloat(Double(h / 2) - Double(r / 2))
+    let rr = Double(r / 2)
+    let x = CGFloat(Double(w / 2) - rr)
+    let y = CGFloat(Double(h / 2) - rr)
     
     CGPathAddRoundedRect(maskPath, nil, CGRectMake(x, y, r, r), CGFloat(r / 2), CGFloat(r / 2))
 
@@ -143,7 +144,7 @@ private extension MapHolderViewController {
   /**
   Add constraints to a view
 
-  :param: view
+  - parameter view:
     `NSView` used to add constraints to
   */
   func setConstraints(view: NSView, _ addToView: NSView? = nil) {
@@ -162,8 +163,8 @@ private extension MapHolderViewController {
   }
   
   func updateBlurView() {
-    var maskLayer = CAShapeLayer()
-    var maskPath = CGPathCreateMutable()
+    let maskLayer = CAShapeLayer()
+    let maskPath = CGPathCreateMutable()
     
     // Subtract toolbar height from frame height
     let h = topView.frame.height
@@ -179,8 +180,9 @@ private extension MapHolderViewController {
     maskLayer.fillRule = "even-odd"
     
     let radius = CGFloat(mappy.zoomRadius)
-    let x = CGFloat(Double(w / 2) - Double(radius / 2))
-    let y = CGFloat(Double(h / 2) - Double(radius / 2))
+    let rr = Double(radius / 2)
+    let x = CGFloat(Double(w / 2) - rr)
+    let y = CGFloat(Double(h / 2) - rr)
     
     // Add Rectangle cutout to path
     CGPathAddRoundedRect(maskPath, nil, CGRectMake(x, y, radius, radius), CGFloat(radius / 2), CGFloat(radius / 2))
@@ -214,7 +216,7 @@ extension MapHolderViewController: MappyDelegate {
   Evaluate if the mask over the map needs to update
   it's size or just redrawn
   
-  :param: zoom
+  - parameter zoom:
   true if the zoom has been updated
   */
   func mapEvent(zoom: Bool) {
@@ -241,7 +243,7 @@ extension MapHolderViewController: NSTableViewDelegate {
   func tableView(tableView: NSTableView, viewForTableColumn: NSTableColumn?, row: Int) -> NSView? {
     if
       elements.count >= row,
-      let tableColumn = viewForTableColumn
+      let _ = viewForTableColumn
     {
       let view = ResponseView()
       view.content = elements[row]

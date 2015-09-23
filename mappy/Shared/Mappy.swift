@@ -43,7 +43,7 @@ public class Mappy: NSObject {
       let id = dict["API key"] as? String {
       return id
     }
-    print("missing app id"); exit(0)
+    print("missing app id", terminator: ""); exit(0)
     
     }()
   /**
@@ -53,13 +53,13 @@ public class Mappy: NSObject {
   static private func HTML(coordinates: CLLocationCoordinate2D) -> String {
     if
       let path = NSBundle.mainBundle().pathForResource("main", ofType: "html"),
-      let markup = String(contentsOfFile: path, encoding: NSUTF8StringEncoding, error: nil) {
+      let markup = try? String(contentsOfFile: path, encoding: NSUTF8StringEncoding) {
         return markup
           .stringByReplacingOccurrencesOfString("@{appID}", withString: APP_ID)
           .stringByReplacingOccurrencesOfString("@{longitude}", withString: "\(coordinates.longitude)")
           .stringByReplacingOccurrencesOfString("@{latitude}", withString: "\(coordinates.latitude)")
     }
-    print("no markup"); exit(0)
+    print("no markup", terminator: ""); exit(0)
   }
   
   /**
@@ -74,7 +74,7 @@ public class Mappy: NSObject {
   private var webView: WKWebView {
     get {
       if _webView == nil {
-        print("webView not set"); exit(0)
+        print("webView not set", terminator: ""); exit(0)
       }
       return _webView!
     }
@@ -108,15 +108,18 @@ public class Mappy: NSObject {
   private weak var timer: NSTimer?
   
   static private let TEMP_FOLDER: String = {
-    let folder = "~/tmp".stringByExpandingTildeInPath
+    let folder = NSString(string: "~/tmp").stringByExpandingTildeInPath
     let fm = NSFileManager()
     if fm.fileExistsAtPath(folder) == false {
-      fm.createDirectoryAtPath(folder, withIntermediateDirectories: true, attributes: nil, error: nil)
+      do {
+        try fm.createDirectoryAtPath(folder, withIntermediateDirectories: true, attributes: nil)
+      } catch _ {
+      }
     }
     return folder
     }()
-  static private let TEMP_TEXT_FILE: String = {
-    return Mappy.TEMP_FOLDER.stringByAppendingPathComponent("response.txt")
+  static private let TEMP_TEXT_FILE: String! = {
+    return NSURL(string: Mappy.TEMP_FOLDER)?.URLByAppendingPathComponent("response.txt").absoluteString
     }()
   
   private var _tempTextData: NSData? = {
@@ -200,7 +203,7 @@ private extension Mappy {
   func parseRequest(json: [String: AnyObject]) -> [ResponseElement] {
     var elements: [ResponseElement] = []
     if let data = json["data"] as? [[String: AnyObject]] {
-      let first = data.first as [String: AnyObject]!
+      let _ = data.first as [String: AnyObject]!
       for unwrapped in data {
         elements.append(ResponseElement(data: unwrapped))
       }
@@ -210,8 +213,8 @@ private extension Mappy {
   }
   
   func dispatchRequest(request: NSURLRequest, callback out: ([String: AnyObject]?, NSError?) -> Void)  {
-    func handleResponse(data: NSData!, urlResponse: NSURLResponse!, error: NSError!) {
-      parseNSData(data, callback: out)
+    func handleResponse(data: NSData?, urlResponse: NSURLResponse?, error: NSError?) {
+      parseNSData(data!, callback: out)
     }
     let task = NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: handleResponse)
     task.resume()
@@ -234,7 +237,13 @@ private extension Mappy {
   
   func parseNSData(data: NSData, callback out: ([String: AnyObject]?, NSError?) -> Void) {
     var jsonErrorOptional: NSError?
-    let json: AnyObject! = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(0), error: &jsonErrorOptional)
+    let json: AnyObject!
+    do {
+      json = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0))
+    } catch let error as NSError {
+      jsonErrorOptional = error
+      json = nil
+    }
     if jsonErrorOptional != nil {
       return out(nil, jsonErrorOptional)
     }
@@ -243,7 +252,7 @@ private extension Mappy {
   
   
   func request(url: NSURL) -> NSMutableURLRequest {
-    var request = NSMutableURLRequest(URL: url)
+    let request = NSMutableURLRequest(URL: url)
     request.addValue("application/json; charset=UTF-8", forHTTPHeaderField: "Content-Type")
     request.addValue("application/json", forHTTPHeaderField: "Accept")
     return request
@@ -264,7 +273,7 @@ private extension Mappy {
           zoomUpdated = true
         }
     } else {
-      println("not catched \(message.body)")
+      print("not catched \(message.body)")
     }
     delegate?.mapEvent(zoomUpdated)
   }
